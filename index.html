@@ -4,13 +4,17 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ELD AI: Read Together — EdTech Product &amp; Instructional Design Case Study</title>
-<meta name="description" content="A bilingual, WIDA-aligned AI platform for English learners: differentiated lesson planning for teachers and transfer-aware oral reading assessment for K-3 students. Working prototype with a live generation demo and a browser-side oral reading scorer." />
-<meta name="author" content="YOUR NAME" />
-<!-- EDIT BEFORE DEPLOY: search this file for YOUR NAME, YOUR.EMAIL, and CREDENTIAL to replace the four identity placeholders. -->
+<meta name="description" content="A transparent project case study for a WIDA-aligned lesson-planning and reading-practice prototype designed for multilingual learners, educators, and families. Designed and built by Matthew Tracey; no participants, pilot, or outcome data." />
+<meta name="author" content="Matthew Tracey" />
 <meta name="color-scheme" content="light" />
 <meta property="og:title" content="ELD AI: Read Together — EdTech product case study" />
-<meta property="og:description" content="WIDA-aligned AI lesson planning + accent-aware oral reading assessment for English learners. Working prototype." />
+<meta property="og:description" content="Product strategy, instructional design, AI safety, and full-stack prototyping for multilingual learners. Designed prototype; no participants or measured outcomes." />
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://readtogether.vercel.app/" />
+<meta property="og:image" content="https://readtogether.vercel.app/og-readtogether.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -528,7 +532,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <a href="#family">Family view</a>
       <a href="#build">Architecture</a>
       <a href="#privacy">Privacy</a>
-      <a href="#pilot">Pilot</a>
+      <a href="#pilot">Research plan</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -541,23 +545,24 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="pill"><span class="dot"></span> Prototype · No pilot · No data collected</span>
+        <span class="pill"><span class="dot"></span> Designed prototype · No participants · No pilot · No outcome data</span>
         <h1>She read it right. The test marked it <span class="blank blank-fill" id="heroBlank">wrong</span>.</h1>
         <p class="lede">
-          Mandated oral reading fluency tools score accent variation as decoding failure. For the
-          5.3&nbsp;million multilingual learners in U.S. schools, that turns a pronunciation difference
-          into an intervention referral. <b>ELD AI: Read&nbsp;Together</b> is a bilingual, WIDA-aligned
-          platform that separates the two — and gives teachers differentiated lesson planning built on
-          the same language model of the learner.
+          Oral-reading tools can confound pronunciation variation with decoding errors when they are not
+          designed and evaluated with multilingual speakers. For the 5.3&nbsp;million English learners in
+          U.S. public schools, that is a product risk worth testing—not an outcome I am claiming to have
+          solved. <b>ELD AI: Read&nbsp;Together</b> explores a bilingual, WIDA-aligned approach to lesson
+          planning and reading practice, with explicit safeguards and evaluation criteria designed before
+          any participant research begins.
         </p>
         <div class="btn-row">
           <a class="btn btn-primary" href="#frames">Open the frame engine</a>
           <a class="btn btn-ghost" href="#scoring">See how scoring works</a>
         </div>
         <div class="byline">
-          <span><b>YOUR NAME</b> · CREDENTIAL ONE</span>
-          <span>CREDENTIAL TWO</span>
-          <span>CREDENTIAL THREE</span>
+          <span><b>Matthew Tracey</b> · M.Ed., Educational Technology &amp; Instructional Design</span>
+          <span>M.Ed., Mathematics Education (K–6)</span>
+          <span>Eight years in K–5 classrooms</span>
         </div>
       </div>
 
@@ -608,12 +613,13 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow"><span class="num">01</span> &nbsp;The gap</span>
-      <h2>The assessment is required. The instrument is monolingual.</h2>
+      <h2>The product risk: pronunciation variation can be mistaken for decoding error.</h2>
       <p>
-        DIBELS-style fluency screeners are mandated in most states and administered one-on-one, by hand,
-        by a teacher who has 24 other children in the room. The published platforms are English-only and
-        intolerant of accent variation. Two costs follow: teacher hours that don't scale, and multilingual
-        students who post low scores for reasons that have nothing to do with reading.
+        Timed oral-reading measures are commonly administered one-on-one and require educators to
+        distinguish decoding errors from pronunciation differences. ReadTogether began as a design
+        hypothesis: could a tool preserve teacher judgment, make transfer patterns visible, and reduce
+        repetitive scoring work without presenting an automated score as ground truth? No participant
+        research has yet tested that hypothesis.
       </p>
     </div>
     <div class="grid-3">
@@ -897,7 +903,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
     <div class="caveat">
       <b>Where this is still fragile.</b> The pattern layer is only as good as the speech recognition
       underneath it, and general-purpose ASR is trained disproportionately on adult native speakers.
-      The pilot audits recognition accuracy separately for each first-language group; if the gap between
+      A future study would audit recognition accuracy separately for each first-language group; if the gap between
       groups exceeds 10 percentage points the model gets replaced, not tuned. This is stated as a known
       risk rather than a solved problem, because it isn't solved.
     </div>
@@ -1007,8 +1013,8 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
 
     <div class="grid-3" style="margin-top:26px">
       <div class="card"><h3>Runtime</h3><p>Bun end to end. TypeScript strict. Single API surface, so the allow-list filter has exactly one place to live and one place to be tested.</p></div>
-      <div class="card"><h3>Data</h3><p>SQLite on a persistent volume — right-sized for classroom-scale writes, with a documented Postgres migration path before multi-school deployment.</p></div>
-      <div class="card"><h3>Audio</h3><p>Oral reading audio is scored and discarded within the session. It is never sent to an LLM, and it never touches the lesson-planning path at all.</p></div>
+      <div class="card"><h3>Data</h3><p>The prototype uses SQLite. A real pilot would require verified encrypted storage, retention and deletion controls, backups, and a documented migration path before multi-school use.</p></div>
+      <div class="card"><h3>Audio</h3><p>The product requirement is to keep voice out of the LLM path and avoid retention. The current browser speech-recognition concept has not been approved for student use; vendor processing must be evaluated before research.</p></div>
     </div>
   </div>
 </section>
@@ -1018,29 +1024,30 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow"><span class="num">08</span> &nbsp;Compliance posture</span>
-      <h2>Built for the person who has to sign off on it.</h2>
+      <h2>Designed around the questions a reviewer should ask.</h2>
       <p>
-        A district technology director will not adopt a tool because the lesson plans are good. They adopt
-        it when they can answer, in writing, what leaves the building. These are the answers.
+        A school technology review should establish what data leaves the school, who can access records,
+        how consent works, and what gets deleted. The statements below are proposed requirements for a
+        pilot architecture—not certifications or claims about an operating service.
       </p>
     </div>
     <div class="grid-2">
       <div class="card compliance">
         <h3>FERPA</h3>
-        <p>Education records stay in the district-controlled instance. Teacher and parent access is
-        role-scoped; a parent sees only their own linked child. No record is shared with a third party
-        for any purpose beyond delivering the service.</p>
+        <p>Proposed requirement: education records remain in a school-controlled environment; teacher
+        and parent access is role- and relationship-scoped; object-level authorization is tested for
+        every record endpoint; disclosure is limited by written agreement and service purpose.</p>
       </div>
       <div class="card compliance">
         <h3>COPPA</h3>
-        <p>Student accounts are provisioned by the school under school consent, not by children. Voice
-        recordings are treated as personal information — which is why the speech recognition vendor
-        decision is a compliance decision, not only an accuracy one.</p>
+        <p>Proposed requirement: student access is provisioned through an approved school or parent
+        consent flow, not independent child sign-up. Voice is treated as personal information, making
+        the recognition-vendor decision a legal and privacy review—not only an accuracy choice.</p>
       </div>
       <div class="card compliance">
         <h3>AI use disclosure</h3>
-        <p>Every generated plan ships with a review-before-use disclaimer. Generated passages run a
-        decodability self-audit against the taught phonics inventory before they reach a child.</p>
+        <p>The prototype displays a review-before-use disclaimer. Before any student-facing generation,
+        a decodability self-audit against the taught phonics inventory would be a release gate.</p>
       </div>
       <div class="card compliance">
         <h3>What's deliberately absent</h3>
@@ -1049,6 +1056,13 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         real reading milestones.</p>
       </div>
     </div>
+    <p class="footnote">
+      <b>Design references.</b>
+      <a href="https://wida.wisc.edu/teach/standards/eld" target="_blank" rel="noopener">WIDA ELD Standards Framework</a> ·
+      <a href="https://airc.nist.gov/airmf-resources/airmf/" target="_blank" rel="noopener">NIST AI Risk Management Framework</a> ·
+      <a href="https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" target="_blank" rel="noopener">OWASP API object-level authorization guidance</a>.
+      These references inform the design; they do not certify the prototype.
+    </p>
   </div>
 </section>
 
@@ -1057,19 +1071,20 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow"><span class="num">09</span> &nbsp;Where this actually is</span>
-      <h2>Nothing here has been validated. I'm not going to imply otherwise.</h2>
+      <h2>This is a designed prototype, not a validated product.</h2>
       <p>
-        As of today: zero classrooms, zero students, zero data points. No child has used this, no school
-        has agreed to pilot it, and no outcome has been measured. What follows is the evaluation I would
-        run — written down before running it, so the criteria can't quietly move afterward.
+        As of today: zero research participants, zero classrooms, zero students, and zero outcome data.
+        No child, educator, family, school, or district has evaluated this design. What follows is a
+        proposed evaluation plan—not a completed case study—written down before research so the criteria
+        cannot quietly move afterward.
       </p>
     </div>
 
     <div class="honest">
-      <b>Why say that out loud.</b> Every EdTech portfolio piece claims impact. Most of them are
-      describing a design document. Pre-registering the criteria — including the ones that would tell me
-      to stop — is the part that's actually hard to fake, and it's the part a research or product team
-      can evaluate me on.
+      <b>Why say that out loud.</b> A portfolio should separate evidence from intent. This project
+      demonstrates product framing, instructional design, risk management, and implementation choices;
+      it does not demonstrate usability, adoption, learning impact, or recognition accuracy. The proposed
+      criteria—including stop conditions—show how I would turn assumptions into research questions.
     </div>
 
     <ol class="addie">
@@ -1080,7 +1095,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <li><span class="a">E</span><span class="n">Evaluate</span><span class="s">Not started</span></li>
     </ol>
 
-    <h3 class="sub-h">Criteria I'd hold it to <span class="tag-target">Pre-registered · nothing measured</span></h3>
+    <h3 class="sub-h">Proposed research gates <span class="tag-target">Targets only · nothing measured</span></h3>
     <div class="grid-3 targets">
       <div class="stat"><span class="n">3</span><span class="t">K–3 classrooms with mixed multilingual enrollment would be the minimum viable pilot</span></div>
       <div class="stat"><span class="n">≥85%</span><span class="t">Speech recognition accuracy on multilingual student samples</span></div>
@@ -1132,16 +1147,17 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
     <div class="grid-2">
       <div>
         <p style="font-size:1.06rem;color:var(--ink-soft);max-width:56ch">
-          <!-- EDIT: rewrite this paragraph in your own words. Keep the shape: classroom
-               experience, then credentials, then the specific problem that started this. -->
-          CREDENTIAL SUMMARY — years in the classroom, degrees, and the specific frustration this
-          product came out of. The useful part of this project isn't the AI. It's knowing which
-          decisions in an ELD tool actually change what happens to a kid, and being able to build
-          them rather than only specify them.
+          I am an instructional and learning experience designer transitioning from eight years in
+          K–5 classrooms, with graduate degrees in Educational Technology &amp; Instructional Design and
+          Mathematics Education. ReadTogether grew from a recurring design problem: educators need
+          practical differentiation tools, while multilingual learners need language variation treated
+          as information—not automatically as error. The useful part of this project is not simply the
+          model call; it is the product boundary around it, the instructional decisions inside it, and
+          the discipline to distinguish a prototype from evidence.
         </p>
         <div class="btn-row">
-          <a class="btn btn-primary" href="mailto:YOUR.EMAIL@DOMAIN.COM?subject=ELD%20AI%3A%20Read%20Together">Email me</a>
-          <a class="btn btn-ghost" href="#" id="repoLink">Source on GitHub</a>
+          <a class="btn btn-primary" href="mailto:mjtracey6@gmail.com?subject=ELD%20AI%3A%20Read%20Together">Email me</a>
+          <a class="btn btn-ghost" href="https://github.com/mtracey6/readtogether" id="repoLink" target="_blank" rel="noopener">Source on GitHub</a>
         </div>
       </div>
       <div class="card">
@@ -1166,13 +1182,14 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap foot">
     <div>
       <b>ELD AI: Read Together</b> · Portfolio case study · 2026<br>
-      YOUR NAME · <a href="mailto:YOUR.EMAIL@DOMAIN.COM">YOUR.EMAIL@DOMAIN.COM</a>
+      Matthew Tracey · <a href="mailto:mjtracey6@gmail.com">mjtracey6@gmail.com</a>
     </div>
     <div class="foot-legal">
-      Prototype. No pilot has been run, no classroom data has been collected, and no student has used
-      this product. All metrics shown are pre-registered targets, not findings. The scaffolding
-      generator makes a real Claude API call; the oral reading scorer is deterministic code running in
-      your browser. Neither stores anything.
+      Designed prototype. No participant research or pilot has been run, no classroom data has been
+      collected, and no student, educator, family, school, or district has evaluated this product. All
+      metrics shown are proposed research targets, not findings. The public demo uses clearly labeled
+      cached lesson output by default; the oral-reading comparison is deterministic browser-side code,
+      not a validated assessment or recognition model. Neither demo stores input.
       WIDA is a trademark of the Board of Regents of the University of Wisconsin System; DIBELS is a
       trademark of the University of Oregon. This project is independent and not affiliated with,
       endorsed by, or reviewed by either organization.
