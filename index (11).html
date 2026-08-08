@@ -1,0 +1,1943 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ELD AI: Read Together — EdTech Product &amp; Instructional Design Case Study</title>
+<meta name="description" content="A bilingual, WIDA-aligned AI platform for English learners: differentiated lesson planning for teachers and transfer-aware oral reading assessment for K-3 students. Working prototype with a live generation demo and a browser-side oral reading scorer." />
+<meta name="author" content="YOUR NAME" />
+<!-- EDIT BEFORE DEPLOY: search this file for YOUR NAME, YOUR.EMAIL, and CREDENTIAL to replace the four identity placeholders. -->
+<meta name="color-scheme" content="light" />
+<meta property="og:title" content="ELD AI: Read Together — EdTech product case study" />
+<meta property="og:description" content="WIDA-aligned AI lesson planning + accent-aware oral reading assessment for English learners. Working prototype." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230E1726'/><path d='M20 68h60' stroke='%23E9A213' stroke-width='9' stroke-linecap='round'/><path d='M30 46h16M54 46h16' stroke='%23fff' stroke-width='9' stroke-linecap='round'/></svg>">
+<style>
+/* ============================================================
+   ELD AI: Read Together — portfolio case study
+   Design tokens
+   ------------------------------------------------------------
+   English copy sits in --ink. The Spanish / scaffold layer sits
+   in --cobalt. That is a rule, not decoration: color carries
+   language in this product, so it carries language on this page.
+   The WIDA ramp is a single-hue sequential scale because WIDA
+   levels are ordered data, not categories.
+   ============================================================ */
+:root{
+  --porcelain:#EDF1F6;
+  --porcelain-2:#E2E8F1;
+  --card:#FFFFFF;
+  --ink:#0E1726;
+  --ink-soft:#4A5769;
+  --ink-faint:#7C8898;
+  --cobalt:#1F4FD8;
+  --cobalt-soft:#E8EEFF;
+  --marigold:#E9A213;
+  --marigold-soft:#FDF2D9;
+  --rust:#B23A2B;
+  --moss:#1E7A5A;
+  --line:#D3DCE7;
+  --line-soft:#E6EBF2;
+
+  --w1:#D6E6FF; --w2:#A9C9FA; --w3:#77A6EF; --w4:#4C7EDD; --w5:#2F55C0; --w6:#1D2F87;
+
+  --display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+
+  --wrap:1080px;
+  --rail:120px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+body{
+  margin:0;background:var(--porcelain);color:var(--ink);
+  font-family:var(--body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%}
+a{color:var(--cobalt);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:4px}
+button{font:inherit;color:inherit}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;letter-spacing:-.025em;line-height:1.06;margin:0}
+p{margin:0 0 1em}
+p:last-child{margin-bottom:0}
+
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+section[id]{scroll-margin-top:64px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;z-index:100}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- structural rail + eyebrows ---------- */
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--ink-faint);margin:0 0 14px;display:block;
+}
+.eyebrow .num{color:var(--marigold)}
+section{padding:78px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+.sec-head{max-width:66ch;margin-bottom:38px}
+.sec-head h2{font-size:clamp(1.75rem,3.6vw,2.6rem);margin-bottom:16px}
+.sec-head p{color:var(--ink-soft);font-size:1.05rem}
+
+/* the blank line — the page's structural motif.
+   In ELD instruction, the blank is where the student's language goes. */
+.blank{
+  display:inline-block;min-width:5.5ch;border-bottom:3px solid var(--marigold);
+  text-align:center;line-height:1.1;
+}
+.blank-fill{font-family:var(--display);font-weight:800;color:var(--ink)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;background:rgba(237,241,246,.86);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;gap:20px;max-width:var(--wrap);margin:0 auto;padding:11px 24px}
+.brand{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;white-space:nowrap}
+.brand span{color:var(--cobalt)}
+.nav-links{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-soft);text-decoration:none;padding:7px 9px;border-radius:6px;
+}
+.nav-links a:hover{background:var(--cobalt-soft);color:var(--cobalt)}
+@media(max-width:820px){.nav-links{display:none}}
+
+/* ---------- status pill ---------- */
+.pill{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
+  font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:6px 12px;
+  border-radius:100px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--marigold);flex:none}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 74px;border-top:0}
+.hero h1{
+  font-size:clamp(2.5rem,6.4vw,4.4rem);line-height:.99;letter-spacing:-.035em;
+  margin:26px 0 22px;max-width:16ch;
+}
+.hero .lede{font-size:clamp(1.05rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:56ch}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:38px}}
+.byline{
+  margin-top:30px;padding-top:20px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px 26px;font-size:14.5px;color:var(--ink-soft);
+}
+.byline b{color:var(--ink);font-weight:600}
+
+/* ---------- the scoring instrument (hero signature) ---------- */
+.instrument{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:0 1px 0 var(--line-soft),0 18px 40px -32px rgba(14,23,38,.5);
+}
+.instr-bar{
+  display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line-soft);
+  background:var(--porcelain);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);
+}
+.instr-bar .live{width:7px;height:7px;border-radius:50%;background:var(--moss)}
+.instr-body{padding:22px 20px}
+.passage{
+  font-size:1.32rem;line-height:2.5;letter-spacing:-.01em;margin:0 0 8px;
+}
+.passage .w{position:relative;padding:0 1px;border-radius:3px}
+/* running-record notation, rendered typographically */
+.passage .w.miscue{background:#FBE3DF;box-shadow:inset 0 -3px 0 var(--rust)}
+.passage .w.transfer{background:var(--marigold-soft);box-shadow:inset 0 -3px 0 var(--marigold)}
+.passage .w[data-note]::after{
+  content:attr(data-note);position:absolute;left:50%;transform:translateX(-50%);
+  top:-1.15em;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;
+  color:var(--ink-faint);white-space:nowrap;font-weight:500;
+}
+.passage .w.transfer[data-note]::after{color:#9A6A05}
+.passage .w.miscue[data-note]::after{color:var(--rust)}
+
+.scoreboard{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-soft)}
+.score{padding:18px 20px}
+.score + .score{border-left:1px solid var(--line-soft)}
+.score .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:6px}
+.score .val{font-family:var(--display);font-size:2.55rem;font-weight:800;letter-spacing:-.04em;line-height:1}
+.score .sub{font-size:13px;color:var(--ink-soft);margin-top:4px;display:block}
+.score.legacy .val{color:var(--rust)}
+.score.ours .val{color:var(--moss)}
+.score.ours{background:linear-gradient(180deg,#F3FAF6,#fff)}
+.flagline{
+  padding:12px 20px;border-top:1px solid var(--line-soft);background:var(--porcelain);
+  font-size:13px;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start;
+}
+.key{display:flex;gap:16px;flex-wrap:wrap;padding:12px 20px 16px;font-size:12.5px;color:var(--ink-soft)}
+.key i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.key .k-m i{background:#FBE3DF;box-shadow:inset 0 -3px 0 var(--rust)}
+.key .k-t i{background:var(--marigold-soft);box-shadow:inset 0 -3px 0 var(--marigold)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:9px;
+  font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;
+  transition:transform .12s ease,background .15s ease,border-color .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#1B2941}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink-soft);background:var(--card)}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+
+/* ---------- generic cards & grids ---------- */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:860px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:24px}
+.card h3{font-size:1.22rem;margin-bottom:10px;letter-spacing:-.02em}
+.card p{font-size:15px;color:var(--ink-soft)}
+.card ul{margin:12px 0 0;padding-left:18px;font-size:14.5px;color:var(--ink-soft)}
+.card li{margin-bottom:6px}
+
+/* ---------- stats ---------- */
+.stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:26px 24px}
+.stat .n{font-family:var(--display);font-size:clamp(2.4rem,5vw,3.1rem);font-weight:800;letter-spacing:-.045em;line-height:1;display:block}
+.stat .t{margin-top:12px;font-size:15px;color:var(--ink-soft)}
+.footnote{margin-top:18px;font-size:12.5px;color:var(--ink-faint);font-family:var(--mono);line-height:1.7}
+
+/* ---------- frame engine ---------- */
+.engine{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.engine-controls{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line-soft)}
+@media(max-width:760px){.engine-controls{grid-template-columns:1fr}}
+.ctrl{padding:18px 20px}
+.ctrl + .ctrl{border-left:1px solid var(--line-soft)}
+@media(max-width:760px){.ctrl + .ctrl{border-left:0;border-top:1px solid var(--line-soft)}}
+.ctrl-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:11px}
+.ctrl-lbl em{font-style:normal;color:var(--line);letter-spacing:.05em}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{
+  border:1px solid var(--line);background:var(--porcelain);border-radius:8px;padding:8px 13px;
+  font-size:14px;font-weight:500;cursor:pointer;color:var(--ink-soft);transition:all .13s ease;
+}
+.tab:hover{border-color:var(--cobalt);color:var(--cobalt)}
+.tab.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.engine-meta{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--porcelain);border-bottom:1px solid var(--line-soft)}
+@media(max-width:760px){.engine-meta{grid-template-columns:1fr}}
+.engine-meta > div{padding:14px 20px}
+.engine-meta > div + div{border-left:1px solid var(--line-soft)}
+@media(max-width:760px){.engine-meta > div + div{border-left:0;border-top:1px solid var(--line-soft)}}
+.m-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:block}
+.engine-meta b{font-family:var(--display);font-size:1.15rem;letter-spacing:-.02em;display:block;margin:2px 0 1px}
+.m-sub{font-size:13.5px;color:var(--ink-soft)}
+
+.ladder{padding:4px 0}
+.rung{display:grid;grid-template-columns:190px 1fr;gap:0;border-bottom:1px solid var(--line-soft)}
+.rung:last-child{border-bottom:0}
+@media(max-width:760px){.rung{grid-template-columns:1fr}}
+.rung-lv{padding:20px;border-left:6px solid var(--w1);background:var(--porcelain)}
+.lv1 .rung-lv{border-left-color:var(--w1)}
+.lv2 .rung-lv{border-left-color:var(--w2)}
+.lv3 .rung-lv{border-left-color:var(--w3)}
+.lv4 .rung-lv{border-left-color:var(--w4)}
+.lv5 .rung-lv{border-left-color:var(--w5)}
+.lv6 .rung-lv{border-left-color:var(--w6)}
+.lv-n{font-family:var(--display);font-size:1.9rem;font-weight:800;letter-spacing:-.05em;line-height:1;display:block}
+.lv-name{font-weight:600;font-size:15px;display:block;margin-top:1px}
+.lv-spec{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-faint);display:block;margin-top:7px;line-height:1.5}
+.rung-body{padding:20px 22px}
+.rung-frame{font-size:1.1rem;line-height:1.75;margin:0 0 12px;letter-spacing:-.01em}
+.rung-frame .blank{min-width:7ch;margin:0 2px}
+.rung-support{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.6}
+.rung-support span{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-faint);margin-right:9px;border:1px solid var(--line);padding:2px 6px;border-radius:4px;
+  white-space:nowrap;
+}
+.lv6 .rung-frame{color:var(--ink)}
+.lv6 .rung-lv{background:linear-gradient(180deg,var(--porcelain),#fff)}
+
+.vocab{padding:22px 22px 26px;border-top:1px solid var(--line)}
+.vocab h4{font-family:var(--display);font-size:1.05rem;margin:0 0 14px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.tiers{grid-template-columns:1fr}}
+.tier{border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:var(--porcelain)}
+.tier-n{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--cobalt);display:block}
+.tier-note{font-size:12.5px;color:var(--ink-soft);display:block;margin:5px 0 10px;line-height:1.5}
+.tier ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:5px}
+.tier li{font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.sample-note{
+  margin:0;padding:16px 22px;border-top:1px solid var(--line);background:var(--cobalt-soft);
+  font-size:13.5px;color:#1B3A96;line-height:1.6;
+}
+
+/* ---------- generated plan ---------- */
+.plan{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.plan-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px;border-bottom:1px solid var(--line-soft)}
+.plan-head h3{font-size:1.5rem}
+.plan-sub{font-size:14px;color:var(--ink-soft);margin:7px 0 0}
+.disclaimer{
+  padding:14px 22px;background:var(--marigold-soft);border-bottom:1px solid #F0DCA8;
+  font-size:14px;color:#6B4A05;line-height:1.6;
+}
+.plan-body{padding:8px 22px 24px}
+.plan-block{padding:18px 0;border-bottom:1px solid var(--line-soft)}
+.plan-block:last-child{border-bottom:0}
+.plan-block h4{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 11px}
+.plan-block p{font-size:15px;color:var(--ink-soft);margin-bottom:.6em}
+.plan-block p b{color:var(--ink)}
+.arc{list-style:none;margin:0;padding:0}
+.arc li{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:9px 0;border-top:1px dotted var(--line)}
+.arc li:first-child{border-top:0}
+@media(max-width:600px){.arc li{grid-template-columns:1fr;gap:3px}}
+.arc .t{font-family:var(--mono);font-size:12px;color:var(--cobalt);padding-top:3px}
+.arc .d{font-size:15px;color:var(--ink-soft);line-height:1.6}
+.arc .d b{color:var(--ink)}
+
+/* ---------- scoring ---------- */
+.sub-h{font-size:1.3rem;margin:44px 0 16px}
+.scoring-card .instr-bar{justify-content:flex-start}
+.run-btn{
+  margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:7px;
+  padding:6px 12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  cursor:pointer;color:var(--ink);
+}
+.run-btn:hover:not(:disabled){border-color:var(--cobalt);color:var(--cobalt)}
+.run-btn:disabled{opacity:.5;cursor:default}
+.passage-full{font-size:1.12rem;line-height:2.6}
+.passage.running .w{opacity:.45;transition:opacity .12s ease}
+.passage .w.cursor{opacity:1;box-shadow:inset 0 -3px 0 var(--cobalt)}
+.passage .w.transfer.cursor{box-shadow:inset 0 -3px 0 var(--marigold),inset 0 0 0 1px var(--cobalt)}
+.score .val.dim{opacity:.22;transition:opacity .2s ease}
+.score .val small{font-size:.5em;font-weight:700;margin-left:1px}
+.scoreboard.four{grid-template-columns:repeat(4,1fr)}
+@media(max-width:760px){.scoreboard.four{grid-template-columns:1fr 1fr}.scoreboard.four .score:nth-child(3){border-left:0}.scoreboard.four .score:nth-child(n+3){border-top:1px solid var(--line-soft)}}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px;min-width:620px}
+.tbl th{
+  text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:600;padding:13px 16px;border-bottom:1px solid var(--line);
+}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{color:var(--ink);font-weight:500}
+.tbl .no{color:var(--moss);font-weight:600}
+.tbl .yes{color:var(--rust);font-weight:600}
+.caveat{
+  margin-top:22px;border-left:4px solid var(--marigold);background:var(--card);
+  border-radius:0 10px 10px 0;padding:18px 20px;font-size:15px;color:var(--ink-soft);line-height:1.65;
+}
+.caveat b{color:var(--ink)}
+
+/* ---------- family view ---------- */
+.family{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:620px}
+.family-bar{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--line-soft);background:var(--porcelain)}
+.lang-toggle{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.lang{border:0;background:transparent;padding:7px 13px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink-soft)}
+.lang + .lang{border-left:1px solid var(--line)}
+.lang.on{background:var(--cobalt);color:#fff}
+.family-body{padding:22px}
+.family-body h3{font-size:1.35rem;margin-bottom:16px}
+.family-body h4{font-family:var(--display);font-size:1.05rem;margin:22px 0 10px}
+.fstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.fstats > div{background:var(--porcelain);border-radius:10px;padding:14px;text-align:center}
+.fn{font-family:var(--display);font-size:1.9rem;font-weight:800;letter-spacing:-.04em;display:block;line-height:1;color:var(--cobalt)}
+.ft{font-size:12.5px;color:var(--ink-soft);display:block;margin-top:6px;line-height:1.35}
+.fmeans{font-size:15px;color:var(--ink-soft);background:var(--cobalt-soft);border-radius:10px;padding:14px 16px;line-height:1.6}
+.fmeans b{color:#1B3A96}
+.ftips{margin:0;padding-left:20px;font-size:15px;color:var(--ink-soft);line-height:1.6}
+.ftips li{margin-bottom:9px}
+.fbtn{margin-top:18px}
+
+/* ---------- architecture ---------- */
+.arch{display:grid;grid-template-columns:1fr 30px 1fr 44px 1fr;gap:0;align-items:stretch}
+@media(max-width:900px){.arch{grid-template-columns:1fr}}
+.arch-col{display:flex;flex-direction:column;gap:12px}
+.arch-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
+.arch-box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 17px;flex:1}
+.arch-box.sub{flex:0 0 auto;background:var(--porcelain)}
+.arch-box b{font-family:var(--display);font-size:1.08rem;display:block;margin-bottom:8px;letter-spacing:-.02em}
+.arch-box span{display:block;font-size:13.5px;color:var(--ink-soft);line-height:1.55;margin-bottom:3px}
+.arch-box code{font-family:var(--mono);font-size:12px;background:var(--porcelain);padding:1px 5px;border-radius:4px}
+.arch-box.model{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--cobalt-soft)}
+.arch-box .allow{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);margin-top:4px}
+.payload{display:block!important;font-family:var(--mono);font-size:11.5px;line-height:1.7;background:var(--porcelain);border-radius:7px;padding:9px 10px;margin:6px 0 10px;word-break:break-word;color:var(--ink)}
+.arch-box .deny{font-size:13px;color:var(--rust);line-height:1.5}
+.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--line);font-size:20px}
+@media(max-width:900px){.arch-arrow{transform:rotate(90deg);padding:6px 0}}
+.arch-boundary{position:relative;display:flex;align-items:center;justify-content:center}
+.arch-boundary::before{content:"";position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--cobalt);opacity:.55}
+.arch-boundary-lbl{
+  position:relative;writing-mode:vertical-rl;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--cobalt);background:var(--porcelain);padding:10px 3px;
+}
+@media(max-width:900px){
+  .arch-boundary{padding:16px 0}
+  .arch-boundary::before{top:50%;left:0;right:0;bottom:auto;width:auto;height:0;border-left:0;border-top:2px dashed var(--cobalt)}
+  .arch-boundary-lbl{writing-mode:horizontal-tb;padding:3px 10px}
+}
+.compliance h3{font-size:1.1rem;color:var(--cobalt)}
+
+/* ---------- ADDIE ---------- */
+.addie{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 40px;padding:0}
+@media(max-width:760px){.addie{grid-template-columns:1fr 1fr}}
+.addie li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px;opacity:.55}
+.addie li.done,.addie li.active{opacity:1}
+.addie li.done{background:var(--card);border-color:var(--line)}
+.addie li.active{border-color:var(--marigold);box-shadow:0 0 0 3px var(--marigold-soft)}
+.addie .a{font-family:var(--display);font-size:1.7rem;font-weight:800;letter-spacing:-.05em;display:block;line-height:1}
+.addie li.done .a{color:var(--moss)}
+.addie li.active .a{color:var(--marigold)}
+.addie .n{font-weight:600;font-size:14.5px;display:block;margin-top:4px}
+.addie .s{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-top:5px}
+.tag-target{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6B4A05;
+  background:var(--marigold-soft);border:1px solid #F0DCA8;padding:4px 9px;border-radius:100px;
+  vertical-align:middle;margin-left:10px;white-space:nowrap;
+}
+.targets .stat{border-style:dashed}
+.targets .stat .n{color:var(--ink-soft)}
+.risk h3{font-size:1.06rem;color:var(--rust)}
+.risk p{font-size:14.5px;line-height:1.65}
+.risk p b{color:var(--ink)}
+
+/* ---------- live generation form ---------- */
+.live{padding:20px 22px;border-bottom:1px solid var(--line-soft)}
+.live-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+@media(max-width:760px){.live-grid{grid-template-columns:repeat(6,1fr)}}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0;border:0;padding:0;margin:0}
+.fld > span,.fld legend{
+  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-faint);padding:0;
+}
+.fld select,.fld input,.fld textarea{
+  font:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;
+  background:var(--card);color:var(--ink);width:100%;transition:border-color .12s ease;
+}
+.fld textarea{font-size:14.5px;line-height:1.65;resize:vertical}
+.fld select:hover,.fld input:hover,.fld textarea:hover{border-color:var(--ink-faint)}
+.fld select:focus,.fld input:focus,.fld textarea:focus{border-color:var(--cobalt);outline-offset:1px}
+.live-grid > *:nth-child(1){grid-column:span 2}
+.live-grid > *:nth-child(2){grid-column:span 3}
+.live-grid > *:nth-child(3){grid-column:span 7}
+.live-grid > *:nth-child(4){grid-column:span 3}
+.live-grid > *:nth-child(5){grid-column:span 2}
+.live-grid > *:nth-child(6){grid-column:span 7}
+@media(max-width:760px){.live-grid > *{grid-column:span 6!important}}
+.levels-fs legend{margin-bottom:6px}
+.lvbox{display:flex;gap:6px;flex-wrap:wrap}
+.lvchk{cursor:pointer}
+.lvchk input{position:absolute;opacity:0;width:0;height:0}
+.lvchk span{
+  display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--line);
+  border-radius:8px;background:var(--card);font-weight:600;font-size:15px;color:var(--ink-faint);
+  transition:all .12s ease;
+}
+.lvchk input:checked + span{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.lvchk input:focus-visible + span{outline:3px solid var(--marigold);outline-offset:2px}
+.live-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
+.live-note{font-size:13px;color:var(--ink-soft)}
+.live-note.err{color:var(--rust)}
+.payload-view{border-bottom:1px solid var(--line-soft);background:var(--porcelain)}
+.payload-view summary{
+  cursor:pointer;padding:12px 22px;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--cobalt);
+}
+.payload-view summary:hover{background:var(--cobalt-soft)}
+.payload-view pre{
+  margin:0;padding:0 22px;font-family:var(--mono);font-size:12.5px;line-height:1.75;
+  color:var(--ink);overflow-x:auto;white-space:pre-wrap;word-break:break-word;
+}
+.payload-note{margin:12px 22px 16px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;max-width:70ch}
+
+.result-bar{
+  display:flex;align-items:center;gap:9px;padding:11px 22px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.09em;text-transform:uppercase;border-bottom:1px solid var(--line-soft);
+  background:var(--porcelain);color:var(--ink-soft);
+}
+.result-bar .rb-dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);flex:none}
+.result-bar.live{background:#F0FAF5;color:#155F45}
+.result-bar.live .rb-dot{background:var(--moss)}
+.result-bar.error{background:#FDF0ED;color:#8C2C1F}
+.result-bar.error .rb-dot{background:var(--rust)}
+.result-bar.working{background:var(--cobalt-soft);color:#1B3A96}
+.result-bar.working .rb-dot{background:var(--cobalt);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+.objectives{padding:18px 22px;border-bottom:1px solid var(--line-soft)}
+.obj-title{font-family:var(--display);font-size:1.3rem;margin:0 0 14px;letter-spacing:-.02em}
+.obj-row{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:8px 0}
+@media(max-width:640px){.obj-row{grid-template-columns:1fr;gap:3px}}
+.obj-row > span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);padding-top:4px}
+.obj-row p{margin:0;font-size:15px;color:var(--ink-soft);line-height:1.6}
+.watchfor{margin-top:12px;background:var(--marigold-soft);border-radius:9px;padding:12px 14px;font-size:14px;color:#6B4A05;line-height:1.6}
+.watchfor b{color:#4A3303}
+.samples{padding:18px 22px;border-top:1px solid var(--line);background:var(--porcelain);display:flex;flex-direction:column;gap:9px}
+.samples .tabs{gap:6px}
+
+/* ---------- working scorer ---------- */
+.scorer{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:26px}
+.scorer-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line-soft);background:var(--porcelain)}
+.scorer-tag{font-size:13px;color:var(--ink-soft)}
+.scorer-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px}
+@media(max-width:820px){.scorer-inputs{grid-template-columns:1fr}}
+.scorer-actions{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:0 20px 20px}
+.fld.inline{flex-direction:column;width:110px}
+#scorerOut .instrument{border-radius:0;border-left:0;border-right:0;border-bottom:0;box-shadow:none}
+#scorerOut .table-wrap{border-radius:0;border-left:0;border-right:0;border-bottom:0}
+.tbl.flags td:nth-child(2){font-family:var(--mono);font-size:13px}
+.scorer-err{padding:18px 20px;color:var(--rust);font-size:14.5px;border-top:1px solid var(--line-soft)}
+.delta{
+  display:flex;gap:10px;align-items:baseline;padding:14px 20px;border-top:1px solid var(--line-soft);
+  background:linear-gradient(90deg,#FDF0ED,#F0FAF5);font-size:14.5px;color:var(--ink-soft);
+}
+.delta b{color:var(--ink);font-family:var(--display);font-size:1.05rem}
+
+/* ---------- honesty callout ---------- */
+.honest{
+  border:1px solid var(--line);border-left:4px solid var(--ink);background:var(--card);
+  border-radius:0 12px 12px 0;padding:18px 20px;margin-bottom:34px;font-size:15px;
+  color:var(--ink-soft);line-height:1.65;max-width:78ch;
+}
+.honest b{color:var(--ink)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46px}
+.foot{display:grid;grid-template-columns:1fr 1.4fr;gap:28px;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+@media(max-width:760px){.foot{grid-template-columns:1fr}}
+.foot b{color:var(--ink)}
+.foot-legal{font-size:12.5px;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Section navigation">
+  <div class="nav-in">
+    <div class="brand">ELD AI<span>:</span> Read Together</div>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#product">Product</a>
+      <a href="#frames">Frame engine</a>
+      <a href="#lesson">Lesson output</a>
+      <a href="#scoring">Scoring</a>
+      <a href="#family">Family view</a>
+      <a href="#build">Architecture</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#pilot">Pilot</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="pill"><span class="dot"></span> Prototype · No pilot · No data collected</span>
+        <h1>She read it right. The test marked it <span class="blank blank-fill" id="heroBlank">wrong</span>.</h1>
+        <p class="lede">
+          Mandated oral reading fluency tools score accent variation as decoding failure. For the
+          5.3&nbsp;million multilingual learners in U.S. schools, that turns a pronunciation difference
+          into an intervention referral. <b>ELD AI: Read&nbsp;Together</b> is a bilingual, WIDA-aligned
+          platform that separates the two — and gives teachers differentiated lesson planning built on
+          the same language model of the learner.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#frames">Open the frame engine</a>
+          <a class="btn btn-ghost" href="#scoring">See how scoring works</a>
+        </div>
+        <div class="byline">
+          <span><b>YOUR NAME</b> · CREDENTIAL ONE</span>
+          <span>CREDENTIAL TWO</span>
+          <span>CREDENTIAL THREE</span>
+        </div>
+      </div>
+
+      <!-- Signature element: the scoring instrument itself, not a picture of one -->
+      <div class="instrument" role="figure" aria-labelledby="instr-cap">
+        <div class="instr-bar"><span class="live" aria-hidden="true"></span> Oral reading record · G2 · excerpt</div>
+        <div class="instr-body">
+          <p class="passage">
+            <span class="w transfer" data-note="/e/ onset">Stop</span> —
+            <span class="w">Sam</span>
+            <span class="w transfer" data-note="/t/ for /θ/">thinks</span>
+            <span class="w">the</span>
+            <span class="w miscue" data-note="substitution">pond</span>
+            <span class="w">is</span>
+            <span class="w transfer" data-note="/b/ for /v/">very</span>
+            <span class="w">big.</span>
+          </p>
+        </div>
+        <div class="key">
+          <span class="k-t"><i aria-hidden="true"></i>L1 transfer — logged, not scored</span>
+          <span class="k-m"><i aria-hidden="true"></i>True miscue — scored</span>
+        </div>
+        <div class="scoreboard">
+          <div class="score legacy">
+            <span class="lbl">Legacy scorer</span>
+            <span class="val">84<small>%</small></span>
+            <span class="sub">7 flags · “below benchmark”</span>
+          </div>
+          <div class="score ours">
+            <span class="lbl">Transfer-aware scorer</span>
+            <span class="val" id="oursVal">96<small>%</small></span>
+            <span class="sub">2 true miscues · 72&nbsp;WCPM</span>
+          </div>
+        </div>
+        <p class="flagline" id="instr-cap">
+          <span aria-hidden="true">→</span>
+          <span>Five of seven flags are documented Spanish&nbsp;L1 phonological transfer patterns. They are
+          surfaced to the teacher as language data and excluded from the accuracy score.
+          <a href="#scoring">Run the scorer yourself below</a> — it's real code, not a mockup.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">01</span> &nbsp;The gap</span>
+      <h2>The assessment is required. The instrument is monolingual.</h2>
+      <p>
+        DIBELS-style fluency screeners are mandated in most states and administered one-on-one, by hand,
+        by a teacher who has 24 other children in the room. The published platforms are English-only and
+        intolerant of accent variation. Two costs follow: teacher hours that don't scale, and multilingual
+        students who post low scores for reasons that have nothing to do with reading.
+      </p>
+    </div>
+    <div class="grid-3">
+      <div class="stat"><span class="n">5.3M</span><span class="t">English learners in U.S. public schools as of fall 2021 — 10.6% of enrollment, up from 9.4% a decade earlier.</span></div>
+      <div class="stat"><span class="n">42</span><span class="t">States, territories and federal agencies in the WIDA consortium. New York joined as the 42nd member in 2025.</span></div>
+      <div class="stat"><span class="n">~½</span><span class="t">Of teachers serving multilingual learners say they are “not at all” or “only somewhat” prepared to do it.</span></div>
+    </div>
+    <p class="footnote">
+      <b>Sources.</b>
+      <a href="https://nces.ed.gov/programs/coe/indicator/cgf/english-learners" target="_blank" rel="noopener">NCES, Condition of Education</a> (enrollment, fall 2021) ·
+      <a href="https://wida.wisc.edu/about/consortium" target="_blank" rel="noopener">WIDA Consortium membership</a> ·
+      <a href="https://www.edweek.org/teaching-learning/teachers-arent-prepared-or-equipped-to-teach-english-learners-survey-finds/2025/06" target="_blank" rel="noopener">RAND survey of ~7,500 teachers and 1,300 principals, 2025</a>, reported by EdWeek; a separate
+      <a href="https://www.edweek.org/teaching-learning/teachers-say-they-need-more-support-for-english-learners-survey-finds/2025/09" target="_blank" rel="noopener">EdWeek Research Center survey</a>
+      found nearly 1 in 5 educators had received no EL training at all.
+      <br>Worth knowing: consortium membership does not mean framework adoption. New York uses WIDA ACCESS
+      from 2026–27 but is keeping its own Academic and Linguistic Demands rather than the ELD Standards
+      Framework — the kind of state-by-state variance any ELD product has to design around.
+    </p>
+  </div>
+</section>
+
+<!-- ============ PRODUCT ============ -->
+<section id="product">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">02</span> &nbsp;The product</span>
+      <h2>One language model of the learner. Two surfaces.</h2>
+      <p>
+        The platform holds a single representation of each student's language proficiency — WIDA level,
+        key language use, L1 background — and spends it in two directions: planning for the teacher, and
+        practice plus assessment for the child. Neither surface works without the other.
+      </p>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="eyebrow" style="margin-bottom:10px">Surface A · Teacher</span>
+        <h3>Differentiated planning in about a minute</h3>
+        <p>
+          Grade, subject, topic, the WIDA levels actually sitting in the room, and one of the four Key
+          Language Uses. Out comes a plan with paired content and language objectives, tiered vocabulary,
+          sentence frames written separately for each level present, and a formative check.
+        </p>
+        <ul>
+          <li>Scaffolds by level — never a simplified text for everyone</li>
+          <li>Tier 1 / 2 / 3 vocabulary split, not one undifferentiated word list</li>
+          <li>Teacher review required before classroom use; the disclaimer ships with the plan</li>
+          <li>Save, edit, and share plans across a school</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="eyebrow" style="margin-bottom:10px">Surface B · Student &amp; family</span>
+        <h3>Reading practice that listens fairly</h3>
+        <p>
+          Phonics-aligned decodable passages, audio support, and oral reading capture that scores rate and
+          accuracy while holding L1 phonological transfer separate from decoding error. Progress lands in a
+          parent dashboard that works in Spanish.
+        </p>
+        <ul>
+          <li>Decodability self-audit against the taught phonics inventory</li>
+          <li>Comprehension items with explained feedback, not just right/wrong</li>
+          <li>Full Spanish interface for families, not a machine-translated afterthought</li>
+          <li>Text-to-speech, high contrast, and adjustable text built in from the start</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FRAME ENGINE (signature interactive) ============ -->
+<section id="frames">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">03</span> &nbsp;Try it · Sentence frame engine</span>
+      <h2>The same content. Six different amounts of language support.</h2>
+      <p>
+        This is the part teachers can't do six times before 8&nbsp;a.m. Type any topic and the levels
+        actually sitting in your room. This calls Claude for real — the ladder that comes back is
+        generated live, and the panel underneath shows you every field that crossed the network. The
+        content doesn't get easier as you go down the ladder. The language scaffold gets heavier.
+      </p>
+    </div>
+
+    <div class="engine">
+      <form class="live" id="genForm" novalidate>
+        <div class="live-grid">
+          <label class="fld"><span>Grade</span>
+            <select id="fGrade">
+              <option>K</option><option>1</option><option selected>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option><option>7</option>
+              <option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+            </select>
+          </label>
+          <label class="fld"><span>Subject</span>
+            <select id="fSubject">
+              <option>ELD/ESL</option><option selected>Science</option><option>ELA</option>
+              <option>Math</option><option>Social Studies</option>
+            </select>
+          </label>
+          <label class="fld wide"><span>Topic</span>
+            <input id="fTopic" type="text" maxlength="80" value="how volcanoes erupt"
+                   placeholder="anything you'd actually teach" autocomplete="off">
+          </label>
+          <label class="fld"><span>Key Language Use</span>
+            <select id="fKlu">
+              <option>Narrate</option><option>Inform</option><option selected>Explain</option><option>Argue</option>
+            </select>
+          </label>
+          <label class="fld"><span>Minutes</span>
+            <select id="fDur">
+              <option>30</option><option>45</option><option selected>50</option><option>60</option><option>90</option>
+            </select>
+          </label>
+          <fieldset class="fld levels-fs">
+            <legend>WIDA levels in the room</legend>
+            <div class="lvbox" id="fLevels"></div>
+          </fieldset>
+        </div>
+        <div class="live-actions">
+          <button class="btn btn-primary" type="submit" id="genBtn">Generate scaffolding</button>
+          <span class="live-note" id="liveNote">Six fields go out. Nothing else can.</span>
+        </div>
+      </form>
+
+      <details class="payload-view">
+        <summary>See exactly what crosses the boundary</summary>
+        <pre id="payloadOut">POST /api/generate/scaffold
+{
+  "gradeLevel": "2",
+  "subject": "Science",
+  "topic": "how volcanoes erupt",
+  "keyLanguageUse": "Explain",
+  "widaLevels": [1, 2, 3, 4],
+  "duration": 50
+}</pre>
+        <p class="payload-note">The request body is assembled field by field from an allow-list on the
+        server. There is no code path by which a student name, roster, identifier, or teacher note can
+        reach the model, because there is no field for one. The only free-text input is the topic, and it
+        is length-capped and screened for email, phone, and ID patterns before it leaves.</p>
+      </details>
+
+      <div class="result-bar" id="resultBar"></div>
+      <div class="objectives" id="objectives" hidden></div>
+      <div class="engine-meta" id="engineMeta"></div>
+      <div class="ladder" id="ladder" aria-live="polite"></div>
+      <div class="vocab" id="vocab"></div>
+
+      <div class="samples">
+        <span class="ctrl-lbl">Or load a pre-built example <em>(no API call)</em></span>
+        <div class="tabs" role="tablist" aria-label="Example lesson topic" id="topicTabs"></div>
+        <div class="tabs" role="tablist" aria-label="Key Language Use" id="kluTabs"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSON OUTPUT ============ -->
+<section id="lesson">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">04</span> &nbsp;What lands in the teacher's hands</span>
+      <h2>A plan, not a wall of text.</h2>
+      <p>
+        Generated output is structured before it is written, so it can be saved, edited, filtered by level,
+        and reused. Below is real output shape for a mixed-level third grade science block.
+      </p>
+    </div>
+
+    <div class="plan">
+      <div class="plan-head">
+        <div>
+          <span class="eyebrow" style="margin-bottom:8px">Generated plan</span>
+          <h3>The Water Cycle — Grade 3 Science</h3>
+          <p class="plan-sub">50 minutes · Key Language Use: <b>Explain</b> · WIDA levels present: 1, 2, 3, 4</p>
+        </div>
+        <span class="pill"><span class="dot"></span> Draft</span>
+      </div>
+
+      <div class="disclaimer">
+        <b>Review before classroom use.</b> This plan is AI-generated. Check it against your district's
+        curriculum, your students' IEP and language support plans, and your own read of the room. The
+        teacher is the professional in the loop; the model is not.
+      </div>
+
+      <div class="plan-body">
+        <div class="plan-block">
+          <h4>Objectives</h4>
+          <p><b>Content:</b> Students explain how water moves through evaporation, condensation, precipitation, and collection.</p>
+          <p><b>Language:</b> Students <i>explain</i> cause-and-effect relationships in the water cycle using level-appropriate frames and Tier&nbsp;3 vocabulary, with visual and peer support.</p>
+        </div>
+
+        <div class="plan-block">
+          <h4>Lesson arc</h4>
+          <ol class="arc">
+            <li><span class="t">0–8 min</span><span class="d"><b>Anchor.</b> Show the labeled cycle diagram. Everyone gets the same diagram. Levels 1–2 receive it with picture-word cards; levels 3–4 receive it unlabeled and label it themselves.</span></li>
+            <li><span class="t">8–20 min</span><span class="d"><b>Vocabulary.</b> Introduce four Tier 3 terms with gesture, image, and cognate bridge (<i>evaporación / evaporation</i>). Students build a personal glossary entry.</span></li>
+            <li><span class="t">20–38 min</span><span class="d"><b>Explain in pairs.</b> Mixed-level partners. Each student uses their own frame from the ladder above. The level 1 partner speaks first with the word bank — going first protects them from being talked over.</span></li>
+            <li><span class="t">38–48 min</span><span class="d"><b>Write.</b> Same task, differentiated output: label a diagram, write a sentence, write a causal chain, or write a paragraph with transitions.</span></li>
+            <li><span class="t">48–50 min</span><span class="d"><b>Exit check.</b> One sentence: why do clouds form? Collected, sorted by level, used to regroup tomorrow.</span></li>
+          </ol>
+        </div>
+
+        <div class="plan-block">
+          <h4>Formative assessment</h4>
+          <p>
+            Score language production against the frame the student was given, not against a single
+            grade-level target. A level 2 student producing a correct simple sentence with the right Tier 3
+            term has met the objective. Record the level, not just right or wrong — that is what drives the
+            next plan.
+          </p>
+        </div>
+
+        <div class="plan-block">
+          <h4>Materials</h4>
+          <p>Water cycle diagram (labeled + unlabeled), Tier 3 picture-word cards, sentence frame strips by level, personal glossary page, exit slip.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCORING ============ -->
+<section id="scoring">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">05</span> &nbsp;The scoring decision</span>
+      <h2>An accent is not a decoding error.</h2>
+      <p>
+        A Spanish-dominant second grader who says <i>estop</i> for <i>stop</i> has not misread the word.
+        She has applied a phonological rule from her first language, on a word she decoded correctly.
+        Legacy scorers count it as an error anyway. That single design choice is the difference between
+        “at benchmark” and “refer for intervention.”
+      </p>
+    </div>
+
+    <div class="scorer">
+      <div class="scorer-head">
+        <span class="eyebrow" style="margin:0">Working scorer</span>
+        <span class="scorer-tag">Runs in your browser. Deterministic rules, no model call.</span>
+      </div>
+      <div class="scorer-inputs">
+        <label class="fld"><span>Passage as written</span>
+          <textarea id="sExpected" rows="4" spellcheck="false">Sam and his dog Spot run to the pond. The pond is very deep. Spot can swim fast. Sam sits on a rock and thinks about the frogs. He can see six green frogs on a log. Stop! A frog jumps in with a splash.</textarea>
+        </label>
+        <label class="fld"><span>What the student actually said</span>
+          <textarea id="sHeard" rows="4" spellcheck="false">Sam and his dog Spot run to the pond. The pond is bery deep. Spot can eswim fast. Sam sits on a rope and tinks the frogs. He can see six green frogs on a log. Estop! A frog jumps in with a esplash.</textarea>
+        </label>
+      </div>
+      <div class="scorer-actions">
+        <label class="fld inline"><span>Seconds</span><input type="number" id="sSecs" value="36" min="5" max="900"></label>
+        <button class="btn btn-primary" id="scoreBtn" type="button">Score it</button>
+        <button class="btn btn-ghost" id="sClean" type="button">Try a clean read</button>
+        <button class="btn btn-ghost" id="sReset" type="button">Reset example</button>
+      </div>
+      <div id="scorerOut" aria-live="polite"></div>
+    </div>
+
+    <p class="footnote" style="margin:-8px 0 0">
+      Benchmark reference: grade 2 winter 50th-percentile oral reading fluency sits near 72&nbsp;WCPM
+      (Hasbrouck &amp; Tindal oral reading fluency norms). Accuracy is words correct over words
+      attempted; self-corrections and repetitions are not scored as errors, following running-record
+      convention.
+    </p>
+
+    <h3 class="sub-h">Transfer patterns the scorer holds separate</h3>
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead>
+          <tr><th scope="col">Pattern</th><th scope="col">Sounds like</th><th scope="col">Common L1</th><th scope="col">Counted as error</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>/θ/ → /t/ or /s/</td><td>think → tink</td><td>Spanish, Vietnamese, French</td><td class="no">No</td></tr>
+          <tr><td>/v/ → /b/</td><td>very → bery</td><td>Spanish</td><td class="no">No</td></tr>
+          <tr><td>Epenthetic /e/ before s-clusters</td><td>stop → estop</td><td>Spanish</td><td class="no">No</td></tr>
+          <tr><td>Final consonant cluster reduction</td><td>asked → ask</td><td>Spanish, Mandarin, Vietnamese</td><td class="no">No</td></tr>
+          <tr><td>Tense/lax vowel merge /ɪ/–/iː/</td><td>ship → sheep</td><td>Spanish, Arabic</td><td class="no">No</td></tr>
+          <tr><td>Whole-word substitution</td><td>rock → rope</td><td>—</td><td class="yes">Yes</td></tr>
+          <tr><td>Omission or insertion</td><td>skipped word</td><td>—</td><td class="yes">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caveat">
+      <b>Where this is still fragile.</b> The pattern layer is only as good as the speech recognition
+      underneath it, and general-purpose ASR is trained disproportionately on adult native speakers.
+      The pilot audits recognition accuracy separately for each first-language group; if the gap between
+      groups exceeds 10 percentage points the model gets replaced, not tuned. This is stated as a known
+      risk rather than a solved problem, because it isn't solved.
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAMILY VIEW ============ -->
+<section id="family">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">06</span> &nbsp;Try it · Family view</span>
+      <h2>The family surface is a first-class surface.</h2>
+      <p>
+        Most reading platforms give parents a PDF they can't read. This view is written for a caregiver
+        who may not read English, may not have gone to school in the U.S., and may be helping with
+        homework after a shift. Toggle the language — the whole card changes, including the guidance.
+      </p>
+    </div>
+
+    <div class="family" lang="en" id="familyCard">
+      <div class="family-bar">
+        <span class="eyebrow" style="margin:0">Parent dashboard · weekly summary</span>
+        <div class="lang-toggle" role="group" aria-label="Interface language">
+          <button type="button" class="lang on" data-lang="en" aria-pressed="true">English</button>
+          <button type="button" class="lang" data-lang="es" aria-pressed="false">Español</button>
+        </div>
+      </div>
+      <div class="family-body">
+        <h3 data-i18n="fTitle">This week — Mateo, Grade 2</h3>
+        <div class="fstats">
+          <div><span class="fn">4</span><span class="ft" data-i18n="fStat1">passages read</span></div>
+          <div><span class="fn">71</span><span class="ft" data-i18n="fStat2">words per minute</span></div>
+          <div><span class="fn">96%</span><span class="ft" data-i18n="fStat3">accuracy</span></div>
+        </div>
+        <p class="fmeans"><b data-i18n="fMeansLbl">What this means:</b>
+          <span data-i18n="fMeans">Mateo is reading at grade level for this time of year. Pronunciation
+          differences that come from Spanish are expected, and they are not counted as mistakes.</span>
+        </p>
+        <h4 data-i18n="fHelpTitle">How to help at home</h4>
+        <ol class="ftips">
+          <li data-i18n="fTip1">Read together in any language. Reading in Spanish builds the same skills English reading needs.</li>
+          <li data-i18n="fTip2">Ask him to tell you what happened in the story. Retelling matters more than saying every word perfectly.</li>
+          <li data-i18n="fTip3">Point out words on signs, menus, and packages. Five minutes counts.</li>
+        </ol>
+        <button class="btn btn-ghost fbtn" type="button" data-i18n="fBtn">Send a question to the teacher</button>
+      </div>
+    </div>
+    <p class="footnote">
+      Spanish copy is authored, not machine-translated at runtime. Tips avoid assuming a home library,
+      a quiet room, or a caregiver who reads English — the three assumptions most family engagement
+      content makes by default.
+    </p>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section id="build">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">07</span> &nbsp;How it's built</span>
+      <h2>The privacy boundary is an architectural object, not a policy paragraph.</h2>
+      <p>
+        Student records live in one place. The model lives on the other side of a line, and the payload
+        that crosses it is constructed field by field — an allow-list, not a redaction pass. If a field
+        isn't on the list, it cannot leave, including by accident.
+      </p>
+    </div>
+
+    <div class="arch" role="img" aria-label="Architecture diagram: a React client on Vercel talks to a Hono API on Railway, which owns a SQLite database on a persistent volume. Only non-identifying lesson parameters cross a PII boundary to the Anthropic Claude API.">
+      <div class="arch-col">
+        <span class="arch-tag">Client · Vercel</span>
+        <div class="arch-box">
+          <b>React 19 + Vite 7</b>
+          <span>Tailwind CSS 4 · React Router 7</span>
+          <span>i18next EN/ES · Web Speech synthesis</span>
+          <span>Accessibility layer: TTS, contrast, text size</span>
+        </div>
+      </div>
+      <div class="arch-arrow" aria-hidden="true">→</div>
+      <div class="arch-col">
+        <span class="arch-tag">API · Railway</span>
+        <div class="arch-box">
+          <b>Hono on Bun</b>
+          <span>BetterAuth · email + password, role-based</span>
+          <span>Prisma 6 ORM</span>
+          <span>Prompt assembly + allow-list filter</span>
+        </div>
+        <div class="arch-box sub">
+          <b>SQLite</b>
+          <span>Persistent volume at <code>/data</code></span>
+          <span>Students, classrooms, sessions, lesson plans</span>
+        </div>
+      </div>
+      <div class="arch-boundary">
+        <span class="arch-boundary-lbl">PII boundary</span>
+      </div>
+      <div class="arch-col">
+        <span class="arch-tag">Model · Anthropic</span>
+        <div class="arch-box model">
+          <b>Claude API</b>
+          <span class="allow">Receives only:</span>
+          <code class="payload">{ gradeLevel, subject, topic, widaLevels[], keyLanguageUse, duration }</code>
+          <span class="deny">Never receives: names, student IDs, emails, audio, roster data, IEP or service status, free-text teacher notes.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:26px">
+      <div class="card"><h3>Runtime</h3><p>Bun end to end. TypeScript strict. Single API surface, so the allow-list filter has exactly one place to live and one place to be tested.</p></div>
+      <div class="card"><h3>Data</h3><p>SQLite on a persistent volume — right-sized for classroom-scale writes, with a documented Postgres migration path before multi-school deployment.</p></div>
+      <div class="card"><h3>Audio</h3><p>Oral reading audio is scored and discarded within the session. It is never sent to an LLM, and it never touches the lesson-planning path at all.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRIVACY ============ -->
+<section id="privacy">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">08</span> &nbsp;Compliance posture</span>
+      <h2>Built for the person who has to sign off on it.</h2>
+      <p>
+        A district technology director will not adopt a tool because the lesson plans are good. They adopt
+        it when they can answer, in writing, what leaves the building. These are the answers.
+      </p>
+    </div>
+    <div class="grid-2">
+      <div class="card compliance">
+        <h3>FERPA</h3>
+        <p>Education records stay in the district-controlled instance. Teacher and parent access is
+        role-scoped; a parent sees only their own linked child. No record is shared with a third party
+        for any purpose beyond delivering the service.</p>
+      </div>
+      <div class="card compliance">
+        <h3>COPPA</h3>
+        <p>Student accounts are provisioned by the school under school consent, not by children. Voice
+        recordings are treated as personal information — which is why the speech recognition vendor
+        decision is a compliance decision, not only an accuracy one.</p>
+      </div>
+      <div class="card compliance">
+        <h3>AI use disclosure</h3>
+        <p>Every generated plan ships with a review-before-use disclaimer. Generated passages run a
+        decodability self-audit against the taught phonics inventory before they reach a child.</p>
+      </div>
+      <div class="card compliance">
+        <h3>What's deliberately absent</h3>
+        <p>No advertising, no data sale, no third-party analytics on student surfaces, no engagement
+        mechanics designed to extend session time. Gamification is capped at streaks and badges tied to
+        real reading milestones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATUS + PILOT ============ -->
+<section id="pilot">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">09</span> &nbsp;Where this actually is</span>
+      <h2>Nothing here has been validated. I'm not going to imply otherwise.</h2>
+      <p>
+        As of today: zero classrooms, zero students, zero data points. No child has used this, no school
+        has agreed to pilot it, and no outcome has been measured. What follows is the evaluation I would
+        run — written down before running it, so the criteria can't quietly move afterward.
+      </p>
+    </div>
+
+    <div class="honest">
+      <b>Why say that out loud.</b> Every EdTech portfolio piece claims impact. Most of them are
+      describing a design document. Pre-registering the criteria — including the ones that would tell me
+      to stop — is the part that's actually hard to fake, and it's the part a research or product team
+      can evaluate me on.
+    </div>
+
+    <ol class="addie">
+      <li class="done"><span class="a">A</span><span class="n">Analyze</span><span class="s">Complete</span></li>
+      <li class="done"><span class="a">D</span><span class="n">Design</span><span class="s">Complete</span></li>
+      <li class="active"><span class="a">D</span><span class="n">Develop</span><span class="s">In progress</span></li>
+      <li><span class="a">I</span><span class="n">Implement</span><span class="s">Not started</span></li>
+      <li><span class="a">E</span><span class="n">Evaluate</span><span class="s">Not started</span></li>
+    </ol>
+
+    <h3 class="sub-h">Criteria I'd hold it to <span class="tag-target">Pre-registered · nothing measured</span></h3>
+    <div class="grid-3 targets">
+      <div class="stat"><span class="n">3</span><span class="t">K–3 classrooms with mixed multilingual enrollment would be the minimum viable pilot</span></div>
+      <div class="stat"><span class="n">≥85%</span><span class="t">Speech recognition accuracy on multilingual student samples</span></div>
+      <div class="stat"><span class="n">≥50%</span><span class="t">Reduction in teacher time spent on 1-on-1 assessment</span></div>
+      <div class="stat"><span class="n">≥4.0</span><span class="t">Teacher usability rating, SUS-adapted 5-point scale</span></div>
+      <div class="stat"><span class="n">100%</span><span class="t">Sessions with zero personally identifying data in any model call</span></div>
+      <div class="stat"><span class="n">&lt;3%</span><span class="t">Orthographic violation rate in generated decodable passages</span></div>
+    </div>
+
+    <h3 class="sub-h">Known risks and what happens if they hit</h3>
+    <div class="grid-2">
+      <div class="card risk">
+        <h3>Speech recognition bias against multilingual speakers</h3>
+        <p><b>If:</b> the accuracy gap between L1 groups exceeds 10 points in the ASR audit.<br>
+        <b>Then:</b> replace the ASR model with a multilingual-trained alternative before any score is
+        shown to a teacher. Scores are withheld, not shipped with a caveat.</p>
+      </div>
+      <div class="card risk">
+        <h3>Child voice data as a privacy surface</h3>
+        <p><b>If:</b> the chosen ASR path routes audio to a third party without a signed student-data
+        agreement.<br>
+        <b>Then:</b> move to on-device or self-hosted recognition, accepting an accuracy cost. Voice is
+        personal information; convenience does not outrank that.</p>
+      </div>
+      <div class="card risk">
+        <h3>Generated passages break the phonics scope and sequence</h3>
+        <p><b>If:</b> a passage contains graphemes the class has not been taught.<br>
+        <b>Then:</b> the decodability audit rejects and regenerates before the passage is ever shown.
+        The audit runs on generation, not on review.</p>
+      </div>
+      <div class="card risk">
+        <h3>Teachers over-trust AI plans</h3>
+        <p><b>If:</b> plans get used unmodified.<br>
+        <b>Then:</b> that is a design failure, not a user failure. Mitigations: mandatory review
+        disclaimer, editable-by-default output, and interviews that specifically probe what teachers
+        changed and why.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow"><span class="num">10</span> &nbsp;Who built it</span>
+      <h2>Classroom first, then the code.</h2>
+    </div>
+    <div class="grid-2">
+      <div>
+        <p style="font-size:1.06rem;color:var(--ink-soft);max-width:56ch">
+          <!-- EDIT: rewrite this paragraph in your own words. Keep the shape: classroom
+               experience, then credentials, then the specific problem that started this. -->
+          CREDENTIAL SUMMARY — years in the classroom, degrees, and the specific frustration this
+          product came out of. The useful part of this project isn't the AI. It's knowing which
+          decisions in an ELD tool actually change what happens to a kid, and being able to build
+          them rather than only specify them.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="mailto:YOUR.EMAIL@DOMAIN.COM?subject=ELD%20AI%3A%20Read%20Together">Email me</a>
+          <a class="btn btn-ghost" href="#" id="repoLink">Source on GitHub</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>What this project demonstrates</h3>
+        <ul>
+          <li>EdTech product scoping from a real classroom constraint</li>
+          <li>LLM integration design with a hard privacy boundary</li>
+          <li>Standards alignment: WIDA ELD 2020, Science of Reading, UDL</li>
+          <li>Multilingual UX and accessibility for emergent bilinguals</li>
+          <li>FERPA / COPPA analysis and risk-mitigation planning</li>
+          <li>Pilot and evaluation design with pre-registered criteria</li>
+          <li>Full-stack build: Bun, Hono, Prisma, React 19, Tailwind 4</li>
+          <li>Translating between teachers and engineers, in both directions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <b>ELD AI: Read Together</b> · Portfolio case study · 2026<br>
+      YOUR NAME · <a href="mailto:YOUR.EMAIL@DOMAIN.COM">YOUR.EMAIL@DOMAIN.COM</a>
+    </div>
+    <div class="foot-legal">
+      Prototype. No pilot has been run, no classroom data has been collected, and no student has used
+      this product. All metrics shown are pre-registered targets, not findings. The scaffolding
+      generator makes a real Claude API call; the oral reading scorer is deterministic code running in
+      your browser. Neither stores anything.
+      WIDA is a trademark of the Board of Regents of the University of Wisconsin System; DIBELS is a
+      trademark of the University of Oregon. This project is independent and not affiliated with,
+      endorsed by, or reviewed by either organization.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ============================================================
+   WIDA ELD Standards Framework, 2020 Edition
+   Levels 1-6 x 4 Key Language Uses x 3 topics.
+   Pre-generated sample output. Level 6 withdraws the scaffold
+   on purpose: at Reaching, a frame is a reference, not a support.
+   ============================================================ */
+var LEVELS = [
+  {n:1,name:"Entering",spec:"Single-word fill-in with word bank"},
+  {n:2,name:"Emerging",spec:"Simple sentence"},
+  {n:3,name:"Developing",spec:"Complex sentence with conjunctions"},
+  {n:4,name:"Expanding",spec:"Paragraph with transitions"},
+  {n:5,name:"Bridging",spec:"Academic language stems"},
+  {n:6,name:"Reaching",spec:"Scaffold withdrawn"}
+];
+
+var TOPICS = [
+  {
+    id:"water", label:"The water cycle", meta:"Grade 3 · Science · 50 minutes",
+    vocab:{
+      t1:["water","sun","cloud","rain","up / down"],
+      t2:["cycle","stage","process","occurs","changes into"],
+      t3:["evaporation","condensation","precipitation","collection","water vapor"]
+    },
+    klu:{
+      narrate:[
+        {frame:"First, the water ______.", support:"Word bank: goes up, gets cold, falls. Picture cards in sequence. Student may point before speaking."},
+        {frame:"First the sun heats the water. Then the water goes up.", support:"Two-sentence sequence strip with First / Then printed. Diagram stays visible."},
+        {frame:"First the sun heats the water, and then it rises into the air because it has changed into vapor.", support:"Conjunction bank: and, then, because, so. Partner retell before writing."},
+        {frame:"The journey of a water droplet begins when ______. Next, ______. After that, ______. Finally, ______.", support:"Transition bank posted. Student produces four connected sentences, not one."},
+        {frame:"The droplet's journey commences with evaporation, during which ______. Subsequently, ______. Ultimately, the cycle repeats as ______.", support:"Stems only. Student supplies all content and controls the register."},
+        {frame:"Narrate the full cycle from the droplet's point of view, choosing where the story starts and ending where it began.", support:"No frame. Student selects transitions and adjusts the telling for a chosen audience — a peer, or the class book."}
+      ],
+      inform:[
+        {frame:"This is ______.", support:"Labeled diagram plus four picture-word cards. Matching counts as a correct response."},
+        {frame:"Evaporation is when water goes up.", support:"Sentence strip with the Tier 3 term pre-printed so the vocabulary load sits in one place."},
+        {frame:"Evaporation happens when the sun heats the water, so the water changes into vapor.", support:"Cause conjunctions supplied: when, so, because."},
+        {frame:"The water cycle has four main stages. First, ______. In addition, ______. The final stage is ______.", support:"Student writes a short informational paragraph with a labeled diagram."},
+        {frame:"The water cycle consists of four interdependent stages. During condensation, ______, which results in ______.", support:"Academic stems. Expect precise use of all four Tier 3 terms."},
+        {frame:"Write an informational explanation of the cycle, then write a glossary entry for each Tier 3 term aimed at a Level 2 classmate.", support:"No frame. The audience shift is the challenge — same content, controlled register."}
+      ],
+      explain:[
+        {frame:"The sun makes the water ______.", support:"Word bank: hot, go up. Gesture accepted as a first response, then repeated in words."},
+        {frame:"The water goes up because the sun is hot.", support:"Because is pre-printed. One cause, one effect."},
+        {frame:"Water evaporates because the sun heats it, and when the vapor cools, it condenses into clouds.", support:"Two-link causal chain. Conjunction bank: because, when, so, which."},
+        {frame:"One reason clouds form is ______. This happens because ______. As a result, ______.", support:"Student links three causal moves with transitions."},
+        {frame:"Condensation occurs as a result of decreasing temperature at higher altitudes, which causes water vapor to ______.", support:"Nominalized academic stems. Expect cause-effect vocabulary without prompting."},
+        {frame:"Explain why clouds form, then address the common idea that clouds are made of steam and correct it with evidence.", support:"No frame. Anticipating and refuting a misconception is the target move."}
+      ],
+      argue:[
+        {frame:"We should save water. Yes / No. Water is ______.", support:"Circle a choice, then one word with a bank: important, needed, ours. Choice counts as a claim."},
+        {frame:"I think we should save water because it is important.", support:"Claim + one reason. Reason bank supplied with images."},
+        {frame:"I believe our town should limit water use because reservoirs refill slowly, and dry years reduce how much water is collected.", support:"Claim plus two coordinated reasons. Evidence cards available."},
+        {frame:"In my opinion, ______. One reason is ______. Another reason is ______. Therefore, ______.", support:"Four-move argument with transitions supplied."},
+        {frame:"The evidence suggests that ______. Although some argue that ______, the data indicate ______. Consequently, I contend that ______.", support:"Concession stem included. Expect the counterclaim to be named fairly."},
+        {frame:"Make a claim about local water use, support it with two sources, name the strongest objection to your position, and answer it.", support:"No frame. Student may revise the claim mid-discussion — revision is scored as strength."}
+      ]
+    }
+  },
+  {
+    id:"fractions", label:"Comparing fractions", meta:"Grade 4 · Mathematics · 45 minutes",
+    vocab:{
+      t1:["piece","part","whole","share","bigger / smaller"],
+      t2:["compare","represent","method","justify","equivalent"],
+      t3:["numerator","denominator","common denominator","benchmark fraction","partition"]
+    },
+    klu:{
+      narrate:[
+        {frame:"I ______ the fractions.", support:"Word bank: drew, shaded, compared. Student may point to their own drawing while speaking."},
+        {frame:"First I drew two bars. Then I shaded them.", support:"Sequence strip. The manipulative stays on the desk during retelling."},
+        {frame:"First I drew two bars and shaded them, and then I saw that three fourths covered more space.", support:"Conjunctions supplied. Student narrates the strategy, not just the answer."},
+        {frame:"To compare the fractions, I began by ______. Next, ______. Finally, I concluded that ______.", support:"Transition bank. Strategy narration in three connected moves."},
+        {frame:"I initiated the comparison by generating equivalent fractions with a common denominator, after which ______.", support:"Academic stems with Tier 3 terms embedded for the student to carry forward."},
+        {frame:"Narrate your strategy, then narrate a classmate's different strategy and say which was more efficient.", support:"No frame. Holding two methods at once is the target."}
+      ],
+      inform:[
+        {frame:"Three fourths is ______ than two thirds.", support:"Word bank: bigger, smaller. Pre-partitioned fraction bars of equal length provided."},
+        {frame:"Three fourths is bigger than two thirds.", support:"Sentence strip with fraction names pre-printed to reduce reading load."},
+        {frame:"Three fourths is greater than two thirds because both wholes are the same size, and three fourths covers more of it.", support:"Because supplied. Expect the equal-whole condition to be named."},
+        {frame:"Two fractions can be compared in several ways. One method is ______. Another method is ______. In each case, ______.", support:"Student reports more than one valid method."},
+        {frame:"Fractions with unlike denominators may be compared by generating equivalent forms, by benchmarking to one half, or by ______.", support:"Expect precise Tier 3 usage and correct mathematical register."},
+        {frame:"Write a how-to for comparing fractions aimed at a Level 2 classmate, with two worked examples and a glossary.", support:"No frame. Simplifying without losing precision is the target."}
+      ],
+      explain:[
+        {frame:"The wholes must be the same ______.", support:"Word bank: size. Two paper strips, one visibly longer, used as a counterexample."},
+        {frame:"The wholes must be the same size.", support:"One-sentence rule with the manipulative in hand."},
+        {frame:"You must compare the same-size whole, or the comparison is not fair, because a big fourth can look larger than a small half.", support:"Conjunctions supplied: or, because. Counterexample provided."},
+        {frame:"The reason we find a common denominator is ______. This works because ______. Consequently, ______.", support:"Three-move causal explanation with transitions."},
+        {frame:"Generating a common denominator partitions both fractions into units of identical magnitude, thereby enabling ______.", support:"Nominalized stems. Expect the word unit used mathematically."},
+        {frame:"Explain why benchmarking to one half works, then give a case where it fails to decide the comparison.", support:"No frame. Naming the limits of a strategy is the target."}
+      ],
+      argue:[
+        {frame:"Ana says two thirds is bigger than three fourths. Ana is ______.", support:"Word bank: right, wrong. Fraction bars available to check before answering."},
+        {frame:"Ana is wrong because three fourths is bigger.", support:"Claim plus one reason. Model that we disagree with the idea, not the person."},
+        {frame:"Ana is incorrect because three fourths is closer to one whole, and two thirds leaves a larger piece missing.", support:"Two coordinated reasons. Benchmark language available on the wall."},
+        {frame:"I disagree with Ana's claim. My evidence is ______. Additionally, ______. Therefore, ______.", support:"Evidence-first structure with transitions supplied."},
+        {frame:"Ana's reasoning assumes that ______. However, this claim does not account for ______. The evidence indicates ______.", support:"Expect the student to name the assumption before refuting it."},
+        {frame:"Critique the reasoning behind Ana's claim, propose a revised statement she could defend, and invite a counterexample.", support:"No frame. Repairing an argument rather than defeating it is the target."}
+      ]
+    }
+  },
+  {
+    id:"migration", label:"Push and pull factors", meta:"Grade 5 · Social studies · 60 minutes",
+    vocab:{
+      t1:["move","home","job","family","city"],
+      t2:["factor","cause","effect","category","source"],
+      t3:["migration","push factor","pull factor","urbanization","displacement"]
+    },
+    klu:{
+      narrate:[
+        {frame:"The family ______.", support:"Word bank: moved, left, arrived. Photograph provided as the anchor for the telling."},
+        {frame:"The family moved to a new city.", support:"One-sentence telling with a two-image sequence: before, after."},
+        {frame:"The family left the farm because there was no rain, and they moved to the city to look for work.", support:"Cause conjunctions supplied. Timeline strip available."},
+        {frame:"In 1935, the family faced ______. First, ______. Then, ______. In the end, ______.", support:"Four-move narrative with transitions and a dated timeline."},
+        {frame:"Confronted with successive crop failures, the family ultimately relocated, a decision shaped by ______.", support:"Complex opening structures modeled. Expect subordinate clauses."},
+        {frame:"Narrate the move twice: once from the perspective of the family that left, once from the community they left behind.", support:"No frame. Perspective control across two tellings is the target."}
+      ],
+      inform:[
+        {frame:"Jobs are a ______ factor.", support:"Word sort: push cards and pull cards, sorted onto a labeled T-chart before speaking."},
+        {frame:"Jobs are a pull factor.", support:"Sentence strip with both Tier 3 terms displayed and defined in images."},
+        {frame:"Jobs are a pull factor because they attract people, while drought is a push factor because it forces people to leave.", support:"Contrast conjunction supplied: while, whereas."},
+        {frame:"Historians group the causes of migration into two categories. Push factors include ______. In contrast, pull factors ______.", support:"Compare-contrast paragraph with transitions supplied."},
+        {frame:"Migration is commonly analyzed through the push-pull framework, in which ______, whereas ______.", support:"Expect framework language and correct use of whereas."},
+        {frame:"Synthesize two primary sources into an informational account, citing each and noting where they disagree.", support:"No frame. Source attribution and handling disagreement are the target."}
+      ],
+      explain:[
+        {frame:"People move to find ______.", support:"Word bank: work, family, safety. Images accompany each option."},
+        {frame:"People move because they need work.", support:"One cause, one effect, with because pre-printed."},
+        {frame:"People move because they need work, and cities have more jobs than farms do.", support:"Two-link causal chain with a comparison built in."},
+        {frame:"One major cause of migration is ______. This leads to ______. As a result, communities ______.", support:"Three-move chain reaching a consequence beyond the individual."},
+        {frame:"Economic instability functions as a primary push factor insofar as it ______, which in turn produces ______.", support:"Nominalized academic register. Expect multi-step causal reasoning."},
+        {frame:"Explain why single-cause explanations of migration are inadequate, using one historical case.", support:"No frame. Rejecting a simple causal story with evidence is the target."}
+      ],
+      argue:[
+        {frame:"Moving was a good idea. Yes / No.", support:"Circle a choice and point to one image that supports it. The choice is the claim."},
+        {frame:"I think moving was a good idea because they found work.", support:"Claim plus one reason, with a reason bank."},
+        {frame:"I think the family made the right choice because they found steady work, but they also lost their community.", support:"Coordinating conjunction but supplied so a trade-off can be named."},
+        {frame:"Some people claim ______. However, I would argue ______. First, ______. Second, ______. In conclusion, ______.", support:"Counterclaim-first structure with transitions supplied."},
+        {frame:"While proponents contend that ______, the historical record suggests ______. I maintain that ______, primarily because ______.", support:"Concession and qualification stems. Expect hedging used accurately."},
+        {frame:"Sustain a position in discussion for five minutes, concede one valid counterpoint, and revise your claim aloud in response.", support:"No frame. Oral argument under pressure, with revision treated as strength."}
+      ]
+    }
+  }
+];
+
+var KLUS = [
+  {id:"narrate",label:"Narrate",blurb:"Sequence events and tell what happened."},
+  {id:"inform",label:"Inform",blurb:"Define, describe, and report facts."},
+  {id:"explain",label:"Explain",blurb:"Give reasons and show cause and effect."},
+  {id:"argue",label:"Argue",blurb:"Make a claim and support it with evidence."}
+];
+
+var state = {topic:"water", klu:"explain"};
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function withBlanks(s){return esc(s).replace(/_{3,}/g,'<span class="blank" aria-label="blank"></span>');}
+function currentTopic(){for(var i=0;i<TOPICS.length;i++){if(TOPICS[i].id===state.topic)return TOPICS[i];}return TOPICS[0];}
+
+function buildTabs(){
+  var t=document.getElementById("topicTabs"), k=document.getElementById("kluTabs");
+  if(!t||!k) return;
+  t.innerHTML = TOPICS.map(function(x){
+    return '<button type="button" role="tab" class="tab'+(x.id===state.topic?" on":"")+'" data-topic="'+x.id+'" aria-selected="'+(x.id===state.topic)+'">'+esc(x.label)+'</button>';
+  }).join("");
+  k.innerHTML = KLUS.map(function(x){
+    return '<button type="button" role="tab" class="tab'+(x.id===state.klu?" on":"")+'" data-klu="'+x.id+'" aria-selected="'+(x.id===state.klu)+'">'+esc(x.label)+'</button>';
+  }).join("");
+}
+
+function sampleModel(){
+  var topic=currentTopic();
+  var klu=KLUS.filter(function(x){return x.id===state.klu;})[0];
+  return {
+    bar:{kind:"sample",text:"Pre-built example \u00b7 no API call made"},
+    metaLeft:{lbl:"Topic",val:topic.label,sub:topic.meta},
+    metaRight:{lbl:"Key Language Use",val:klu.label,sub:klu.blurb},
+    levels:topic.klu[state.klu].map(function(r,i){
+      return {level:LEVELS[i].n,name:LEVELS[i].name,frame:r.frame,support:r.support};
+    }),
+    vocabulary:{tier1:topic.vocab.t1,tier2:topic.vocab.t2,tier3:topic.vocab.t3}
+  };
+}
+function render(){ renderModel(sampleModel()); }
+
+function specFor(n){
+  for(var i=0;i<LEVELS.length;i++){if(LEVELS[i].n===n) return LEVELS[i];}
+  return {n:n,name:"",spec:""};
+}
+
+function renderModel(m){
+  var bar=document.getElementById("resultBar");
+  if(m.bar){
+    bar.className="result-bar "+m.bar.kind;
+    bar.innerHTML='<span class="rb-dot"></span>'+esc(m.bar.text);
+  }
+
+  var obj=document.getElementById("objectives");
+  if(m.contentObjective||m.languageObjective){
+    obj.hidden=false;
+    obj.innerHTML=
+      (m.title?'<h4 class="obj-title">'+esc(m.title)+'</h4>':'')+
+      '<div class="obj-row"><span>Content objective</span><p>'+esc(m.contentObjective||"")+'</p></div>'+
+      '<div class="obj-row"><span>Language objective</span><p>'+esc(m.languageObjective||"")+'</p></div>'+
+      (m.formativeCheck?'<div class="obj-row"><span>Formative check</span><p>'+esc(m.formativeCheck)+'</p></div>':'')+
+      (m.watchFor?'<div class="watchfor"><b>Watch for:</b> '+esc(m.watchFor)+'</div>':'');
+  } else {
+    obj.hidden=true; obj.innerHTML="";
+  }
+
+  var meta=document.getElementById("engineMeta");
+  meta.innerHTML=
+    '<div><span class="m-lbl">'+esc(m.metaLeft.lbl)+'</span><b>'+esc(m.metaLeft.val)+'</b><span class="m-sub">'+esc(m.metaLeft.sub)+'</span></div>'+
+    '<div><span class="m-lbl">'+esc(m.metaRight.lbl)+'</span><b>'+esc(m.metaRight.val)+'</b><span class="m-sub">'+esc(m.metaRight.sub)+'</span></div>';
+
+  document.getElementById("ladder").innerHTML=m.levels.map(function(r){
+    var L=specFor(Number(r.level));
+    return ''+
+      '<div class="rung lv'+L.n+'">'+
+        '<div class="rung-lv">'+
+          '<span class="lv-n">'+L.n+'</span>'+
+          '<span class="lv-name">'+esc(r.name||L.name)+'</span>'+
+          '<span class="lv-spec">'+esc(L.spec)+'</span>'+
+        '</div>'+
+        '<div class="rung-body">'+
+          '<p class="rung-frame">'+withBlanks(String(r.frame||""))+'</p>'+
+          '<p class="rung-support"><span>Support</span>'+esc(String(r.support||""))+'</p>'+
+        '</div>'+
+      '</div>';
+  }).join("");
+
+  var v=m.vocabulary||{};
+  document.getElementById("vocab").innerHTML=
+    '<h4>Vocabulary for this lesson</h4>'+
+    '<div class="tiers">'+
+      tier("Tier 1","Everyday words. Taught only if a newcomer needs them.",v.tier1||[])+
+      tier("Tier 2","Academic words that travel across subjects. The highest-leverage teaching.",v.tier2||[])+
+      tier("Tier 3","Domain-specific terms. Non-negotiable \u2014 these are the content.",v.tier3||[])+
+    '</div>';
+}
+
+function tier(name,note,words){
+  return '<div class="tier"><span class="tier-n">'+name+'</span><span class="tier-note">'+esc(note)+'</span><ul>'+
+    (words||[]).map(function(w){return '<li>'+esc(String(w))+'</li>';}).join("")+'</ul></div>';
+}
+
+document.addEventListener("click",function(e){
+  var t=e.target.closest ? e.target.closest("[data-topic],[data-klu]") : null;
+  if(!t) return;
+  if(t.dataset.topic){state.topic=t.dataset.topic;}
+  if(t.dataset.klu){state.klu=t.dataset.klu;}
+  buildTabs(); render();
+window.ELD={renderModel:renderModel,sampleModel:sampleModel,esc:esc};
+});
+
+buildTabs(); render();
+
+/* ---------- family view language toggle ---------- */
+var ES={
+  fTitle:"Esta semana — Mateo, 2.º grado",
+  fStat1:"lecturas leídas", fStat2:"palabras por minuto", fStat3:"de precisión",
+  fMeansLbl:"Qué significa:",
+  fMeans:"Mateo está leyendo al nivel de su grado para esta época del año. Las diferencias de pronunciación que vienen del español son normales y no se cuentan como errores.",
+  fHelpTitle:"Cómo ayudar en casa",
+  fTip1:"Lean juntos en cualquier idioma. Leer en español desarrolla las mismas destrezas que se necesitan para leer en inglés.",
+  fTip2:"Pídale que le cuente lo que pasó en la historia. Contar de nuevo importa más que decir cada palabra a la perfección.",
+  fTip3:"Señale palabras en letreros, menús y envases. Cinco minutos cuentan.",
+  fBtn:"Enviar una pregunta al maestro"
+};
+var EN={};
+document.querySelectorAll("[data-i18n]").forEach(function(el){EN[el.dataset.i18n]=el.innerHTML;});
+document.querySelectorAll(".lang").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    var lang=btn.dataset.lang, dict=(lang==="es")?ES:EN;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      if(dict[el.dataset.i18n]) el.innerHTML=dict[el.dataset.i18n];
+    });
+    document.getElementById("familyCard").setAttribute("lang",lang);
+    document.querySelectorAll(".lang").forEach(function(b){
+      var on=(b===btn); b.classList.toggle("on",on); b.setAttribute("aria-pressed",String(on));
+    });
+  });
+});
+
+/* ---------- sample scoring run ---------- */
+var runBtn=document.getElementById("runBtn");
+if(runBtn){
+  var passage=document.getElementById("fullPassage");
+  var words=passage.querySelectorAll(".w");
+  var card=runBtn.closest("section");
+  var vals=card.querySelectorAll("[data-count]");
+  var running=false;
+  runBtn.addEventListener("click",function(){
+    if(running) return;
+    running=true; runBtn.disabled=true; runBtn.textContent="Reading…";
+    passage.classList.add("running");
+    vals.forEach(function(v){v.classList.add("dim");});
+    var i=0;
+    var step=reduce?0:Math.round(36000/words.length/3);
+    function tick(){
+      if(i>0) words[i-1].classList.remove("cursor");
+      if(i>=words.length){
+        passage.classList.remove("running");
+        vals.forEach(function(v){v.classList.remove("dim");});
+        runBtn.disabled=false; runBtn.textContent="Play sample run"; running=false;
+        return;
+      }
+      words[i].classList.add("cursor");
+      i++;
+      setTimeout(tick, step);
+    }
+    tick();
+  });
+}
+})();
+</script>
+
+<script>
+/* =============================================================================
+   CONFIGURE ME — one line.
+   Point this at the backend you deploy on Hostinger. Leave it empty ("") and
+   the page still works: every demo falls back to cached output and says so.
+   ============================================================================= */
+window.ELD_API_BASE = "";
+</script>
+
+<script>
+(function(){
+"use strict";
+var API = (window.ELD_API_BASE || "").replace(/\/+$/,"");
+var esc = window.ELD.esc;
+
+/* ===========================================================================
+   1. LIVE GENERATION
+   =========================================================================== */
+
+/* Real output from an earlier run, kept so a cold backend never shows a dead
+   demo. Labeled as cached in the UI — never passed off as a fresh call. */
+var CACHED = {
+  title:"Why Volcanoes Erupt — Grade 2 Science",
+  contentObjective:"Students explain that pressure from gas and melted rock inside the Earth pushes magma upward until it escapes through an opening in the crust.",
+  languageObjective:"Students explain a cause-and-effect sequence about volcanic eruption using level-appropriate frames, Tier 3 vocabulary, and a labeled cross-section diagram.",
+  vocabulary:{
+    tier1:["hot","rock","inside","push","mountain"],
+    tier2:["pressure","cause","escape","builds up","as a result"],
+    tier3:["magma","lava","eruption","crust","vent"]
+  },
+  levels:[
+    {level:1,name:"Entering",frame:"The hot rock goes ______.",support:"Word bank: up, out. Cross-section diagram with an arrow the student traces with a finger before speaking. Pointing counts as a response."},
+    {level:2,name:"Emerging",frame:"The magma goes up because there is pressure.",support:"Sentence strip with magma and pressure pre-printed. A shaken bottle of soda as the physical anchor for pressure."},
+    {level:3,name:"Developing",frame:"Magma rises because gas builds up pressure inside the volcano, so it escapes through the vent.",support:"Conjunction bank posted: because, so, when, until. Partner rehearsal with the diagram before writing."},
+    {level:4,name:"Expanding",frame:"An eruption happens when ______. First, ______. Then, ______. As a result, ______.",support:"Transition words on a desk card. Student labels the diagram, then writes four connected sentences."}
+  ],
+  formativeCheck:"Exit slip, one sentence: why does magma come out of the volcano? Sort responses by WIDA level rather than right or wrong, and use the sort to set tomorrow's groups.",
+  watchFor:"Magma and lava name the same material on opposite sides of the vent. Level 1–2 students usually hear them as two unrelated words. Teach them as a pair on the diagram, not as separate vocabulary entries."
+};
+
+var LVLS=[1,2,3,4,5,6], DEFAULTS=[1,2,3,4];
+var lvBox=document.getElementById("fLevels");
+if(lvBox){
+  lvBox.innerHTML=LVLS.map(function(n){
+    return '<label class="lvchk"><input type="checkbox" value="'+n+'"'+(DEFAULTS.indexOf(n)>-1?" checked":"")+
+           ' aria-label="WIDA level '+n+'"><span>'+n+'</span></label>';
+  }).join("");
+}
+
+function v(id){var el=document.getElementById(id);return el?el.value:"";}
+
+function buildPayload(){
+  var levels=Array.prototype.slice.call(document.querySelectorAll("#fLevels input:checked"))
+    .map(function(i){return Number(i.value);});
+  return {
+    gradeLevel:v("fGrade"),
+    subject:v("fSubject"),
+    topic:(v("fTopic")||"").trim(),
+    keyLanguageUse:v("fKlu"),
+    widaLevels:levels,
+    duration:Number(v("fDur"))
+  };
+}
+
+function showPayload(){
+  var out=document.getElementById("payloadOut");
+  if(out) out.textContent="POST /api/generate/scaffold\n"+JSON.stringify(buildPayload(),null,2);
+}
+
+var form=document.getElementById("genForm");
+if(form){
+  form.addEventListener("input",showPayload);
+  form.addEventListener("change",showPayload);
+  showPayload();
+}
+
+function bar(kind,text){
+  var el=document.getElementById("resultBar");
+  el.className="result-bar "+kind;
+  el.innerHTML='<span class="rb-dot"></span>'+esc(text);
+}
+
+function note(text,isErr){
+  var el=document.getElementById("liveNote");
+  if(!el) return;
+  el.textContent=text;
+  el.className="live-note"+(isErr?" err":"");
+}
+
+function showCached(reason){
+  window.ELD.renderModel({
+    bar:{kind:"error",text:reason},
+    title:CACHED.title,
+    contentObjective:CACHED.contentObjective,
+    languageObjective:CACHED.languageObjective,
+    formativeCheck:CACHED.formativeCheck,
+    watchFor:CACHED.watchFor,
+    metaLeft:{lbl:"Topic",val:"How volcanoes erupt",sub:"Grade 2 · Science · 50 minutes"},
+    metaRight:{lbl:"Key Language Use",val:"Explain",sub:"Give reasons and show cause and effect."},
+    levels:CACHED.levels,
+    vocabulary:CACHED.vocabulary
+  });
+}
+
+if(form){
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var p=buildPayload();
+    if(p.widaLevels.length===0){ note("Pick at least one WIDA level.",true); return; }
+    if(p.topic.length<3){ note("Give it a topic first.",true); return; }
+
+    var btn=document.getElementById("genBtn");
+    btn.disabled=true; btn.textContent="Generating…";
+    note("Six fields go out. Nothing else can.");
+    bar("working","Calling Claude…");
+
+    if(!API){
+      setTimeout(function(){
+        showCached("No backend configured — showing cached output from an earlier run");
+        btn.disabled=false; btn.textContent="Generate scaffolding";
+      },400);
+      return;
+    }
+
+    var ctl=new AbortController();
+    var timer=setTimeout(function(){ctl.abort();},20000);
+
+    fetch(API+"/api/generate/scaffold",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(p),
+      signal:ctl.signal
+    })
+    .then(function(r){ return r.json().then(function(j){ return {status:r.status,body:j}; }); })
+    .then(function(res){
+      clearTimeout(timer);
+      if(!res.body || !res.body.ok){
+        var msg=(res.body && res.body.error) || "Generation failed.";
+        if(res.body && res.body.fallback){ showCached(msg); }
+        else { bar("error",msg); note(msg,true); }
+        return;
+      }
+      var d=res.body.data, meta=res.body.meta||{};
+      window.ELD.renderModel({
+        bar:{kind:"live",text:"Live output · Claude · "+(meta.ms?Math.round(meta.ms/100)/10+"s":"")+(meta.model?" · "+meta.model:"")},
+        title:d.titleSuggestion,
+        contentObjective:d.contentObjective,
+        languageObjective:d.languageObjective,
+        formativeCheck:d.formativeCheck,
+        watchFor:d.watchFor,
+        metaLeft:{lbl:"Topic",val:p.topic,sub:"Grade "+p.gradeLevel+" · "+p.subject+" · "+p.duration+" minutes"},
+        metaRight:{lbl:"Key Language Use",val:p.keyLanguageUse,sub:"WIDA levels "+p.widaLevels.join(", ")+" in the room"},
+        levels:d.levels,
+        vocabulary:d.vocabulary||{}
+      });
+      if(typeof meta.remainingThisHour==="number"){
+        note(meta.remainingThisHour+" more generations available this hour.");
+      }
+    })
+    .catch(function(){
+      clearTimeout(timer);
+      showCached("Backend unreachable — showing cached output from an earlier run");
+    })
+    .then(function(){
+      btn.disabled=false; btn.textContent="Generate scaffolding";
+    });
+  });
+}
+
+/* ===========================================================================
+   2. TRANSFER-AWARE ORAL READING SCORER
+   Deterministic. No model call. Each rule generates the variants a speaker
+   with that L1 background would plausibly produce from the TARGET word, so a
+   match is explainable: we can name which rule fired.
+   =========================================================================== */
+
+var RULES=[
+  {id:"epen",s:"+/e/",label:"Epenthetic /e/ before s-cluster",l1:"Spanish",
+   f:function(w){return /^s[^aeiou]/.test(w)?["e"+w]:[];}},
+  {id:"th_t",s:"/t/ for /θ/",label:"/θ/ → /t/",l1:"Spanish, Vietnamese, French",
+   f:function(w){return w.indexOf("th")>-1?[w.replace(/th/g,"t")]:[];}},
+  {id:"th_s",s:"/s/ for /θ/",label:"/θ/ → /s/",l1:"Spanish, Japanese",
+   f:function(w){return w.indexOf("th")>-1?[w.replace(/th/g,"s")]:[];}},
+  {id:"th_d",s:"/d/ for /ð/",label:"/ð/ → /d/",l1:"Spanish, Russian",
+   f:function(w){return w.indexOf("th")>-1?[w.replace(/th/g,"d")]:[];}},
+  {id:"v_b",s:"/b/ for /v/",label:"/v/ → /b/",l1:"Spanish",
+   f:function(w){return w.indexOf("v")>-1?[w.replace(/v/g,"b")]:[];}},
+  {id:"z_s",s:"/s/ for /z/",label:"/z/ → /s/",l1:"Spanish",
+   f:function(w){return w.indexOf("z")>-1?[w.replace(/z/g,"s")]:[];}},
+  {id:"clus",s:"cluster",label:"Final consonant cluster reduction",l1:"Spanish, Mandarin, Vietnamese",
+   f:function(w){return /[bcdfgjklmnpqrstvwxz]{2}$/.test(w)?[w.slice(0,-1)]:[];}},
+  {id:"ed",s:"-ed",label:"-ed inflection reduction",l1:"Spanish, Mandarin",
+   f:function(w){return /ed$/.test(w)?[w.slice(0,-2),w.slice(0,-1)]:[];}},
+  {id:"vow",s:"vowel",label:"Tense/lax vowel merge /ɪ/–/iː/",l1:"Spanish, Arabic",
+   f:function(w){var o=[];if(/ee/.test(w))o.push(w.replace(/ee/g,"i"));
+     if(/[^aeiou]i[^aeiou]/.test(w))o.push(w.replace(/i/g,"ee"));return o;}},
+  {id:"ng",s:"/n/ for /ŋ/",label:"/ŋ/ → /n/",l1:"Spanish, Tagalog",
+   f:function(w){return /ing$/.test(w)?[w.slice(0,-1)]:[];}},
+  {id:"j_y",s:"/y/ for /dʒ/",label:"/dʒ/ → /j/",l1:"Spanish",
+   f:function(w){return /^j/.test(w)?["y"+w.slice(1)]:[];}},
+  {id:"h",s:"h-drop",label:"Silent-h transfer",l1:"Spanish",
+   f:function(w){return /^h/.test(w)?[w.slice(1)]:[];}},
+  {id:"shch",s:"sh–ch",label:"/ʃ/–/tʃ/ merge",l1:"Spanish",
+   f:function(w){var o=[];if(/sh/.test(w))o.push(w.replace(/sh/g,"ch"));
+     if(/ch/.test(w))o.push(w.replace(/ch/g,"sh"));return o;}},
+  {id:"devoice",s:"devoiced",label:"Final obstruent devoicing",l1:"Mandarin, German, Russian",
+   f:function(w){var m={b:"p",d:"t",g:"k",v:"f",z:"s"};var last=w.slice(-1);
+     return m[last]?[w.slice(0,-1)+m[last]]:[];}}
+];
+
+var variantCache={};
+function variants(word){
+  if(variantCache[word]) return variantCache[word];
+  var out={};
+  RULES.forEach(function(r){
+    r.f(word).forEach(function(x){ if(x && x!==word && !out[x]) out[x]=[r]; });
+  });
+  Object.keys(out).slice(0,40).forEach(function(v1){
+    var first=out[v1][0];
+    RULES.forEach(function(r2){
+      if(r2.id===first.id) return;
+      r2.f(v1).forEach(function(v2){ if(v2 && v2!==word && !out[v2]) out[v2]=[first,r2]; });
+    });
+  });
+  variantCache[word]=out;
+  return out;
+}
+
+function classify(expected,heard){
+  var vs=variants(expected);
+  return vs[heard] || null;
+}
+
+function tokenize(text){
+  return String(text).trim().split(/\s+/).map(function(t){
+    return {disp:t, norm:t.toLowerCase().replace(/[^a-z']/g,"")};
+  }).filter(function(t){return t.norm.length>0;});
+}
+
+function charDist(a,b){
+  var m=a.length,n=b.length,prev=[],cur=[],i,j;
+  for(j=0;j<=n;j++) prev[j]=j;
+  for(i=1;i<=m;i++){
+    cur[0]=i;
+    for(j=1;j<=n;j++){
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    }
+    prev=cur.slice();
+  }
+  return prev[n];
+}
+
+function similar(a,b){
+  if(a===b) return true;
+  if(classify(a,b)||classify(b,a)) return true;
+  return charDist(a,b)<=Math.max(1,Math.floor(Math.max(a.length,b.length)/2));
+}
+
+/* Substitution cost is graded rather than flat. A flat cost of 1 makes
+   "delete X, substitute Y" tie with "substitute X, delete Y", and the tie
+   gets broken arbitrarily — which mispairs the very words this scorer exists
+   to classify. Transfer-explainable pairs are cheapest, so the aligner keeps
+   them together; unrelated pairs cost more but still beat a delete+insert,
+   matching running-record convention that a substitution is one error. */
+function subCost(a,b){
+  if(a===b) return 0;
+  if(classify(a,b)) return 0.35;
+  var ratio=charDist(a,b)/Math.max(a.length,b.length);
+  return 0.75+Math.min(ratio,1)*0.5;
+}
+
+function align(A,B){
+  var n=A.length,m=B.length,i,j;
+  var d=[],bt=[];
+  for(i=0;i<=n;i++){d.push(new Array(m+1).fill(0));bt.push(new Array(m+1).fill(""));}
+  for(i=1;i<=n;i++){d[i][0]=i;bt[i][0]="D";}
+  for(j=1;j<=m;j++){d[0][j]=j;bt[0][j]="I";}
+  for(i=1;i<=n;i++){
+    for(j=1;j<=m;j++){
+      var cost=subCost(A[i-1],B[j-1]);
+      var sub=d[i-1][j-1]+cost, del=d[i-1][j]+1, ins=d[i][j-1]+1;
+      var best=Math.min(sub,del,ins);
+      d[i][j]=best;
+      bt[i][j]=(best===sub)?(cost===0?"M":"S"):((best===del)?"D":"I");
+    }
+  }
+  var ops=[]; i=n; j=m;
+  while(i>0||j>0){
+    var op=(i>0&&j>0)?bt[i][j]:(i>0?"D":"I");
+    if(op==="M"||op==="S"){ops.push({op:op,ai:i-1,bi:j-1});i--;j--;}
+    else if(op==="D"){ops.push({op:"D",ai:i-1,bi:-1});i--;}
+    else {ops.push({op:"I",ai:-1,bi:j-1});j--;}
+  }
+  return ops.reverse();
+}
+
+function score(expectedText,heardText,seconds){
+  var A=tokenize(expectedText), B=tokenize(heardText);
+  if(A.length===0) return {error:"Enter the passage as it is written."};
+  if(B.length===0) return {error:"Enter what the student said."};
+  if(A.length>400) return {error:"Keep the passage under 400 words."};
+
+  var an=A.map(function(t){return t.norm;}), bn=B.map(function(t){return t.norm;});
+  var ops=align(an,bn);
+
+  /* Running-record convention: a substitution the reader immediately repairs
+     is a self-correction, not an error. */
+  for(var k=0;k<ops.length-1;k++){
+    var a=ops[k], b=ops[k+1];
+    if(a.skip||b.skip) continue;
+    if(a.op==="S" && b.op==="I" && bn[b.bi]===an[a.ai]){
+      a.op="SC"; b.skip=true;                     // wrong word, then the right one
+    } else if(a.op==="I" && b.op==="M" && similar(bn[a.bi],an[b.ai])){
+      a.skip=true;                                 // extra attempt, then the right one
+      ops[k+1]={op:"SC",ai:b.ai,bi:a.bi};
+    }
+  }
+
+  var marks=new Array(A.length).fill(null), flags=[];
+  var legacyErr=0, awareErr=0;
+
+  ops.forEach(function(o){
+    if(o.skip) return;
+    if(o.op==="M") return;
+    if(o.op==="SC"){
+      marks[o.ai]={kind:"sc",note:"self-corrected"};
+      flags.push({expected:A[o.ai].disp,heard:B[o.bi].disp,kind:"Self-correction",rule:"Repaired by the reader",counted:"No"});
+      return;
+    }
+    if(o.op==="S"){
+      var hit=classify(an[o.ai],bn[o.bi]);
+      if(hit){
+        var label=hit.map(function(r){return r.label;}).join(" + ");
+        marks[o.ai]={kind:"transfer",note:hit[0].s};
+        flags.push({expected:A[o.ai].disp,heard:B[o.bi].disp,kind:"L1 transfer",rule:label+" ("+hit[0].l1+")",counted:"Legacy only"});
+        legacyErr++;
+      } else {
+        marks[o.ai]={kind:"miscue",note:B[o.bi].disp};
+        flags.push({expected:A[o.ai].disp,heard:B[o.bi].disp,kind:"Substitution",rule:"No transfer rule explains this",counted:"Both"});
+        legacyErr++; awareErr++;
+      }
+      return;
+    }
+    if(o.op==="D"){
+      marks[o.ai]={kind:"miscue",note:"omitted"};
+      flags.push({expected:A[o.ai].disp,heard:"—",kind:"Omission",rule:"Word not read",counted:"Both"});
+      legacyErr++; awareErr++;
+      return;
+    }
+    if(o.op==="I"){
+      flags.push({expected:"—",heard:B[o.bi].disp,kind:"Insertion",rule:"Word added",counted:"Both"});
+      legacyErr++; awareErr++;
+    }
+  });
+
+  var total=A.length;
+  var secs=Math.max(5,Number(seconds)||60);
+  var mins=secs/60;
+  return {
+    total:total, marks:marks, flags:flags, A:A,
+    legacy:{acc:Math.round((total-legacyErr)/total*100), wcpm:Math.round((total-legacyErr)/mins), errs:legacyErr},
+    aware:{acc:Math.round((total-awareErr)/total*100), wcpm:Math.round((total-awareErr)/mins), errs:awareErr},
+    transfers:legacyErr-awareErr, secs:secs
+  };
+}
+
+var BENCH=72; // Grade 2 winter, 50th percentile (Hasbrouck & Tindal ORF norms)
+
+function renderScore(r){
+  var out=document.getElementById("scorerOut");
+  if(r.error){ out.innerHTML='<p class="scorer-err">'+esc(r.error)+"</p>"; return; }
+
+  var passage=r.A.map(function(t,i){
+    var m=r.marks[i];
+    if(!m) return '<span class="w">'+esc(t.disp)+"</span>";
+    var cls=m.kind==="transfer"?"w transfer":(m.kind==="sc"?"w":"w miscue");
+    return '<span class="'+cls+'" data-note="'+esc(m.note)+'">'+esc(t.disp)+"</span>";
+  }).join(" ");
+
+  var rows=r.flags.length
+    ? r.flags.map(function(f){
+        return "<tr><td>"+esc(f.expected)+"</td><td>"+esc(f.heard)+"</td><td>"+esc(f.kind)+
+               "</td><td>"+esc(f.rule)+"</td><td>"+esc(f.counted)+"</td></tr>";
+      }).join("")
+    : '<tr><td colspan="5">Clean read. Nothing flagged.</td></tr>';
+
+  var gap=r.aware.wcpm-r.legacy.wcpm;
+  var verdict = r.legacy.wcpm < BENCH && r.aware.wcpm >= BENCH
+    ? "Same reading, same child. Legacy scoring lands below the grade-2 winter benchmark of "+BENCH+" WCPM and opens an intervention conversation. Transfer-aware scoring lands at benchmark."
+    : "Transfer-aware scoring recovers "+gap+" WCPM and "+(r.aware.acc-r.legacy.acc)+" points of accuracy on this reading.";
+
+  out.innerHTML=
+    '<div class="instrument">'+
+      '<div class="instr-bar"><span class="live"></span>'+r.total+" words · "+r.secs+" seconds · "+
+        r.transfers+" transfer pattern"+(r.transfers===1?"":"s")+" held separate</div>"+
+      '<div class="instr-body"><p class="passage passage-full">'+passage+"</p></div>"+
+      '<div class="key"><span class="k-t"><i></i>L1 transfer — logged, not scored</span>'+
+        '<span class="k-m"><i></i>True miscue — scored</span></div>'+
+      '<div class="scoreboard four">'+
+        '<div class="score legacy"><span class="lbl">Legacy · accuracy</span><span class="val">'+r.legacy.acc+"<small>%</small></span><span class=\"sub\">"+r.legacy.errs+" errors counted</span></div>"+
+        '<div class="score legacy"><span class="lbl">Legacy · WCPM</span><span class="val">'+r.legacy.wcpm+"</span><span class=\"sub\">"+(r.legacy.wcpm>=BENCH?"At benchmark":"Below benchmark")+"</span></div>"+
+        '<div class="score ours"><span class="lbl">Transfer-aware · accuracy</span><span class="val">'+r.aware.acc+"<small>%</small></span><span class=\"sub\">"+r.aware.errs+" errors counted</span></div>"+
+        '<div class="score ours"><span class="lbl">Transfer-aware · WCPM</span><span class="val">'+r.aware.wcpm+"</span><span class=\"sub\">"+(r.aware.wcpm>=BENCH?"At benchmark":"Below benchmark")+"</span></div>"+
+      "</div>"+
+      '<div class="delta"><b>'+(gap>=0?"+":"")+gap+" WCPM</b><span>"+esc(verdict)+"</span></div>"+
+    "</div>"+
+    '<div class="table-wrap"><table class="tbl flags"><thead><tr>'+
+      "<th>Written</th><th>Read as</th><th>Classification</th><th>Rule that fired</th><th>Counted as error</th>"+
+      "</tr></thead><tbody>"+rows+"</tbody></table></div>";
+}
+
+function runScore(){
+  renderScore(score(
+    document.getElementById("sExpected").value,
+    document.getElementById("sHeard").value,
+    document.getElementById("sSecs").value
+  ));
+}
+
+var scoreBtn=document.getElementById("scoreBtn");
+if(scoreBtn){
+  var EX_EXPECTED=document.getElementById("sExpected").value;
+  var EX_HEARD=document.getElementById("sHeard").value;
+  scoreBtn.addEventListener("click",runScore);
+  document.getElementById("sClean").addEventListener("click",function(){
+    document.getElementById("sHeard").value=document.getElementById("sExpected").value;
+    document.getElementById("sSecs").value=36;
+    runScore();
+  });
+  document.getElementById("sReset").addEventListener("click",function(){
+    document.getElementById("sExpected").value=EX_EXPECTED;
+    document.getElementById("sHeard").value=EX_HEARD;
+    document.getElementById("sSecs").value=36;
+    runScore();
+  });
+  runScore();
+}
+})();
+</script>
+</body>
+</html>
