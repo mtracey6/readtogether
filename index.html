@@ -528,7 +528,6 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <a href="#product">Product</a>
       <a href="#frames">Frame engine</a>
       <a href="#lesson">Lesson output</a>
-      <a href="#scoring">Scoring</a>
       <a href="#family">Family view</a>
       <a href="#build">Architecture</a>
       <a href="#privacy">Privacy</a>
@@ -546,18 +545,16 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
     <div class="hero-grid">
       <div>
         <span class="pill"><span class="dot"></span> Designed prototype · No participants · No pilot · No outcome data</span>
-        <h1>She read it right. The test marked it <span class="blank blank-fill" id="heroBlank">wrong</span>.</h1>
+        <h1>Plan one rigorous lesson for the language levels actually in the room.</h1>
         <p class="lede">
-          Oral-reading tools can confound pronunciation variation with decoding errors when they are not
-          designed and evaluated with multilingual speakers. For the 5.3&nbsp;million English learners in
-          U.S. public schools, that is a product risk worth testing—not an outcome I am claiming to have
-          solved. <b>ELD AI: Read&nbsp;Together</b> explores a bilingual, WIDA-aligned approach to lesson
-          planning and reading practice, with explicit safeguards and evaluation criteria designed before
-          any participant research begins.
+          <b>ELD AI: Read&nbsp;Together</b> is a working lesson-planning prototype shaped by eight years in
+          K–5 classrooms. It turns a teacher's grade, subject, topic, Key Language Use, and WIDA levels into
+          an editable scaffold preview while keeping student information out of the model payload. This is
+          a product and instructional-design demonstration—not a research study or a claim of classroom impact.
         </p>
         <div class="btn-row">
           <a class="btn btn-primary" href="#frames">Open the frame engine</a>
-          <a class="btn btn-ghost" href="#scoring">See how scoring works</a>
+          <a class="btn btn-ghost" href="#build">Inspect the architecture</a>
         </div>
         <div class="byline">
           <span><b>Matthew Tracey</b> · M.Ed., Educational Technology &amp; Instructional Design</span>
@@ -566,42 +563,32 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         </div>
       </div>
 
-      <!-- Signature element: the scoring instrument itself, not a picture of one -->
+      <!-- Signature element: a concise product brief, not simulated learner evidence -->
       <div class="instrument" role="figure" aria-labelledby="instr-cap">
-        <div class="instr-bar"><span class="live" aria-hidden="true"></span> Oral reading record · G2 · excerpt</div>
+        <div class="instr-bar"><span class="live" aria-hidden="true"></span> Working prototype · teacher planning surface</div>
         <div class="instr-body">
-          <p class="passage">
-            <span class="w transfer" data-note="/e/ onset">Stop</span> —
-            <span class="w">Sam</span>
-            <span class="w transfer" data-note="/t/ for /θ/">thinks</span>
-            <span class="w">the</span>
-            <span class="w miscue" data-note="substitution">pond</span>
-            <span class="w">is</span>
-            <span class="w transfer" data-note="/b/ for /v/">very</span>
-            <span class="w">big.</span>
-          </p>
+          <p class="passage"><b>Input</b><br>Grade 3 · Science · Water cycle · Explain · WIDA levels 1–4</p>
         </div>
         <div class="key">
-          <span class="k-t"><i aria-hidden="true"></i>L1 transfer — logged, not scored</span>
-          <span class="k-m"><i aria-hidden="true"></i>True miscue — scored</span>
+          <span class="k-t"><i aria-hidden="true"></i>Same content objective</span>
+          <span class="k-m"><i aria-hidden="true"></i>Different language supports</span>
         </div>
         <div class="scoreboard">
           <div class="score legacy">
-            <span class="lbl">Legacy scorer</span>
-            <span class="val">84<small>%</small></span>
-            <span class="sub">7 flags · “below benchmark”</span>
+            <span class="lbl">Teacher receives</span>
+            <span class="val" style="font-size:1.45rem">A structured draft</span>
+            <span class="sub">Objectives · vocabulary · frames · formative check</span>
           </div>
           <div class="score ours">
-            <span class="lbl">Transfer-aware scorer</span>
-            <span class="val" id="oursVal">96<small>%</small></span>
-            <span class="sub">2 true miscues · 72&nbsp;WCPM</span>
+            <span class="lbl">Teacher retains</span>
+            <span class="val" style="font-size:1.45rem">Professional judgment</span>
+            <span class="sub">Review · edit · align · decide whether to use</span>
           </div>
         </div>
         <p class="flagline" id="instr-cap">
           <span aria-hidden="true">→</span>
-          <span>Five of seven flags are documented Spanish&nbsp;L1 phonological transfer patterns. They are
-          surfaced to the teacher as language data and excluded from the accuracy score.
-          <a href="#scoring">Run the scorer yourself below</a> — it is deterministic prototype code.</span>
+          <span>The public demo runs locally with designed sample content. It does not collect learner data,
+          call a production model, or present generated output as validated curriculum.</span>
         </p>
       </div>
     </div>
@@ -613,30 +600,24 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow"><span class="num">01</span> &nbsp;The gap</span>
-      <h2>The product risk: pronunciation variation can be mistaken for decoding error.</h2>
+      <h2>The classroom problem: differentiation is necessary, repetitive, and time-constrained.</h2>
       <p>
-        Timed oral-reading measures are commonly administered one-on-one and require educators to
-        distinguish decoding errors from pronunciation differences. ReadTogether began as a design
-        hypothesis: could a tool preserve teacher judgment, make transfer patterns visible, and reduce
-        repetitive scoring work without presenting an automated score as ground truth? No participant
-        research has yet tested that hypothesis.
+        A mixed-proficiency classroom may share one content objective while requiring different amounts
+        of language support. ReadTogether began as a teacher-designed exploration of how to make that
+        planning work more structured without replacing the educator's knowledge of students, curriculum,
+        IEPs, language-support plans, or local requirements.
       </p>
     </div>
     <div class="grid-3">
-      <div class="stat"><span class="n">5.3M</span><span class="t">English learners in U.S. public schools as of fall 2021 — 10.6% of enrollment, up from 9.4% a decade earlier.</span></div>
-      <div class="stat"><span class="n">42</span><span class="t">States, territories and federal agencies in the WIDA consortium. New York joined as the 42nd member in 2025.</span></div>
-      <div class="stat"><span class="n">~½</span><span class="t">Of teachers serving multilingual learners say they are “not at all” or “only somewhat” prepared to do it.</span></div>
+      <div class="stat"><span class="n" style="font-size:1.3rem">Rigor</span><span class="t">Keep the grade-level content goal stable while changing the amount of language support.</span></div>
+      <div class="stat"><span class="n" style="font-size:1.3rem">Clarity</span><span class="t">Make objectives, vocabulary, sentence frames, and formative checks easy to inspect and edit.</span></div>
+      <div class="stat"><span class="n" style="font-size:1.3rem">Judgment</span><span class="t">Treat AI output as a draft for teacher review, never as a curriculum or assessment authority.</span></div>
     </div>
     <p class="footnote">
-      <b>Sources.</b>
-      <a href="https://nces.ed.gov/programs/coe/indicator/cgf/english-learners" target="_blank" rel="noopener">NCES, Condition of Education</a> (enrollment, fall 2021) ·
-      <a href="https://wida.wisc.edu/about/consortium" target="_blank" rel="noopener">WIDA Consortium membership</a> ·
-      <a href="https://www.edweek.org/teaching-learning/teachers-arent-prepared-or-equipped-to-teach-english-learners-survey-finds/2025/06" target="_blank" rel="noopener">RAND survey of ~7,500 teachers and 1,300 principals, 2025</a>, reported by EdWeek; a separate
-      <a href="https://www.edweek.org/teaching-learning/teachers-say-they-need-more-support-for-english-learners-survey-finds/2025/09" target="_blank" rel="noopener">EdWeek Research Center survey</a>
-      found nearly 1 in 5 educators had received no EL training at all.
-      <br>Worth knowing: consortium membership does not mean framework adoption. New York uses WIDA ACCESS
-      from 2026–27 but is keeping its own Academic and Linguistic Demands rather than the ELD Standards
-      Framework — the kind of state-by-state variance any ELD product has to design around.
+      <b>Design reference.</b>
+      <a href="https://wida.wisc.edu/teach/standards/eld" target="_blank" rel="noopener">WIDA ELD Standards Framework</a>
+      informs the prototype's Key Language Uses and proficiency-level scaffolds. The project is independent
+      and has not been reviewed or endorsed by WIDA.
     </p>
   </div>
 </section>
@@ -646,11 +627,11 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow"><span class="num">02</span> &nbsp;The product</span>
-      <h2>One language model of the learner. Two surfaces.</h2>
+      <h2>A working teacher workflow, with future concepts kept clearly separate.</h2>
       <p>
-        The product concept holds a single representation of each student's language proficiency — WIDA level,
-        key language use, L1 background — and spends it in two directions: planning for the teacher, and
-        practice plus assessment for the child. Neither surface works without the other.
+        The implemented portfolio surface focuses on teacher planning. A bilingual family communication
+        concept is included to show product direction, but there is no learner profile, assessment engine,
+        classroom integration, or participant evidence behind it.
       </p>
     </div>
     <div class="grid-2">
@@ -670,18 +651,18 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         </ul>
       </div>
       <div class="card">
-        <span class="eyebrow" style="margin-bottom:10px">Surface B · Student &amp; family</span>
-        <h3>Reading practice that listens fairly</h3>
+        <span class="eyebrow" style="margin-bottom:10px">Future concept · Family communication</span>
+        <h3>Explain the learning focus in plain language</h3>
         <p>
-          Phonics-aligned decodable passages, audio support, and oral reading capture that scores rate and
-          accuracy while holding L1 phonological transfer separate from decoding error. Progress lands in a
-          parent dashboard that works in Spanish.
+          The family-view mockup explores how a teacher might share a learning focus, a plain-language
+          explanation, and practical at-home suggestions in English and Spanish. It deliberately avoids
+          simulated scores or student records.
         </p>
         <ul>
-          <li>Decodability self-audit against the taught phonics inventory</li>
-          <li>Comprehension items with explained feedback, not just right/wrong</li>
-          <li>Authored Spanish family-view prototype, not runtime machine translation</li>
-          <li>Text-to-speech, high contrast, and adjustable text specified as accessibility requirements</li>
+          <li>Authored bilingual interface copy, not runtime machine translation</li>
+          <li>Low-text, mobile-friendly information hierarchy</li>
+          <li>No assumption that a caregiver reads English or owns special materials</li>
+          <li>Clearly labeled as a future concept, not a working school communication system</li>
         </ul>
       </div>
     </div>
@@ -840,114 +821,44 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   </div>
 </section>
 
-<!-- ============ SCORING ============ -->
-<section id="scoring">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">05</span> &nbsp;The scoring decision</span>
-      <h2>An accent is not a decoding error.</h2>
-      <p>
-        A Spanish-dominant second grader who says <i>estop</i> for <i>stop</i> has not misread the word.
-        She has applied a phonological rule from her first language, on a word she decoded correctly.
-        Legacy scorers count it as an error anyway. That single design choice is the difference between
-        “at benchmark” and “refer for intervention.”
-      </p>
-    </div>
-
-    <div class="scorer">
-      <div class="scorer-head">
-        <span class="eyebrow" style="margin:0">Working scorer</span>
-        <span class="scorer-tag">Runs in your browser. Deterministic rules, no model call.</span>
-      </div>
-      <div class="scorer-inputs">
-        <label class="fld"><span>Passage as written</span>
-          <textarea id="sExpected" rows="4" spellcheck="false">Sam and his dog Spot run to the pond. The pond is very deep. Spot can swim fast. Sam sits on a rock and thinks about the frogs. He can see six green frogs on a log. Stop! A frog jumps in with a splash.</textarea>
-        </label>
-        <label class="fld"><span>What the student actually said</span>
-          <textarea id="sHeard" rows="4" spellcheck="false">Sam and his dog Spot run to the pond. The pond is bery deep. Spot can eswim fast. Sam sits on a rope and tinks the frogs. He can see six green frogs on a log. Estop! A frog jumps in with a esplash.</textarea>
-        </label>
-      </div>
-      <div class="scorer-actions">
-        <label class="fld inline"><span>Seconds</span><input type="number" id="sSecs" value="36" min="5" max="900"></label>
-        <button class="btn btn-primary" id="scoreBtn" type="button">Score it</button>
-        <button class="btn btn-ghost" id="sClean" type="button">Try a clean read</button>
-        <button class="btn btn-ghost" id="sReset" type="button">Reset example</button>
-      </div>
-      <div id="scorerOut" aria-live="polite"></div>
-    </div>
-
-    <p class="footnote" style="margin:-8px 0 0">
-      Benchmark reference: grade 2 winter 50th-percentile oral reading fluency sits near 72&nbsp;WCPM
-      (Hasbrouck &amp; Tindal oral reading fluency norms). Accuracy is words correct over words
-      attempted; self-corrections and repetitions are not scored as errors, following running-record
-      convention.
-    </p>
-
-    <h3 class="sub-h">Transfer patterns the scorer holds separate</h3>
-    <div class="table-wrap">
-      <table class="tbl">
-        <thead>
-          <tr><th scope="col">Pattern</th><th scope="col">Sounds like</th><th scope="col">Common L1</th><th scope="col">Counted as error</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>/θ/ → /t/ or /s/</td><td>think → tink</td><td>Spanish, Vietnamese, French</td><td class="no">No</td></tr>
-          <tr><td>/v/ → /b/</td><td>very → bery</td><td>Spanish</td><td class="no">No</td></tr>
-          <tr><td>Epenthetic /e/ before s-clusters</td><td>stop → estop</td><td>Spanish</td><td class="no">No</td></tr>
-          <tr><td>Final consonant cluster reduction</td><td>asked → ask</td><td>Spanish, Mandarin, Vietnamese</td><td class="no">No</td></tr>
-          <tr><td>Tense/lax vowel merge /ɪ/–/iː/</td><td>ship → sheep</td><td>Spanish, Arabic</td><td class="no">No</td></tr>
-          <tr><td>Whole-word substitution</td><td>rock → rope</td><td>—</td><td class="yes">Yes</td></tr>
-          <tr><td>Omission or insertion</td><td>skipped word</td><td>—</td><td class="yes">Yes</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="caveat">
-      <b>Where this is still fragile.</b> The pattern layer is only as good as the speech recognition
-      underneath it, and general-purpose ASR is trained disproportionately on adult native speakers.
-      A future study would audit recognition accuracy separately for each first-language group; if the gap between
-      groups exceeds 10 percentage points the model gets replaced, not tuned. This is stated as a known
-      risk rather than a solved problem, because it isn't solved.
-    </div>
-  </div>
-</section>
-
 <!-- ============ FAMILY VIEW ============ -->
 <section id="family">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow"><span class="num">06</span> &nbsp;Try it · Family view</span>
-      <h2>The family surface is a first-class surface.</h2>
+      <span class="eyebrow"><span class="num">05</span> &nbsp;Explore it · Family communication concept</span>
+      <h2>Make the learning focus understandable without inventing a learner record.</h2>
       <p>
-        Most reading platforms give parents a PDF they can't read. This view is written for a caregiver
-        who may not read English, may not have gone to school in the U.S., and may be helping with
-        homework after a shift. Toggle the language — the whole card changes, including the guidance.
+        This authored English/Spanish mockup demonstrates a possible communication pattern. It contains
+        no name, score, pace, grade-level judgment, or simulated progress. Toggle the language to inspect
+        the same plain-language structure in both versions.
       </p>
     </div>
 
     <div class="family" lang="en" id="familyCard">
       <div class="family-bar">
-        <span class="eyebrow" style="margin:0">Parent dashboard · weekly summary</span>
+        <span class="eyebrow" style="margin:0">Family update · interface concept</span>
         <div class="lang-toggle" role="group" aria-label="Interface language">
           <button type="button" class="lang on" data-lang="en" aria-pressed="true">English</button>
           <button type="button" class="lang" data-lang="es" aria-pressed="false">Español</button>
         </div>
       </div>
       <div class="family-body">
-        <p class="scorer-tag" data-i18n="fSample">Illustrative profile and sample data · not a participant record</p>
-        <h3 data-i18n="fTitle">This week — Mateo, Grade 2</h3>
+        <p class="scorer-tag" data-i18n="fSample">Designed interface copy · no learner data</p>
+        <h3 data-i18n="fTitle">Our learning focus: explaining cause and effect</h3>
         <div class="fstats">
-          <div><span class="fn">4</span><span class="ft" data-i18n="fStat1">passages read</span></div>
-          <div><span class="fn">71</span><span class="ft" data-i18n="fStat2">words per minute</span></div>
-          <div><span class="fn">96%</span><span class="ft" data-i18n="fStat3">accuracy</span></div>
+          <div><span class="fn" style="font-size:1rem">Focus</span><span class="ft" data-i18n="fStat1">explain why something happens</span></div>
+          <div><span class="fn" style="font-size:1rem">Words</span><span class="ft" data-i18n="fStat2">because · so · as a result</span></div>
+          <div><span class="fn" style="font-size:1rem">Try</span><span class="ft" data-i18n="fStat3">tell the idea in any language first</span></div>
         </div>
         <p class="fmeans"><b data-i18n="fMeansLbl">What this means:</b>
-          <span data-i18n="fMeans">Mateo is reading at grade level for this time of year. Pronunciation
-          differences that come from Spanish are expected, and they are not counted as mistakes.</span>
+          <span data-i18n="fMeans">The class is practicing how to connect a cause with its effect. The goal
+          is to explain the relationship clearly; using the home language to rehearse the idea is welcome.</span>
         </p>
         <h4 data-i18n="fHelpTitle">How to help at home</h4>
         <ol class="ftips">
           <li data-i18n="fTip1">Read together in any language. Reading in Spanish builds the same skills English reading needs.</li>
-          <li data-i18n="fTip2">Ask him to tell you what happened in the story. Retelling matters more than saying every word perfectly.</li>
-          <li data-i18n="fTip3">Point out words on signs, menus, and packages. Five minutes counts.</li>
+          <li data-i18n="fTip2">Ask: “Why did that happen?” and “What happened next?” during a story or daily routine.</li>
+          <li data-i18n="fTip3">Use words such as because, so, and as a result when you explain an idea together.</li>
         </ol>
         <button class="btn btn-ghost fbtn" type="button" data-i18n="fBtn" disabled>Teacher messaging concept</button>
       </div>
@@ -964,7 +875,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
 <section id="build">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow"><span class="num">07</span> &nbsp;How it's built</span>
+      <span class="eyebrow"><span class="num">06</span> &nbsp;How it's built</span>
       <h2>The privacy boundary is an architectural object, not a policy paragraph.</h2>
       <p>
         In the proposed architecture, student records and the model sit on opposite sides of an explicit
@@ -980,8 +891,8 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         <div class="arch-box">
           <b>React 19 + Vite 7</b>
           <span>Tailwind CSS 4 · React Router 7</span>
-          <span>i18next EN/ES · Web Speech synthesis</span>
-          <span>Accessibility layer: TTS, contrast, text size</span>
+          <span>i18next EN/ES · responsive interface</span>
+          <span>Accessibility layer: keyboard, contrast, text size</span>
         </div>
       </div>
       <div class="arch-arrow" aria-hidden="true">→</div>
@@ -1016,7 +927,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
     <div class="grid-3" style="margin-top:26px">
       <div class="card"><h3>Runtime</h3><p>Bun end to end. TypeScript strict. Single API surface, so the allow-list filter has exactly one place to live and one place to be tested.</p></div>
       <div class="card"><h3>Data</h3><p>The prototype uses SQLite. A real pilot would require verified encrypted storage, retention and deletion controls, backups, and a documented migration path before multi-school use.</p></div>
-      <div class="card"><h3>Audio</h3><p>The product requirement is to keep voice out of the LLM path and avoid retention. The current browser speech-recognition concept has not been approved for student use; vendor processing must be evaluated before research.</p></div>
+      <div class="card"><h3>Model boundary</h3><p>The lesson-generation request accepts only instructional parameters. Learner names, identifiers, rosters, audio, service status, IEP information, and open-ended notes are outside the proposed payload.</p></div>
     </div>
   </div>
 </section>
@@ -1025,7 +936,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
 <section id="privacy">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow"><span class="num">08</span> &nbsp;Compliance posture</span>
+      <span class="eyebrow"><span class="num">07</span> &nbsp;Compliance posture</span>
       <h2>Designed around the questions a reviewer should ask.</h2>
       <p>
         A school technology review should establish what data leaves the school, who can access records,
@@ -1042,20 +953,20 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       </div>
       <div class="card compliance">
         <h3>COPPA</h3>
-        <p>Proposed requirement: student access is provisioned through an approved school or parent
-        consent flow, not independent child sign-up. Voice is treated as personal information, making
-        the recognition-vendor decision a legal and privacy review—not only an accuracy choice.</p>
+        <p>Proposed requirement: any future child-facing access would be provisioned through an approved
+        school or parent consent flow, not independent child sign-up. The current public demonstration
+        is a teacher-planning surface and does not collect child information.</p>
       </div>
       <div class="card compliance">
         <h3>AI use disclosure</h3>
-        <p>The prototype displays a review-before-use disclaimer. Before any student-facing generation,
-        a decodability self-audit against the taught phonics inventory would be a release gate.</p>
+        <p>The prototype displays a review-before-use disclaimer beside designed lesson output. Generated
+        material remains an editable suggestion; educators must check it against curriculum, standards,
+        accommodations, language-support plans, and the learners in front of them.</p>
       </div>
       <div class="card compliance">
         <h3>What's deliberately absent</h3>
-        <p>No advertising, no data sale, no third-party analytics on student surfaces, no engagement
-        mechanics designed to extend session time. Gamification is capped at streaks and badges tied to
-        real reading milestones.</p>
+        <p>No learner accounts, roster import, assessment score, progress dashboard, advertising, data sale,
+        or third-party analytics are presented as working features in this public portfolio build.</p>
       </div>
     </div>
     <p class="footnote">
@@ -1072,13 +983,12 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
 <section id="pilot">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow"><span class="num">09</span> &nbsp;Where this actually is</span>
+      <span class="eyebrow"><span class="num">08</span> &nbsp;Where this actually is</span>
       <h2>This is a designed prototype, not a validated product.</h2>
       <p>
         As of today: zero research participants, zero classrooms, zero students, and zero outcome data.
         No child, educator, family, school, or district has evaluated this design. What follows is a
-        proposed evaluation plan—not a completed case study—written down before research so the criteria
-        cannot quietly move afterward.
+        proposed path to evaluation—not a completed case study.
       </p>
     </div>
 
@@ -1086,7 +996,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <b>Why say that out loud.</b> A portfolio should separate evidence from intent. This project
       demonstrates product framing, instructional design, risk management, and implementation choices;
       it does not demonstrate usability, adoption, learning impact, or recognition accuracy. The proposed
-      criteria—including stop conditions—show how I would turn assumptions into research questions.
+      questions below show how I would turn assumptions into research.
     </div>
 
     <ol class="addie">
@@ -1097,36 +1007,32 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <li><span class="a">E</span><span class="n">Evaluate</span><span class="s">Not started</span></li>
     </ol>
 
-    <h3 class="sub-h">Proposed research gates <span class="tag-target">Targets only · nothing measured</span></h3>
+    <h3 class="sub-h">Questions to answer before classroom use <span class="tag-target">Nothing measured</span></h3>
     <div class="grid-3 targets">
-      <div class="stat"><span class="n">3</span><span class="t">K–3 classrooms with mixed multilingual enrollment would be the minimum viable pilot</span></div>
-      <div class="stat"><span class="n">≥85%</span><span class="t">Speech recognition accuracy on multilingual student samples</span></div>
-      <div class="stat"><span class="n">≥50%</span><span class="t">Reduction in teacher time spent on 1-on-1 assessment</span></div>
-      <div class="stat"><span class="n">≥4.0</span><span class="t">Teacher usability rating, SUS-adapted 5-point scale</span></div>
-      <div class="stat"><span class="n">100%</span><span class="t">Sessions with zero personally identifying data in any model call</span></div>
-      <div class="stat"><span class="n">&lt;3%</span><span class="t">Orthographic violation rate in generated decodable passages</span></div>
+      <div class="stat"><span class="n" style="font-size:1.2rem">Useful?</span><span class="t">Do teachers understand the workflow, and does it help them create or revise a lesson?</span></div>
+      <div class="stat"><span class="n" style="font-size:1.2rem">Sound?</span><span class="t">Are objectives, vocabulary, and sentence frames instructionally appropriate for the selected context?</span></div>
+      <div class="stat"><span class="n" style="font-size:1.2rem">Editable?</span><span class="t">Can educators quickly see what to change, and does the interface encourage professional review?</span></div>
+      <div class="stat"><span class="n" style="font-size:1.2rem">Private?</span><span class="t">Can testing confirm that learner identifiers and records never enter a model request?</span></div>
+      <div class="stat"><span class="n" style="font-size:1.2rem">Accessible?</span><span class="t">Can educators and families navigate the relevant surfaces with keyboard and assistive technology?</span></div>
+      <div class="stat"><span class="n" style="font-size:1.2rem">Worth it?</span><span class="t">After observing real use, should the concept continue, change direction, or stop?</span></div>
     </div>
 
     <h3 class="sub-h">Known risks and what happens if they hit</h3>
     <div class="grid-2">
       <div class="card risk">
-        <h3>Speech recognition bias against multilingual speakers</h3>
-        <p><b>If:</b> the accuracy gap between L1 groups exceeds 10 points in the ASR audit.<br>
-        <b>Then:</b> replace the ASR model with a multilingual-trained alternative before any score is
-        shown to a teacher. Scores are withheld, not shipped with a caveat.</p>
+        <h3>Generated scaffolds are instructionally weak</h3>
+        <p><b>If:</b> qualified educators find that objectives, vocabulary, or frames do not fit the selected grade, content, and language context.<br>
+        <b>Then:</b> revise the prompt and output schema—or remove generation—before asking teachers to depend on it.</p>
       </div>
       <div class="card risk">
-        <h3>Child voice data as a privacy surface</h3>
-        <p><b>If:</b> the chosen ASR path routes audio to a third party without a signed student-data
-        agreement.<br>
-        <b>Then:</b> move to on-device or self-hosted recognition, accepting an accuracy cost. Voice is
-        personal information; convenience does not outrank that.</p>
+        <h3>Instructional input leaks learner information</h3>
+        <p><b>If:</b> testing finds that a model request can include names, identifiers, rosters, service status, or open-ended learner notes.<br>
+        <b>Then:</b> block release and repair the allow-list boundary before any school evaluation.</p>
       </div>
       <div class="card risk">
-        <h3>Generated passages break the phonics scope and sequence</h3>
-        <p><b>If:</b> a passage contains graphemes the class has not been taught.<br>
-        <b>Then:</b> the decodability audit rejects and regenerates before the passage is ever shown.
-        The audit runs on generation, not on review.</p>
+        <h3>A standards framework is treated as a universal recipe</h3>
+        <p><b>If:</b> teachers cannot adapt the output to local curriculum, state requirements, or individual supports.<br>
+        <b>Then:</b> make those constraints explicit inputs and keep every output editable by default.</p>
       </div>
       <div class="card risk">
         <h3>Teachers over-trust AI plans</h3>
@@ -1143,7 +1049,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
 <section id="contact">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow"><span class="num">10</span> &nbsp;Who built it</span>
+      <span class="eyebrow"><span class="num">09</span> &nbsp;Who built it</span>
       <h2>Classroom first, then the code.</h2>
     </div>
     <div class="grid-2">
@@ -1152,8 +1058,8 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
           I am an instructional and learning experience designer transitioning from eight years in
           K–5 classrooms, with graduate degrees in Educational Technology &amp; Instructional Design and
           Mathematics Education. ReadTogether grew from a recurring design problem: educators need
-          practical differentiation tools, while multilingual learners need language variation treated
-          as information—not automatically as error. The useful part of this project is not simply the
+          practical ways to plan one rigorous lesson for learners who need different amounts of language
+          support. The useful part of this project is not simply the
           model call; it is the product boundary around it, the instructional decisions inside it, and
           the discipline to distinguish a prototype from evidence.
         </p>
@@ -1170,7 +1076,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
           <li>Standards alignment: WIDA ELD 2020, Science of Reading, UDL</li>
           <li>Multilingual UX and accessibility for emergent bilinguals</li>
           <li>FERPA / COPPA analysis and risk-mitigation planning</li>
-          <li>Pilot and evaluation design with pre-registered criteria</li>
+          <li>Research questions and evidence boundaries defined before participant work</li>
           <li>Full-stack build: Bun, Hono, Prisma, React 19, Tailwind 4</li>
           <li>Translating between teachers and engineers, in both directions</li>
         </ul>
@@ -1188,13 +1094,11 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
     </div>
     <div class="foot-legal">
       Designed prototype. No participant research or pilot has been run, no classroom data has been
-      collected, and no student, educator, family, school, or district has evaluated this product. All
-      metrics shown are proposed research targets, not findings. The public demo uses clearly labeled
-      cached lesson output by default; the oral-reading comparison is deterministic browser-side code,
-      not a validated assessment or recognition model. Neither demo stores input.
-      WIDA is a trademark of the Board of Regents of the University of Wisconsin System; DIBELS is a
-      trademark of the University of Oregon. This project is independent and not affiliated with,
-      endorsed by, or reviewed by either organization.
+      collected, and no student, educator, family, school, or district has evaluated this product. The
+      public demo uses clearly labeled designed lesson output and does not store input. The family view
+      is an interface concept, not a participant record or school communication system.
+      WIDA is a trademark of the Board of Regents of the University of Wisconsin System. This project is
+      independent and not affiliated with, endorsed by, or reviewed by WIDA.
     </div>
   </div>
 </footer>
@@ -1461,15 +1365,15 @@ window.ELD={renderModel:renderModel,sampleModel:sampleModel,esc:esc};
 
 /* ---------- family view language toggle ---------- */
 var ES={
-  fTitle:"Esta semana — Mateo, 2.º grado",
-  fStat1:"lecturas leídas", fStat2:"palabras por minuto", fStat3:"de precisión",
+  fTitle:"Nuestro enfoque de aprendizaje: explicar causa y efecto",
+  fStat1:"explicar por qué sucede algo", fStat2:"porque · entonces · como resultado", fStat3:"primero cuente la idea en cualquier idioma",
   fMeansLbl:"Qué significa:",
-  fMeans:"Mateo está leyendo al nivel de su grado para esta época del año. Las diferencias de pronunciación que vienen del español son normales y no se cuentan como errores.",
+  fMeans:"La clase practica cómo conectar una causa con su efecto. La meta es explicar la relación con claridad; usar el idioma del hogar para ensayar la idea es bienvenido.",
   fHelpTitle:"Cómo ayudar en casa",
   fTip1:"Lean juntos en cualquier idioma. Leer en español desarrolla las mismas destrezas que se necesitan para leer en inglés.",
-  fTip2:"Pídale que le cuente lo que pasó en la historia. Contar de nuevo importa más que decir cada palabra a la perfección.",
-  fTip3:"Señale palabras en letreros, menús y envases. Cinco minutos cuentan.",
-  fSample:"Perfil ilustrativo y datos de ejemplo · no es el registro de un participante",
+  fTip2:"Pregunte: «¿Por qué pasó eso?» y «¿Qué pasó después?» durante un cuento o una rutina diaria.",
+  fTip3:"Usen palabras como porque, entonces y como resultado cuando expliquen una idea juntos.",
+  fSample:"Texto de interfaz diseñado · sin datos de estudiantes",
   fBtn:"Concepto de mensajería con el maestro"
 };
 var EN={};
@@ -1487,36 +1391,6 @@ document.querySelectorAll(".lang").forEach(function(btn){
   });
 });
 
-/* ---------- sample scoring run ---------- */
-var runBtn=document.getElementById("runBtn");
-if(runBtn){
-  var passage=document.getElementById("fullPassage");
-  var words=passage.querySelectorAll(".w");
-  var card=runBtn.closest("section");
-  var vals=card.querySelectorAll("[data-count]");
-  var running=false;
-  runBtn.addEventListener("click",function(){
-    if(running) return;
-    running=true; runBtn.disabled=true; runBtn.textContent="Reading…";
-    passage.classList.add("running");
-    vals.forEach(function(v){v.classList.add("dim");});
-    var i=0;
-    var step=reduce?0:Math.round(36000/words.length/3);
-    function tick(){
-      if(i>0) words[i-1].classList.remove("cursor");
-      if(i>=words.length){
-        passage.classList.remove("running");
-        vals.forEach(function(v){v.classList.remove("dim");});
-        runBtn.disabled=false; runBtn.textContent="Play sample run"; running=false;
-        return;
-      }
-      words[i].classList.add("cursor");
-      i++;
-      setTimeout(tick, step);
-    }
-    tick();
-  });
-}
 })();
 </script>
 
@@ -1687,275 +1561,6 @@ if(form){
       btn.disabled=false; btn.textContent="Preview scaffold output";
     });
   });
-}
-
-/* ===========================================================================
-   2. TRANSFER-AWARE ORAL READING SCORER
-   Deterministic. No model call. Each rule generates the variants a speaker
-   with that L1 background would plausibly produce from the TARGET word, so a
-   match is explainable: we can name which rule fired.
-   =========================================================================== */
-
-var RULES=[
-  {id:"epen",s:"+/e/",label:"Epenthetic /e/ before s-cluster",l1:"Spanish",
-   f:function(w){return /^s[^aeiou]/.test(w)?["e"+w]:[];}},
-  {id:"th_t",s:"/t/ for /θ/",label:"/θ/ → /t/",l1:"Spanish, Vietnamese, French",
-   f:function(w){return w.indexOf("th")>-1?[w.replace(/th/g,"t")]:[];}},
-  {id:"th_s",s:"/s/ for /θ/",label:"/θ/ → /s/",l1:"Spanish, Japanese",
-   f:function(w){return w.indexOf("th")>-1?[w.replace(/th/g,"s")]:[];}},
-  {id:"th_d",s:"/d/ for /ð/",label:"/ð/ → /d/",l1:"Spanish, Russian",
-   f:function(w){return w.indexOf("th")>-1?[w.replace(/th/g,"d")]:[];}},
-  {id:"v_b",s:"/b/ for /v/",label:"/v/ → /b/",l1:"Spanish",
-   f:function(w){return w.indexOf("v")>-1?[w.replace(/v/g,"b")]:[];}},
-  {id:"z_s",s:"/s/ for /z/",label:"/z/ → /s/",l1:"Spanish",
-   f:function(w){return w.indexOf("z")>-1?[w.replace(/z/g,"s")]:[];}},
-  {id:"clus",s:"cluster",label:"Final consonant cluster reduction",l1:"Spanish, Mandarin, Vietnamese",
-   f:function(w){return /[bcdfgjklmnpqrstvwxz]{2}$/.test(w)?[w.slice(0,-1)]:[];}},
-  {id:"ed",s:"-ed",label:"-ed inflection reduction",l1:"Spanish, Mandarin",
-   f:function(w){return /ed$/.test(w)?[w.slice(0,-2),w.slice(0,-1)]:[];}},
-  {id:"vow",s:"vowel",label:"Tense/lax vowel merge /ɪ/–/iː/",l1:"Spanish, Arabic",
-   f:function(w){var o=[];if(/ee/.test(w))o.push(w.replace(/ee/g,"i"));
-     if(/[^aeiou]i[^aeiou]/.test(w))o.push(w.replace(/i/g,"ee"));return o;}},
-  {id:"ng",s:"/n/ for /ŋ/",label:"/ŋ/ → /n/",l1:"Spanish, Tagalog",
-   f:function(w){return /ing$/.test(w)?[w.slice(0,-1)]:[];}},
-  {id:"j_y",s:"/y/ for /dʒ/",label:"/dʒ/ → /j/",l1:"Spanish",
-   f:function(w){return /^j/.test(w)?["y"+w.slice(1)]:[];}},
-  {id:"h",s:"h-drop",label:"Silent-h transfer",l1:"Spanish",
-   f:function(w){return /^h/.test(w)?[w.slice(1)]:[];}},
-  {id:"shch",s:"sh–ch",label:"/ʃ/–/tʃ/ merge",l1:"Spanish",
-   f:function(w){var o=[];if(/sh/.test(w))o.push(w.replace(/sh/g,"ch"));
-     if(/ch/.test(w))o.push(w.replace(/ch/g,"sh"));return o;}},
-  {id:"devoice",s:"devoiced",label:"Final obstruent devoicing",l1:"Mandarin, German, Russian",
-   f:function(w){var m={b:"p",d:"t",g:"k",v:"f",z:"s"};var last=w.slice(-1);
-     return m[last]?[w.slice(0,-1)+m[last]]:[];}}
-];
-
-var variantCache={};
-function variants(word){
-  if(variantCache[word]) return variantCache[word];
-  var out={};
-  RULES.forEach(function(r){
-    r.f(word).forEach(function(x){ if(x && x!==word && !out[x]) out[x]=[r]; });
-  });
-  Object.keys(out).slice(0,40).forEach(function(v1){
-    var first=out[v1][0];
-    RULES.forEach(function(r2){
-      if(r2.id===first.id) return;
-      r2.f(v1).forEach(function(v2){ if(v2 && v2!==word && !out[v2]) out[v2]=[first,r2]; });
-    });
-  });
-  variantCache[word]=out;
-  return out;
-}
-
-function classify(expected,heard){
-  var vs=variants(expected);
-  return vs[heard] || null;
-}
-
-function tokenize(text){
-  return String(text).trim().split(/\s+/).map(function(t){
-    return {disp:t, norm:t.toLowerCase().replace(/[^a-z']/g,"")};
-  }).filter(function(t){return t.norm.length>0;});
-}
-
-function charDist(a,b){
-  var m=a.length,n=b.length,prev=[],cur=[],i,j;
-  for(j=0;j<=n;j++) prev[j]=j;
-  for(i=1;i<=m;i++){
-    cur[0]=i;
-    for(j=1;j<=n;j++){
-      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
-    }
-    prev=cur.slice();
-  }
-  return prev[n];
-}
-
-function similar(a,b){
-  if(a===b) return true;
-  if(classify(a,b)||classify(b,a)) return true;
-  return charDist(a,b)<=Math.max(1,Math.floor(Math.max(a.length,b.length)/2));
-}
-
-/* Substitution cost is graded rather than flat. A flat cost of 1 makes
-   "delete X, substitute Y" tie with "substitute X, delete Y", and the tie
-   gets broken arbitrarily — which mispairs the very words this scorer exists
-   to classify. Transfer-explainable pairs are cheapest, so the aligner keeps
-   them together; unrelated pairs cost more but still beat a delete+insert,
-   matching running-record convention that a substitution is one error. */
-function subCost(a,b){
-  if(a===b) return 0;
-  if(classify(a,b)) return 0.35;
-  var ratio=charDist(a,b)/Math.max(a.length,b.length);
-  return 0.75+Math.min(ratio,1)*0.5;
-}
-
-function align(A,B){
-  var n=A.length,m=B.length,i,j;
-  var d=[],bt=[];
-  for(i=0;i<=n;i++){d.push(new Array(m+1).fill(0));bt.push(new Array(m+1).fill(""));}
-  for(i=1;i<=n;i++){d[i][0]=i;bt[i][0]="D";}
-  for(j=1;j<=m;j++){d[0][j]=j;bt[0][j]="I";}
-  for(i=1;i<=n;i++){
-    for(j=1;j<=m;j++){
-      var cost=subCost(A[i-1],B[j-1]);
-      var sub=d[i-1][j-1]+cost, del=d[i-1][j]+1, ins=d[i][j-1]+1;
-      var best=Math.min(sub,del,ins);
-      d[i][j]=best;
-      bt[i][j]=(best===sub)?(cost===0?"M":"S"):((best===del)?"D":"I");
-    }
-  }
-  var ops=[]; i=n; j=m;
-  while(i>0||j>0){
-    var op=(i>0&&j>0)?bt[i][j]:(i>0?"D":"I");
-    if(op==="M"||op==="S"){ops.push({op:op,ai:i-1,bi:j-1});i--;j--;}
-    else if(op==="D"){ops.push({op:"D",ai:i-1,bi:-1});i--;}
-    else {ops.push({op:"I",ai:-1,bi:j-1});j--;}
-  }
-  return ops.reverse();
-}
-
-function score(expectedText,heardText,seconds){
-  var A=tokenize(expectedText), B=tokenize(heardText);
-  if(A.length===0) return {error:"Enter the passage as it is written."};
-  if(B.length===0) return {error:"Enter what the student said."};
-  if(A.length>400) return {error:"Keep the passage under 400 words."};
-
-  var an=A.map(function(t){return t.norm;}), bn=B.map(function(t){return t.norm;});
-  var ops=align(an,bn);
-
-  /* Running-record convention: a substitution the reader immediately repairs
-     is a self-correction, not an error. */
-  for(var k=0;k<ops.length-1;k++){
-    var a=ops[k], b=ops[k+1];
-    if(a.skip||b.skip) continue;
-    if(a.op==="S" && b.op==="I" && bn[b.bi]===an[a.ai]){
-      a.op="SC"; b.skip=true;                     // wrong word, then the right one
-    } else if(a.op==="I" && b.op==="M" && similar(bn[a.bi],an[b.ai])){
-      a.skip=true;                                 // extra attempt, then the right one
-      ops[k+1]={op:"SC",ai:b.ai,bi:a.bi};
-    }
-  }
-
-  var marks=new Array(A.length).fill(null), flags=[];
-  var legacyErr=0, awareErr=0;
-
-  ops.forEach(function(o){
-    if(o.skip) return;
-    if(o.op==="M") return;
-    if(o.op==="SC"){
-      marks[o.ai]={kind:"sc",note:"self-corrected"};
-      flags.push({expected:A[o.ai].disp,heard:B[o.bi].disp,kind:"Self-correction",rule:"Repaired by the reader",counted:"No"});
-      return;
-    }
-    if(o.op==="S"){
-      var hit=classify(an[o.ai],bn[o.bi]);
-      if(hit){
-        var label=hit.map(function(r){return r.label;}).join(" + ");
-        marks[o.ai]={kind:"transfer",note:hit[0].s};
-        flags.push({expected:A[o.ai].disp,heard:B[o.bi].disp,kind:"L1 transfer",rule:label+" ("+hit[0].l1+")",counted:"Legacy only"});
-        legacyErr++;
-      } else {
-        marks[o.ai]={kind:"miscue",note:B[o.bi].disp};
-        flags.push({expected:A[o.ai].disp,heard:B[o.bi].disp,kind:"Substitution",rule:"No transfer rule explains this",counted:"Both"});
-        legacyErr++; awareErr++;
-      }
-      return;
-    }
-    if(o.op==="D"){
-      marks[o.ai]={kind:"miscue",note:"omitted"};
-      flags.push({expected:A[o.ai].disp,heard:"—",kind:"Omission",rule:"Word not read",counted:"Both"});
-      legacyErr++; awareErr++;
-      return;
-    }
-    if(o.op==="I"){
-      flags.push({expected:"—",heard:B[o.bi].disp,kind:"Insertion",rule:"Word added",counted:"Both"});
-      legacyErr++; awareErr++;
-    }
-  });
-
-  var total=A.length;
-  var secs=Math.max(5,Number(seconds)||60);
-  var mins=secs/60;
-  return {
-    total:total, marks:marks, flags:flags, A:A,
-    legacy:{acc:Math.round((total-legacyErr)/total*100), wcpm:Math.round((total-legacyErr)/mins), errs:legacyErr},
-    aware:{acc:Math.round((total-awareErr)/total*100), wcpm:Math.round((total-awareErr)/mins), errs:awareErr},
-    transfers:legacyErr-awareErr, secs:secs
-  };
-}
-
-var BENCH=72; // Grade 2 winter, 50th percentile (Hasbrouck & Tindal ORF norms)
-
-function renderScore(r){
-  var out=document.getElementById("scorerOut");
-  if(r.error){ out.innerHTML='<p class="scorer-err">'+esc(r.error)+"</p>"; return; }
-
-  var passage=r.A.map(function(t,i){
-    var m=r.marks[i];
-    if(!m) return '<span class="w">'+esc(t.disp)+"</span>";
-    var cls=m.kind==="transfer"?"w transfer":(m.kind==="sc"?"w":"w miscue");
-    return '<span class="'+cls+'" data-note="'+esc(m.note)+'">'+esc(t.disp)+"</span>";
-  }).join(" ");
-
-  var rows=r.flags.length
-    ? r.flags.map(function(f){
-        return "<tr><td>"+esc(f.expected)+"</td><td>"+esc(f.heard)+"</td><td>"+esc(f.kind)+
-               "</td><td>"+esc(f.rule)+"</td><td>"+esc(f.counted)+"</td></tr>";
-      }).join("")
-    : '<tr><td colspan="5">Clean read. Nothing flagged.</td></tr>';
-
-  var gap=r.aware.wcpm-r.legacy.wcpm;
-  var verdict = r.legacy.wcpm < BENCH && r.aware.wcpm >= BENCH
-    ? "Same reading, same child. Legacy scoring lands below the grade-2 winter benchmark of "+BENCH+" WCPM and opens an intervention conversation. Transfer-aware scoring lands at benchmark."
-    : "Transfer-aware scoring recovers "+gap+" WCPM and "+(r.aware.acc-r.legacy.acc)+" points of accuracy on this reading.";
-
-  out.innerHTML=
-    '<div class="instrument">'+
-      '<div class="instr-bar"><span class="live"></span>'+r.total+" words · "+r.secs+" seconds · "+
-        r.transfers+" transfer pattern"+(r.transfers===1?"":"s")+" held separate</div>"+
-      '<div class="instr-body"><p class="passage passage-full">'+passage+"</p></div>"+
-      '<div class="key"><span class="k-t"><i></i>L1 transfer — logged, not scored</span>'+
-        '<span class="k-m"><i></i>True miscue — scored</span></div>'+
-      '<div class="scoreboard four">'+
-        '<div class="score legacy"><span class="lbl">Legacy · accuracy</span><span class="val">'+r.legacy.acc+"<small>%</small></span><span class=\"sub\">"+r.legacy.errs+" errors counted</span></div>"+
-        '<div class="score legacy"><span class="lbl">Legacy · WCPM</span><span class="val">'+r.legacy.wcpm+"</span><span class=\"sub\">"+(r.legacy.wcpm>=BENCH?"At benchmark":"Below benchmark")+"</span></div>"+
-        '<div class="score ours"><span class="lbl">Transfer-aware · accuracy</span><span class="val">'+r.aware.acc+"<small>%</small></span><span class=\"sub\">"+r.aware.errs+" errors counted</span></div>"+
-        '<div class="score ours"><span class="lbl">Transfer-aware · WCPM</span><span class="val">'+r.aware.wcpm+"</span><span class=\"sub\">"+(r.aware.wcpm>=BENCH?"At benchmark":"Below benchmark")+"</span></div>"+
-      "</div>"+
-      '<div class="delta"><b>'+(gap>=0?"+":"")+gap+" WCPM</b><span>"+esc(verdict)+"</span></div>"+
-    "</div>"+
-    '<div class="table-wrap"><table class="tbl flags"><thead><tr>'+
-      "<th>Written</th><th>Read as</th><th>Classification</th><th>Rule that fired</th><th>Counted as error</th>"+
-      "</tr></thead><tbody>"+rows+"</tbody></table></div>";
-}
-
-function runScore(){
-  renderScore(score(
-    document.getElementById("sExpected").value,
-    document.getElementById("sHeard").value,
-    document.getElementById("sSecs").value
-  ));
-}
-
-var scoreBtn=document.getElementById("scoreBtn");
-if(scoreBtn){
-  var EX_EXPECTED=document.getElementById("sExpected").value;
-  var EX_HEARD=document.getElementById("sHeard").value;
-  scoreBtn.addEventListener("click",runScore);
-  document.getElementById("sClean").addEventListener("click",function(){
-    document.getElementById("sHeard").value=document.getElementById("sExpected").value;
-    document.getElementById("sSecs").value=36;
-    runScore();
-  });
-  document.getElementById("sReset").addEventListener("click",function(){
-    document.getElementById("sExpected").value=EX_EXPECTED;
-    document.getElementById("sHeard").value=EX_HEARD;
-    document.getElementById("sSecs").value=36;
-    runScore();
-  });
-  runScore();
 }
 })();
 </script>
