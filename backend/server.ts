@@ -239,8 +239,8 @@ app.post("/api/generate/scaffold", async (c) => {
   if (!g.ok) {
     const error =
       g.reason === "daily_cap"
-        ? "The demo has hit its daily generation cap. The sample output below is real output from an earlier run."
-        : "That's several generations in a short window. Try again in an hour — the sample output below is real output from an earlier run.";
+        ? "The demo has hit its daily generation cap. The page can still show its labeled designed sample output."
+        : "That's several generations in a short window. Try again in an hour — the page can still show its labeled designed sample output.";
     return c.json({ ok: false, error, fallback: true }, 429);
   }
 
@@ -295,7 +295,7 @@ app.post("/api/generate/scaffold", async (c) => {
     console.error("generation failed:", err?.status ?? "", err?.message ?? err);
     const status = err?.status === 429 ? 429 : 502;
     return c.json(
-      { ok: false, error: "The generation service is unavailable right now. The sample output below is real output from an earlier run.", fallback: true },
+      { ok: false, error: "The generation service is unavailable right now. The page can still show its labeled designed sample output.", fallback: true },
       status
     );
   }
