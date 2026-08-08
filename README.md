@@ -23,4 +23,4 @@ Designed prototype only. No participant research, pilot, classroom data, externa
 - `backend/` - optional Bun/Hono lesson-generation API
 - `DEPLOY.md` - deployment and evidence-status guidance
 
-The static page intentionally works without a live AI backend by showing cached output labeled as cached.
+The static page intentionally works without a live AI backend by showing designed sample output labeled as such.

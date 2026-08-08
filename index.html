@@ -601,7 +601,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
           <span aria-hidden="true">→</span>
           <span>Five of seven flags are documented Spanish&nbsp;L1 phonological transfer patterns. They are
           surfaced to the teacher as language data and excluded from the accuracy score.
-          <a href="#scoring">Run the scorer yourself below</a> — it's real code, not a mockup.</span>
+          <a href="#scoring">Run the scorer yourself below</a> — it is deterministic prototype code.</span>
         </p>
       </div>
     </div>
@@ -648,7 +648,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <span class="eyebrow"><span class="num">02</span> &nbsp;The product</span>
       <h2>One language model of the learner. Two surfaces.</h2>
       <p>
-        The platform holds a single representation of each student's language proficiency — WIDA level,
+        The product concept holds a single representation of each student's language proficiency — WIDA level,
         key language use, L1 background — and spends it in two directions: planning for the teacher, and
         practice plus assessment for the child. Neither surface works without the other.
       </p>
@@ -665,8 +665,8 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         <ul>
           <li>Scaffolds by level — never a simplified text for everyone</li>
           <li>Tier 1 / 2 / 3 vocabulary split, not one undifferentiated word list</li>
-          <li>Teacher review required before classroom use; the disclaimer ships with the plan</li>
-          <li>Save, edit, and share plans across a school</li>
+          <li>Teacher review required before classroom use; the prototype places the disclaimer with the plan</li>
+          <li>Designed to support saving, editing, and school-level sharing</li>
         </ul>
       </div>
       <div class="card">
@@ -680,8 +680,8 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         <ul>
           <li>Decodability self-audit against the taught phonics inventory</li>
           <li>Comprehension items with explained feedback, not just right/wrong</li>
-          <li>Full Spanish interface for families, not a machine-translated afterthought</li>
-          <li>Text-to-speech, high contrast, and adjustable text built in from the start</li>
+          <li>Authored Spanish family-view prototype, not runtime machine translation</li>
+          <li>Text-to-speech, high contrast, and adjustable text specified as accessibility requirements</li>
         </ul>
       </div>
     </div>
@@ -692,13 +692,13 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
 <section id="frames">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow"><span class="num">03</span> &nbsp;Try it · Sentence frame engine</span>
+      <span class="eyebrow"><span class="num">03</span> &nbsp;Try it · Static sentence-frame prototype</span>
       <h2>The same content. Six different amounts of language support.</h2>
       <p>
-        This is the part teachers can't do six times before 8&nbsp;a.m. Type any topic and the levels
-        actually sitting in your room. This calls Claude for real — the ladder that comes back is
-        generated live, and the panel underneath shows you every field that crossed the network. The
-        content doesn't get easier as you go down the ladder. The language scaffold gets heavier.
+        This explores work teachers may need to repeat across proficiency levels before 8&nbsp;a.m.
+        Change the instructional inputs to inspect the proposed allow-listed payload, then preview a
+        clearly labeled designed sample. This public portfolio build makes no model call and sends no
+        data. The content does not get easier down the ladder; the language scaffold gets heavier.
       </p>
     </div>
 
@@ -738,14 +738,14 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
           </fieldset>
         </div>
         <div class="live-actions">
-          <button class="btn btn-primary" type="submit" id="genBtn">Generate scaffolding</button>
-          <span class="live-note" id="liveNote">Six fields go out. Nothing else can.</span>
+          <button class="btn btn-primary" type="submit" id="genBtn">Preview scaffold output</button>
+          <span class="live-note" id="liveNote">Static prototype · input stays in this browser.</span>
         </div>
       </form>
 
       <details class="payload-view">
         <summary>See exactly what crosses the boundary</summary>
-        <pre id="payloadOut">POST /api/generate/scaffold
+        <pre id="payloadOut">Proposed POST /api/generate/scaffold
 {
   "gradeLevel": "2",
   "subject": "Science",
@@ -754,10 +754,10 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
   "widaLevels": [1, 2, 3, 4],
   "duration": 50
 }</pre>
-        <p class="payload-note">The request body is assembled field by field from an allow-list on the
-        server. There is no code path by which a student name, roster, identifier, or teacher note can
-        reach the model, because there is no field for one. The only free-text input is the topic, and it
-        is length-capped and screened for email, phone, and ID patterns before it leaves.</p>
+        <p class="payload-note">The proposed request body is assembled field by field from an allow-list
+        in the API prototype. Student names, roster identifiers, teacher notes, and audio are not accepted
+        fields. The only free-text input is the topic; the API prototype length-caps it and screens common
+        email, phone, and ID patterns. These controls still require security testing before any pilot.</p>
       </details>
 
       <div class="result-bar" id="resultBar"></div>
@@ -767,7 +767,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <div class="vocab" id="vocab"></div>
 
       <div class="samples">
-        <span class="ctrl-lbl">Or load a pre-built example <em>(no API call)</em></span>
+        <span class="ctrl-lbl">Or explore another designed example <em>(no API call)</em></span>
         <div class="tabs" role="tablist" aria-label="Example lesson topic" id="topicTabs"></div>
         <div class="tabs" role="tablist" aria-label="Key Language Use" id="kluTabs"></div>
       </div>
@@ -783,7 +783,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <h2>A plan, not a wall of text.</h2>
       <p>
         Generated output is structured before it is written, so it can be saved, edited, filtered by level,
-        and reused. Below is real output shape for a mixed-level third grade science block.
+        and reused. Below is a designed output shape for a mixed-level third grade science block.
       </p>
     </div>
 
@@ -932,6 +932,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
         </div>
       </div>
       <div class="family-body">
+        <p class="scorer-tag" data-i18n="fSample">Illustrative profile and sample data · not a participant record</p>
         <h3 data-i18n="fTitle">This week — Mateo, Grade 2</h3>
         <div class="fstats">
           <div><span class="fn">4</span><span class="ft" data-i18n="fStat1">passages read</span></div>
@@ -948,7 +949,7 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
           <li data-i18n="fTip2">Ask him to tell you what happened in the story. Retelling matters more than saying every word perfectly.</li>
           <li data-i18n="fTip3">Point out words on signs, menus, and packages. Five minutes counts.</li>
         </ol>
-        <button class="btn btn-ghost fbtn" type="button" data-i18n="fBtn">Send a question to the teacher</button>
+        <button class="btn btn-ghost fbtn" type="button" data-i18n="fBtn" disabled>Teacher messaging concept</button>
       </div>
     </div>
     <p class="footnote">
@@ -966,9 +967,10 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46
       <span class="eyebrow"><span class="num">07</span> &nbsp;How it's built</span>
       <h2>The privacy boundary is an architectural object, not a policy paragraph.</h2>
       <p>
-        Student records live in one place. The model lives on the other side of a line, and the payload
-        that crosses it is constructed field by field — an allow-list, not a redaction pass. If a field
-        isn't on the list, it cannot leave, including by accident.
+        In the proposed architecture, student records and the model sit on opposite sides of an explicit
+        boundary. A model payload is constructed field by field—an allow-list, not a redaction pass.
+        The API prototype implements this boundary; object-level authorization and vendor behavior remain
+        pre-pilot verification gates.
       </p>
     </div>
 
@@ -1467,7 +1469,8 @@ var ES={
   fTip1:"Lean juntos en cualquier idioma. Leer en español desarrolla las mismas destrezas que se necesitan para leer en inglés.",
   fTip2:"Pídale que le cuente lo que pasó en la historia. Contar de nuevo importa más que decir cada palabra a la perfección.",
   fTip3:"Señale palabras en letreros, menús y envases. Cinco minutos cuentan.",
-  fBtn:"Enviar una pregunta al maestro"
+  fSample:"Perfil ilustrativo y datos de ejemplo · no es el registro de un participante",
+  fBtn:"Concepto de mensajería con el maestro"
 };
 var EN={};
 document.querySelectorAll("[data-i18n]").forEach(function(el){EN[el.dataset.i18n]=el.innerHTML;});
@@ -1536,8 +1539,8 @@ var esc = window.ELD.esc;
    1. LIVE GENERATION
    =========================================================================== */
 
-/* Real output from an earlier run, kept so a cold backend never shows a dead
-   demo. Labeled as cached in the UI — never passed off as a fresh call. */
+/* Designed sample output for the static portfolio prototype. It is never
+   presented as participant data, model validation, or a fresh model call. */
 var CACHED = {
   title:"Why Volcanoes Erupt — Grade 2 Science",
   contentObjective:"Students explain that pressure from gas and melted rock inside the Earth pushes magma upward until it escapes through an opening in the crust.",
@@ -1583,7 +1586,7 @@ function buildPayload(){
 
 function showPayload(){
   var out=document.getElementById("payloadOut");
-  if(out) out.textContent="POST /api/generate/scaffold\n"+JSON.stringify(buildPayload(),null,2);
+  if(out) out.textContent="Proposed POST /api/generate/scaffold\n"+JSON.stringify(buildPayload(),null,2);
 }
 
 var form=document.getElementById("genForm");
@@ -1608,7 +1611,7 @@ function note(text,isErr){
 
 function showCached(reason){
   window.ELD.renderModel({
-    bar:{kind:"error",text:reason},
+    bar:{kind:"sample",text:reason},
     title:CACHED.title,
     contentObjective:CACHED.contentObjective,
     languageObjective:CACHED.languageObjective,
@@ -1629,14 +1632,14 @@ if(form){
     if(p.topic.length<3){ note("Give it a topic first.",true); return; }
 
     var btn=document.getElementById("genBtn");
-    btn.disabled=true; btn.textContent="Generating…";
-    note("Six fields go out. Nothing else can.");
-    bar("working","Calling Claude…");
+    btn.disabled=true; btn.textContent="Preparing preview…";
+    note("Static prototype · input stays in this browser.");
+    bar("working","Preparing designed sample…");
 
     if(!API){
       setTimeout(function(){
-        showCached("No backend configured — showing cached output from an earlier run");
-        btn.disabled=false; btn.textContent="Generate scaffolding";
+        showCached("Designed sample output · no API call · no participant data");
+        btn.disabled=false; btn.textContent="Preview scaffold output";
       },400);
       return;
     }
@@ -1678,10 +1681,10 @@ if(form){
     })
     .catch(function(){
       clearTimeout(timer);
-      showCached("Backend unreachable — showing cached output from an earlier run");
+      showCached("Optional API unavailable — showing designed sample output");
     })
     .then(function(){
-      btn.disabled=false; btn.textContent="Generate scaffolding";
+      btn.disabled=false; btn.textContent="Preview scaffold output";
     });
   });
 }
