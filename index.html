@@ -1,1567 +1,353 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ELD AI: Read Together — EdTech Product &amp; Instructional Design Case Study</title>
-<meta name="description" content="A transparent project case study for a WIDA-aligned lesson-planning and reading-practice prototype designed for multilingual learners, educators, and families. Designed and built by Matthew Tracey; no participants, pilot, or outcome data." />
-<meta name="author" content="Matthew Tracey" />
-<meta name="color-scheme" content="light" />
-<meta property="og:title" content="ELD AI: Read Together — EdTech product case study" />
-<meta property="og:description" content="Product strategy, instructional design, AI safety, and full-stack prototyping for multilingual learners. Designed prototype; no participants or measured outcomes." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://readtogether.vercel.app/" />
-<meta property="og:image" content="https://readtogether.vercel.app/og-readtogether.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230E1726'/><path d='M20 68h60' stroke='%23E9A213' stroke-width='9' stroke-linecap='round'/><path d='M30 46h16M54 46h16' stroke='%23fff' stroke-width='9' stroke-linecap='round'/></svg>">
-<style>
-/* ============================================================
-   ELD AI: Read Together — portfolio case study
-   Design tokens
-   ------------------------------------------------------------
-   English copy sits in --ink. The Spanish / scaffold layer sits
-   in --cobalt. That is a rule, not decoration: color carries
-   language in this product, so it carries language on this page.
-   The WIDA ramp is a single-hue sequential scale because WIDA
-   levels are ordered data, not categories.
-   ============================================================ */
-:root{
-  --porcelain:#EDF1F6;
-  --porcelain-2:#E2E8F1;
-  --card:#FFFFFF;
-  --ink:#0E1726;
-  --ink-soft:#4A5769;
-  --ink-faint:#7C8898;
-  --cobalt:#1F4FD8;
-  --cobalt-soft:#E8EEFF;
-  --marigold:#E9A213;
-  --marigold-soft:#FDF2D9;
-  --rust:#B23A2B;
-  --moss:#1E7A5A;
-  --line:#D3DCE7;
-  --line-soft:#E6EBF2;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ReadTogether — Teacher-built EdTech prototype</title>
+  <meta name="description" content="ReadTogether is Matthew Tracey's working WIDA-informed lesson-planning prototype. Explore the scaffold demo, product decisions, technical boundary, and honest evidence status.">
+  <meta property="og:title" content="ReadTogether — Teacher-built EdTech prototype">
+  <meta property="og:description" content="One rigorous lesson, adapted for the language levels actually in the room. Working prototype; no participant research or outcome claims.">
+  <meta name="theme-color" content="#10243e">
+  <style>
+    :root{
+      --navy:#10243e;--navy-2:#173653;--blue:#315de8;--orange:#ed7c32;
+      --mint:#dff4ea;--green:#1f7557;--cream:#f7f4ee;--paper:#fff;
+      --ink:#172033;--muted:#5e6878;--line:#dfe3e8;--soft:#eef1f5;
+      --max:1160px;--radius:22px;--shadow:0 22px 60px rgba(16,36,62,.12)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+    a{color:inherit}
+    button,input,select{font:inherit}
+    button,a{touch-action:manipulation}
+    .skip{position:absolute;left:-9999px;top:8px;background:#fff;color:var(--navy);padding:10px 14px;border-radius:8px;z-index:99}
+    .skip:focus{left:8px}
+    .wrap{width:min(calc(100% - 40px),var(--max));margin-inline:auto}
+    .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(223,227,232,.8)}
+    .nav-in{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{font-weight:850;letter-spacing:-.02em;text-decoration:none;color:var(--navy)}
+    .brand span{color:var(--orange)}
+    .nav-links{display:flex;align-items:center;gap:24px}
+    .nav-links a{font-size:14px;font-weight:700;text-decoration:none;color:#475165}
+    .nav-links a:hover,.nav-links a:focus{color:var(--blue)}
+    .nav-cta{padding:10px 15px;border-radius:999px;background:var(--navy);color:#fff!important}
 
-  --w1:#D6E6FF; --w2:#A9C9FA; --w3:#77A6EF; --w4:#4C7EDD; --w5:#2F55C0; --w6:#1D2F87;
+    .hero{background:var(--cream);padding:88px 0 78px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(420px,.97fr);gap:68px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:850;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+    .eyebrow:before{content:"";width:28px;height:2px;background:var(--orange)}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(3.25rem,6.3vw,5.85rem);line-height:.94;letter-spacing:-.065em;color:var(--navy);margin:24px 0 26px;max-width:10.5ch}
+    .hero-copy{font-size:clamp(1.05rem,1.6vw,1.25rem);color:#4d5868;max-width:58ch;margin-bottom:30px}
+    .hero-copy b{color:var(--ink)}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 19px;border-radius:12px;border:1px solid transparent;font-weight:800;text-decoration:none;cursor:pointer}
+    .btn-primary{background:var(--blue);color:#fff;box-shadow:0 8px 20px rgba(49,93,232,.22)}
+    .btn-secondary{background:#fff;border-color:#cfd5de;color:var(--navy)}
+    .proof{display:flex;gap:18px;flex-wrap:wrap;margin-top:28px;color:#687283;font-size:13px}
+    .proof span{display:flex;align-items:center;gap:7px}
+    .proof i{width:7px;height:7px;border-radius:50%;background:var(--green)}
 
-  --display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
-  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    .product-card{position:relative;background:#fff;border:1px solid #d8dde5;border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+    .product-card:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(49,93,232,.08);top:-140px;right:-100px}
+    .pc-head{padding:24px 26px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fbfcfe}
+    .pc-title{font-weight:850;color:var(--navy)}
+    .status{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+    .status:before{content:"";width:8px;height:8px;border-radius:50%;background:#2ca977;box-shadow:0 0 0 4px rgba(44,169,119,.13)}
+    .pc-body{padding:26px}
+    .input-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+    .chip{padding:7px 10px;border-radius:8px;background:var(--soft);font-size:12px;font-weight:750;color:#4d5868}
+    .output-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:850;color:#8791a0;margin-bottom:10px}
+    .mini-frame{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start;padding:14px 0;border-top:1px solid var(--line)}
+    .mini-frame:first-of-type{border-top:0}
+    .level{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--mint);color:var(--green);font-weight:900}
+    .mini-frame b{display:block;color:var(--navy);font-size:14px;margin-bottom:3px}
+    .mini-frame p{font-size:13px;color:#667183;margin:0}
+    .review{margin-top:18px;border-radius:14px;padding:14px 15px;background:#fff6e9;border:1px solid #f2d4ac;font-size:12px;color:#6d532f}
 
-  --wrap:1080px;
-  --rail:120px;
-}
+    section{padding:96px 0}
+    .section-kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:850;color:var(--orange);margin-bottom:14px}
+    h2{font-size:clamp(2.35rem,4.5vw,4rem);line-height:1.02;letter-spacing:-.05em;color:var(--navy);margin-bottom:22px;max-width:14ch}
+    .section-lede{font-size:1.12rem;color:var(--muted);max-width:66ch;margin-bottom:46px}
 
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-}
-body{
-  margin:0;background:var(--porcelain);color:var(--ink);
-  font-family:var(--body);font-size:17px;line-height:1.62;
-  -webkit-font-smoothing:antialiased;
-}
-img,svg{max-width:100%}
-a{color:var(--cobalt);text-underline-offset:3px;text-decoration-thickness:1px}
-a:hover{text-decoration-thickness:2px}
-:focus-visible{outline:3px solid var(--marigold);outline-offset:3px;border-radius:4px}
-button{font:inherit;color:inherit}
-h1,h2,h3,h4{font-family:var(--display);font-weight:700;letter-spacing:-.025em;line-height:1.06;margin:0}
-p{margin:0 0 1em}
-p:last-child{margin-bottom:0}
+    .story{background:#fff}
+    .story-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:88px;align-items:start}
+    .story-note{position:sticky;top:108px}
+    .teacher-card{border-radius:var(--radius);background:var(--navy);color:#fff;padding:28px;margin-top:30px}
+    .teacher-card strong{font-size:2rem;display:block;line-height:1;margin-bottom:8px}
+    .teacher-card span{color:#c8d4e3;font-size:14px}
+    .decisions{display:grid;gap:16px}
+    .decision{display:grid;grid-template-columns:52px 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--line)}
+    .decision:first-child{border-top:0;padding-top:0}
+    .decision-n{font-size:13px;font-weight:900;color:var(--orange);padding-top:4px}
+    .decision h3{font-size:1.35rem;letter-spacing:-.02em;color:var(--navy);margin-bottom:7px}
+    .decision p{color:var(--muted);margin:0;max-width:62ch}
 
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
-section[id]{scroll-margin-top:64px}
-.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;z-index:100}
-.skip:focus{left:12px;top:12px}
+    .demo{background:var(--navy);color:#fff}
+    .demo .section-kicker{color:#90afef}
+    .demo h2{color:#fff;max-width:17ch}
+    .demo .section-lede{color:#c5d1de}
+    .demo-shell{display:grid;grid-template-columns:360px 1fr;background:#fff;color:var(--ink);border-radius:26px;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.22)}
+    .controls{padding:28px;background:#f4f6f9;border-right:1px solid var(--line)}
+    .controls h3{font-size:1.05rem;color:var(--navy);margin-bottom:20px}
+    .field{display:block;margin-bottom:15px}
+    .field span,.levels legend{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:850;color:#687386;margin-bottom:7px}
+    .field input,.field select{width:100%;height:45px;border:1px solid #ccd3dd;border-radius:10px;background:#fff;padding:0 12px;color:var(--ink)}
+    .field input:focus,.field select:focus{outline:3px solid rgba(49,93,232,.18);border-color:var(--blue)}
+    .levels{border:0;padding:0;margin:5px 0 20px}
+    .level-checks{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+    .level-check{position:relative}
+    .level-check input{position:absolute;opacity:0;inset:0}
+    .level-check span{display:grid;place-items:center;height:38px;border:1px solid #ccd3dd;border-radius:9px;background:#fff;font-size:13px;font-weight:850;color:#697487;cursor:pointer}
+    .level-check input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff}
+    .level-check input:focus-visible+span{outline:3px solid rgba(49,93,232,.22)}
+    .controls .btn{width:100%}
+    .local-note{font-size:11px;color:#7a8494;margin:12px 0 0;text-align:center}
+    .preview{padding:32px 34px;min-width:0}
+    .preview-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .preview-top h3{font-size:1.55rem;letter-spacing:-.03em;color:var(--navy);margin:0}
+    .sample-tag{white-space:nowrap;background:var(--mint);color:var(--green);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .objective{margin:22px 0;padding:17px 18px;border-left:4px solid var(--orange);background:#fff9f3;border-radius:0 12px 12px 0;color:#5c4c39}
+    .objective b{display:block;color:var(--navy);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+    .frame-list{display:grid;gap:10px}
+    .frame-row{display:grid;grid-template-columns:42px 1fr;gap:14px;border:1px solid var(--line);border-radius:13px;padding:13px 14px}
+    .frame-row .level{width:38px;height:38px;border-radius:10px}
+    .frame-row b{display:block;font-size:12px;color:#7c8797;margin-bottom:2px}
+    .frame-row p{margin:0;color:var(--navy);font-weight:700}
+    .empty{padding:24px;border:1px dashed #cbd2dc;border-radius:14px;color:#6b7585;text-align:center}
 
-/* ---------- structural rail + eyebrows ---------- */
-.eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.17em;
-  text-transform:uppercase;color:var(--ink-faint);margin:0 0 14px;display:block;
-}
-.eyebrow .num{color:var(--marigold)}
-section{padding:78px 0;border-top:1px solid var(--line)}
-section:first-of-type{border-top:0}
-.sec-head{max-width:66ch;margin-bottom:38px}
-.sec-head h2{font-size:clamp(1.75rem,3.6vw,2.6rem);margin-bottom:16px}
-.sec-head p{color:var(--ink-soft);font-size:1.05rem}
+    .build{background:var(--cream)}
+    .build-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .build-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+    .build-card h3{font-size:1.4rem;color:var(--navy);margin-bottom:12px}
+    .build-card p{color:var(--muted);margin-bottom:20px}
+    .tech{display:flex;gap:8px;flex-wrap:wrap}
+    .tech span{padding:7px 10px;border:1px solid #d2d8e1;border-radius:999px;font-size:12px;font-weight:750;color:#536071;background:#fbfcfd}
+    .boundary{margin-top:28px;background:var(--navy);border-radius:var(--radius);padding:30px;color:#fff;display:grid;grid-template-columns:1fr auto 1fr;gap:28px;align-items:center}
+    .boundary h3{margin:0 0 8px;font-size:1.2rem}
+    .boundary p{margin:0;color:#c7d2df;font-size:14px}
+    .boundary-arrow{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:var(--orange);font-weight:900}
+    .allow{color:#91dfbe!important}.deny{color:#ffc596!important}
 
-/* the blank line — the page's structural motif.
-   In ELD instruction, the blank is where the student's language goes. */
-.blank{
-  display:inline-block;min-width:5.5ch;border-bottom:3px solid var(--marigold);
-  text-align:center;line-height:1.1;
-}
-.blank-fill{font-family:var(--display);font-weight:800;color:var(--ink)}
+    .evidence{background:#fff}
+    .evidence-panel{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:26px;overflow:hidden}
+    .evidence-col{padding:38px}
+    .evidence-col+div{border-left:1px solid var(--line);background:#fafbfc}
+    .evidence-col h3{font-size:1.55rem;color:var(--navy);margin-bottom:18px}
+    .checklist{list-style:none;margin:0;padding:0;display:grid;gap:13px}
+    .checklist li{display:grid;grid-template-columns:22px 1fr;gap:10px;color:#515d6e}
+    .checklist li:before{content:"✓";color:var(--green);font-weight:900}
+    .not-yet li:before{content:"—";color:var(--orange)}
+    .questions{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+    .question{padding:22px;border-radius:16px;background:var(--cream)}
+    .question b{display:block;color:var(--navy);margin-bottom:7px}
+    .question p{margin:0;color:var(--muted);font-size:14px}
 
-/* ---------- nav ---------- */
-.nav{
-  position:sticky;top:0;z-index:50;background:rgba(237,241,246,.86);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
-}
-.nav-in{display:flex;align-items:center;gap:20px;max-width:var(--wrap);margin:0 auto;padding:11px 24px}
-.brand{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.02em;white-space:nowrap}
-.brand span{color:var(--cobalt)}
-.nav-links{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
-.nav-links a{
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink-soft);text-decoration:none;padding:7px 9px;border-radius:6px;
-}
-.nav-links a:hover{background:var(--cobalt-soft);color:var(--cobalt)}
-@media(max-width:820px){.nav-links{display:none}}
+    .closing{padding:86px 0;background:var(--blue);color:#fff}
+    .closing-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
+    .closing h2{color:#fff;max-width:16ch;margin-bottom:15px}
+    .closing p{color:#dce4ff;max-width:62ch;margin:0}
+    .closing .btn{background:#fff;color:var(--blue)}
+    footer{padding:28px 0;background:#0b192c;color:#aebbd0;font-size:13px}
+    .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+    .foot a{color:#fff}
 
-/* ---------- status pill ---------- */
-.pill{
-  display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;
-  font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:6px 12px;
-  border-radius:100px;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
-}
-.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--marigold);flex:none}
-
-/* ---------- hero ---------- */
-.hero{padding:64px 0 74px;border-top:0}
-.hero h1{
-  font-size:clamp(2.5rem,6.4vw,4.4rem);line-height:.99;letter-spacing:-.035em;
-  margin:26px 0 22px;max-width:16ch;
-}
-.hero .lede{font-size:clamp(1.05rem,1.7vw,1.3rem);color:var(--ink-soft);max-width:56ch}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:38px}}
-.byline{
-  margin-top:30px;padding-top:20px;border-top:1px solid var(--line);
-  display:flex;flex-wrap:wrap;gap:10px 26px;font-size:14.5px;color:var(--ink-soft);
-}
-.byline b{color:var(--ink);font-weight:600}
-
-/* ---------- the scoring instrument (hero signature) ---------- */
-.instrument{
-  background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  box-shadow:0 1px 0 var(--line-soft),0 18px 40px -32px rgba(14,23,38,.5);
-}
-.instr-bar{
-  display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line-soft);
-  background:var(--porcelain);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink-faint);
-}
-.instr-bar .live{width:7px;height:7px;border-radius:50%;background:var(--moss)}
-.instr-body{padding:22px 20px}
-.passage{
-  font-size:1.32rem;line-height:2.5;letter-spacing:-.01em;margin:0 0 8px;
-}
-.passage .w{position:relative;padding:0 1px;border-radius:3px}
-/* running-record notation, rendered typographically */
-.passage .w.miscue{background:#FBE3DF;box-shadow:inset 0 -3px 0 var(--rust)}
-.passage .w.transfer{background:var(--marigold-soft);box-shadow:inset 0 -3px 0 var(--marigold)}
-.passage .w[data-note]::after{
-  content:attr(data-note);position:absolute;left:50%;transform:translateX(-50%);
-  top:-1.15em;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;
-  color:var(--ink-faint);white-space:nowrap;font-weight:500;
-}
-.passage .w.transfer[data-note]::after{color:#9A6A05}
-.passage .w.miscue[data-note]::after{color:var(--rust)}
-
-.scoreboard{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-soft)}
-.score{padding:18px 20px}
-.score + .score{border-left:1px solid var(--line-soft)}
-.score .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:6px}
-.score .val{font-family:var(--display);font-size:2.55rem;font-weight:800;letter-spacing:-.04em;line-height:1}
-.score .sub{font-size:13px;color:var(--ink-soft);margin-top:4px;display:block}
-.score.legacy .val{color:var(--rust)}
-.score.ours .val{color:var(--moss)}
-.score.ours{background:linear-gradient(180deg,#F3FAF6,#fff)}
-.flagline{
-  padding:12px 20px;border-top:1px solid var(--line-soft);background:var(--porcelain);
-  font-size:13px;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start;
-}
-.key{display:flex;gap:16px;flex-wrap:wrap;padding:12px 20px 16px;font-size:12.5px;color:var(--ink-soft)}
-.key i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.key .k-m i{background:#FBE3DF;box-shadow:inset 0 -3px 0 var(--rust)}
-.key .k-t i{background:var(--marigold-soft);box-shadow:inset 0 -3px 0 var(--marigold)}
-
-/* ---------- buttons ---------- */
-.btn{
-  display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:9px;
-  font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;
-  transition:transform .12s ease,background .15s ease,border-color .15s ease;
-}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--ink);color:#fff}
-.btn-primary:hover{background:#1B2941}
-.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn-ghost:hover{border-color:var(--ink-soft);background:var(--card)}
-.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-
-/* ---------- generic cards & grids ---------- */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-@media(max-width:860px){.grid-2,.grid-3{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:24px}
-.card h3{font-size:1.22rem;margin-bottom:10px;letter-spacing:-.02em}
-.card p{font-size:15px;color:var(--ink-soft)}
-.card ul{margin:12px 0 0;padding-left:18px;font-size:14.5px;color:var(--ink-soft)}
-.card li{margin-bottom:6px}
-
-/* ---------- stats ---------- */
-.stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:26px 24px}
-.stat .n{font-family:var(--display);font-size:clamp(2.4rem,5vw,3.1rem);font-weight:800;letter-spacing:-.045em;line-height:1;display:block}
-.stat .t{margin-top:12px;font-size:15px;color:var(--ink-soft)}
-.footnote{margin-top:18px;font-size:12.5px;color:var(--ink-faint);font-family:var(--mono);line-height:1.7}
-
-/* ---------- frame engine ---------- */
-.engine{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.engine-controls{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line-soft)}
-@media(max-width:760px){.engine-controls{grid-template-columns:1fr}}
-.ctrl{padding:18px 20px}
-.ctrl + .ctrl{border-left:1px solid var(--line-soft)}
-@media(max-width:760px){.ctrl + .ctrl{border-left:0;border-top:1px solid var(--line-soft)}}
-.ctrl-lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:11px}
-.ctrl-lbl em{font-style:normal;color:var(--line);letter-spacing:.05em}
-.tabs{display:flex;flex-wrap:wrap;gap:6px}
-.tab{
-  border:1px solid var(--line);background:var(--porcelain);border-radius:8px;padding:8px 13px;
-  font-size:14px;font-weight:500;cursor:pointer;color:var(--ink-soft);transition:all .13s ease;
-}
-.tab:hover{border-color:var(--cobalt);color:var(--cobalt)}
-.tab.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.engine-meta{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--porcelain);border-bottom:1px solid var(--line-soft)}
-@media(max-width:760px){.engine-meta{grid-template-columns:1fr}}
-.engine-meta > div{padding:14px 20px}
-.engine-meta > div + div{border-left:1px solid var(--line-soft)}
-@media(max-width:760px){.engine-meta > div + div{border-left:0;border-top:1px solid var(--line-soft)}}
-.m-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);display:block}
-.engine-meta b{font-family:var(--display);font-size:1.15rem;letter-spacing:-.02em;display:block;margin:2px 0 1px}
-.m-sub{font-size:13.5px;color:var(--ink-soft)}
-
-.ladder{padding:4px 0}
-.rung{display:grid;grid-template-columns:190px 1fr;gap:0;border-bottom:1px solid var(--line-soft)}
-.rung:last-child{border-bottom:0}
-@media(max-width:760px){.rung{grid-template-columns:1fr}}
-.rung-lv{padding:20px;border-left:6px solid var(--w1);background:var(--porcelain)}
-.lv1 .rung-lv{border-left-color:var(--w1)}
-.lv2 .rung-lv{border-left-color:var(--w2)}
-.lv3 .rung-lv{border-left-color:var(--w3)}
-.lv4 .rung-lv{border-left-color:var(--w4)}
-.lv5 .rung-lv{border-left-color:var(--w5)}
-.lv6 .rung-lv{border-left-color:var(--w6)}
-.lv-n{font-family:var(--display);font-size:1.9rem;font-weight:800;letter-spacing:-.05em;line-height:1;display:block}
-.lv-name{font-weight:600;font-size:15px;display:block;margin-top:1px}
-.lv-spec{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-faint);display:block;margin-top:7px;line-height:1.5}
-.rung-body{padding:20px 22px}
-.rung-frame{font-size:1.1rem;line-height:1.75;margin:0 0 12px;letter-spacing:-.01em}
-.rung-frame .blank{min-width:7ch;margin:0 2px}
-.rung-support{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.6}
-.rung-support span{
-  font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--ink-faint);margin-right:9px;border:1px solid var(--line);padding:2px 6px;border-radius:4px;
-  white-space:nowrap;
-}
-.lv6 .rung-frame{color:var(--ink)}
-.lv6 .rung-lv{background:linear-gradient(180deg,var(--porcelain),#fff)}
-
-.vocab{padding:22px 22px 26px;border-top:1px solid var(--line)}
-.vocab h4{font-family:var(--display);font-size:1.05rem;margin:0 0 14px}
-.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:760px){.tiers{grid-template-columns:1fr}}
-.tier{border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:var(--porcelain)}
-.tier-n{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--cobalt);display:block}
-.tier-note{font-size:12.5px;color:var(--ink-soft);display:block;margin:5px 0 10px;line-height:1.5}
-.tier ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:5px}
-.tier li{font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
-.sample-note{
-  margin:0;padding:16px 22px;border-top:1px solid var(--line);background:var(--cobalt-soft);
-  font-size:13.5px;color:#1B3A96;line-height:1.6;
-}
-
-/* ---------- generated plan ---------- */
-.plan{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.plan-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px;border-bottom:1px solid var(--line-soft)}
-.plan-head h3{font-size:1.5rem}
-.plan-sub{font-size:14px;color:var(--ink-soft);margin:7px 0 0}
-.disclaimer{
-  padding:14px 22px;background:var(--marigold-soft);border-bottom:1px solid #F0DCA8;
-  font-size:14px;color:#6B4A05;line-height:1.6;
-}
-.plan-body{padding:8px 22px 24px}
-.plan-block{padding:18px 0;border-bottom:1px solid var(--line-soft)}
-.plan-block:last-child{border-bottom:0}
-.plan-block h4{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 11px}
-.plan-block p{font-size:15px;color:var(--ink-soft);margin-bottom:.6em}
-.plan-block p b{color:var(--ink)}
-.arc{list-style:none;margin:0;padding:0}
-.arc li{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:9px 0;border-top:1px dotted var(--line)}
-.arc li:first-child{border-top:0}
-@media(max-width:600px){.arc li{grid-template-columns:1fr;gap:3px}}
-.arc .t{font-family:var(--mono);font-size:12px;color:var(--cobalt);padding-top:3px}
-.arc .d{font-size:15px;color:var(--ink-soft);line-height:1.6}
-.arc .d b{color:var(--ink)}
-
-/* ---------- scoring ---------- */
-.sub-h{font-size:1.3rem;margin:44px 0 16px}
-.scoring-card .instr-bar{justify-content:flex-start}
-.run-btn{
-  margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:7px;
-  padding:6px 12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
-  cursor:pointer;color:var(--ink);
-}
-.run-btn:hover:not(:disabled){border-color:var(--cobalt);color:var(--cobalt)}
-.run-btn:disabled{opacity:.5;cursor:default}
-.passage-full{font-size:1.12rem;line-height:2.6}
-.passage.running .w{opacity:.45;transition:opacity .12s ease}
-.passage .w.cursor{opacity:1;box-shadow:inset 0 -3px 0 var(--cobalt)}
-.passage .w.transfer.cursor{box-shadow:inset 0 -3px 0 var(--marigold),inset 0 0 0 1px var(--cobalt)}
-.score .val.dim{opacity:.22;transition:opacity .2s ease}
-.score .val small{font-size:.5em;font-weight:700;margin-left:1px}
-.scoreboard.four{grid-template-columns:repeat(4,1fr)}
-@media(max-width:760px){.scoreboard.four{grid-template-columns:1fr 1fr}.scoreboard.four .score:nth-child(3){border-left:0}.scoreboard.four .score:nth-child(n+3){border-top:1px solid var(--line-soft)}}
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
-.tbl{width:100%;border-collapse:collapse;font-size:14.5px;min-width:620px}
-.tbl th{
-  text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink-faint);font-weight:600;padding:13px 16px;border-bottom:1px solid var(--line);
-}
-.tbl td{padding:12px 16px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft)}
-.tbl tr:last-child td{border-bottom:0}
-.tbl td:first-child{color:var(--ink);font-weight:500}
-.tbl .no{color:var(--moss);font-weight:600}
-.tbl .yes{color:var(--rust);font-weight:600}
-.caveat{
-  margin-top:22px;border-left:4px solid var(--marigold);background:var(--card);
-  border-radius:0 10px 10px 0;padding:18px 20px;font-size:15px;color:var(--ink-soft);line-height:1.65;
-}
-.caveat b{color:var(--ink)}
-
-/* ---------- family view ---------- */
-.family{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:620px}
-.family-bar{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--line-soft);background:var(--porcelain)}
-.lang-toggle{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
-.lang{border:0;background:transparent;padding:7px 13px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink-soft)}
-.lang + .lang{border-left:1px solid var(--line)}
-.lang.on{background:var(--cobalt);color:#fff}
-.family-body{padding:22px}
-.family-body h3{font-size:1.35rem;margin-bottom:16px}
-.family-body h4{font-family:var(--display);font-size:1.05rem;margin:22px 0 10px}
-.fstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.fstats > div{background:var(--porcelain);border-radius:10px;padding:14px;text-align:center}
-.fn{font-family:var(--display);font-size:1.9rem;font-weight:800;letter-spacing:-.04em;display:block;line-height:1;color:var(--cobalt)}
-.ft{font-size:12.5px;color:var(--ink-soft);display:block;margin-top:6px;line-height:1.35}
-.fmeans{font-size:15px;color:var(--ink-soft);background:var(--cobalt-soft);border-radius:10px;padding:14px 16px;line-height:1.6}
-.fmeans b{color:#1B3A96}
-.ftips{margin:0;padding-left:20px;font-size:15px;color:var(--ink-soft);line-height:1.6}
-.ftips li{margin-bottom:9px}
-.fbtn{margin-top:18px}
-
-/* ---------- architecture ---------- */
-.arch{display:grid;grid-template-columns:1fr 30px 1fr 44px 1fr;gap:0;align-items:stretch}
-@media(max-width:900px){.arch{grid-template-columns:1fr}}
-.arch-col{display:flex;flex-direction:column;gap:12px}
-.arch-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
-.arch-box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 17px;flex:1}
-.arch-box.sub{flex:0 0 auto;background:var(--porcelain)}
-.arch-box b{font-family:var(--display);font-size:1.08rem;display:block;margin-bottom:8px;letter-spacing:-.02em}
-.arch-box span{display:block;font-size:13.5px;color:var(--ink-soft);line-height:1.55;margin-bottom:3px}
-.arch-box code{font-family:var(--mono);font-size:12px;background:var(--porcelain);padding:1px 5px;border-radius:4px}
-.arch-box.model{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--cobalt-soft)}
-.arch-box .allow{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);margin-top:4px}
-.payload{display:block!important;font-family:var(--mono);font-size:11.5px;line-height:1.7;background:var(--porcelain);border-radius:7px;padding:9px 10px;margin:6px 0 10px;word-break:break-word;color:var(--ink)}
-.arch-box .deny{font-size:13px;color:var(--rust);line-height:1.5}
-.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--line);font-size:20px}
-@media(max-width:900px){.arch-arrow{transform:rotate(90deg);padding:6px 0}}
-.arch-boundary{position:relative;display:flex;align-items:center;justify-content:center}
-.arch-boundary::before{content:"";position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--cobalt);opacity:.55}
-.arch-boundary-lbl{
-  position:relative;writing-mode:vertical-rl;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--cobalt);background:var(--porcelain);padding:10px 3px;
-}
-@media(max-width:900px){
-  .arch-boundary{padding:16px 0}
-  .arch-boundary::before{top:50%;left:0;right:0;bottom:auto;width:auto;height:0;border-left:0;border-top:2px dashed var(--cobalt)}
-  .arch-boundary-lbl{writing-mode:horizontal-tb;padding:3px 10px}
-}
-.compliance h3{font-size:1.1rem;color:var(--cobalt)}
-
-/* ---------- ADDIE ---------- */
-.addie{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 40px;padding:0}
-@media(max-width:760px){.addie{grid-template-columns:1fr 1fr}}
-.addie li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px;opacity:.55}
-.addie li.done,.addie li.active{opacity:1}
-.addie li.done{background:var(--card);border-color:var(--line)}
-.addie li.active{border-color:var(--marigold);box-shadow:0 0 0 3px var(--marigold-soft)}
-.addie .a{font-family:var(--display);font-size:1.7rem;font-weight:800;letter-spacing:-.05em;display:block;line-height:1}
-.addie li.done .a{color:var(--moss)}
-.addie li.active .a{color:var(--marigold)}
-.addie .n{font-weight:600;font-size:14.5px;display:block;margin-top:4px}
-.addie .s{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-top:5px}
-.tag-target{
-  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#6B4A05;
-  background:var(--marigold-soft);border:1px solid #F0DCA8;padding:4px 9px;border-radius:100px;
-  vertical-align:middle;margin-left:10px;white-space:nowrap;
-}
-.targets .stat{border-style:dashed}
-.targets .stat .n{color:var(--ink-soft)}
-.risk h3{font-size:1.06rem;color:var(--rust)}
-.risk p{font-size:14.5px;line-height:1.65}
-.risk p b{color:var(--ink)}
-
-/* ---------- live generation form ---------- */
-.live{padding:20px 22px;border-bottom:1px solid var(--line-soft)}
-.live-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-@media(max-width:760px){.live-grid{grid-template-columns:repeat(6,1fr)}}
-.fld{display:flex;flex-direction:column;gap:6px;min-width:0;border:0;padding:0;margin:0}
-.fld > span,.fld legend{
-  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--ink-faint);padding:0;
-}
-.fld select,.fld input,.fld textarea{
-  font:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;
-  background:var(--card);color:var(--ink);width:100%;transition:border-color .12s ease;
-}
-.fld textarea{font-size:14.5px;line-height:1.65;resize:vertical}
-.fld select:hover,.fld input:hover,.fld textarea:hover{border-color:var(--ink-faint)}
-.fld select:focus,.fld input:focus,.fld textarea:focus{border-color:var(--cobalt);outline-offset:1px}
-.live-grid > *:nth-child(1){grid-column:span 2}
-.live-grid > *:nth-child(2){grid-column:span 3}
-.live-grid > *:nth-child(3){grid-column:span 7}
-.live-grid > *:nth-child(4){grid-column:span 3}
-.live-grid > *:nth-child(5){grid-column:span 2}
-.live-grid > *:nth-child(6){grid-column:span 7}
-@media(max-width:760px){.live-grid > *{grid-column:span 6!important}}
-.levels-fs legend{margin-bottom:6px}
-.lvbox{display:flex;gap:6px;flex-wrap:wrap}
-.lvchk{cursor:pointer}
-.lvchk input{position:absolute;opacity:0;width:0;height:0}
-.lvchk span{
-  display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--line);
-  border-radius:8px;background:var(--card);font-weight:600;font-size:15px;color:var(--ink-faint);
-  transition:all .12s ease;
-}
-.lvchk input:checked + span{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
-.lvchk input:focus-visible + span{outline:3px solid var(--marigold);outline-offset:2px}
-.live-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:16px}
-.live-note{font-size:13px;color:var(--ink-soft)}
-.live-note.err{color:var(--rust)}
-.payload-view{border-bottom:1px solid var(--line-soft);background:var(--porcelain)}
-.payload-view summary{
-  cursor:pointer;padding:12px 22px;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
-  text-transform:uppercase;color:var(--cobalt);
-}
-.payload-view summary:hover{background:var(--cobalt-soft)}
-.payload-view pre{
-  margin:0;padding:0 22px;font-family:var(--mono);font-size:12.5px;line-height:1.75;
-  color:var(--ink);overflow-x:auto;white-space:pre-wrap;word-break:break-word;
-}
-.payload-note{margin:12px 22px 16px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;max-width:70ch}
-
-.result-bar{
-  display:flex;align-items:center;gap:9px;padding:11px 22px;font-family:var(--mono);font-size:11px;
-  letter-spacing:.09em;text-transform:uppercase;border-bottom:1px solid var(--line-soft);
-  background:var(--porcelain);color:var(--ink-soft);
-}
-.result-bar .rb-dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);flex:none}
-.result-bar.live{background:#F0FAF5;color:#155F45}
-.result-bar.live .rb-dot{background:var(--moss)}
-.result-bar.error{background:#FDF0ED;color:#8C2C1F}
-.result-bar.error .rb-dot{background:var(--rust)}
-.result-bar.working{background:var(--cobalt-soft);color:#1B3A96}
-.result-bar.working .rb-dot{background:var(--cobalt);animation:pulse 1s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-
-.objectives{padding:18px 22px;border-bottom:1px solid var(--line-soft)}
-.obj-title{font-family:var(--display);font-size:1.3rem;margin:0 0 14px;letter-spacing:-.02em}
-.obj-row{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:8px 0}
-@media(max-width:640px){.obj-row{grid-template-columns:1fr;gap:3px}}
-.obj-row > span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);padding-top:4px}
-.obj-row p{margin:0;font-size:15px;color:var(--ink-soft);line-height:1.6}
-.watchfor{margin-top:12px;background:var(--marigold-soft);border-radius:9px;padding:12px 14px;font-size:14px;color:#6B4A05;line-height:1.6}
-.watchfor b{color:#4A3303}
-.samples{padding:18px 22px;border-top:1px solid var(--line);background:var(--porcelain);display:flex;flex-direction:column;gap:9px}
-.samples .tabs{gap:6px}
-
-/* ---------- working scorer ---------- */
-.scorer{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:26px}
-.scorer-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line-soft);background:var(--porcelain)}
-.scorer-tag{font-size:13px;color:var(--ink-soft)}
-.scorer-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px}
-@media(max-width:820px){.scorer-inputs{grid-template-columns:1fr}}
-.scorer-actions{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:0 20px 20px}
-.fld.inline{flex-direction:column;width:110px}
-#scorerOut .instrument{border-radius:0;border-left:0;border-right:0;border-bottom:0;box-shadow:none}
-#scorerOut .table-wrap{border-radius:0;border-left:0;border-right:0;border-bottom:0}
-.tbl.flags td:nth-child(2){font-family:var(--mono);font-size:13px}
-.scorer-err{padding:18px 20px;color:var(--rust);font-size:14.5px;border-top:1px solid var(--line-soft)}
-.delta{
-  display:flex;gap:10px;align-items:baseline;padding:14px 20px;border-top:1px solid var(--line-soft);
-  background:linear-gradient(90deg,#FDF0ED,#F0FAF5);font-size:14.5px;color:var(--ink-soft);
-}
-.delta b{color:var(--ink);font-family:var(--display);font-size:1.05rem}
-
-/* ---------- honesty callout ---------- */
-.honest{
-  border:1px solid var(--line);border-left:4px solid var(--ink);background:var(--card);
-  border-radius:0 12px 12px 0;padding:18px 20px;margin-bottom:34px;font-size:15px;
-  color:var(--ink-soft);line-height:1.65;max-width:78ch;
-}
-.honest b{color:var(--ink)}
-
-/* ---------- footer ---------- */
-footer{border-top:1px solid var(--line);background:var(--card);padding:34px 0 46px}
-.foot{display:grid;grid-template-columns:1fr 1.4fr;gap:28px;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
-@media(max-width:760px){.foot{grid-template-columns:1fr}}
-.foot b{color:var(--ink)}
-.foot-legal{font-size:12.5px;color:var(--ink-faint)}
-</style>
+    @media(max-width:900px){
+      .hero{padding-top:64px}.hero-grid,.story-grid,.demo-shell,.build-grid,.closing-grid{grid-template-columns:1fr}
+      .hero-grid{gap:42px}.product-card{max-width:650px}.story-note{position:static}.teacher-card{max-width:360px}
+      .demo-shell{max-width:720px}.controls{border-right:0;border-bottom:1px solid var(--line)}
+      .boundary{grid-template-columns:1fr}.boundary-arrow{transform:rotate(90deg)}.questions{grid-template-columns:1fr}
+      .closing .actions{justify-content:flex-start}
+    }
+    @media(max-width:680px){
+      .wrap{width:min(calc(100% - 28px),var(--max))}.nav-in{height:62px}.nav-links a:not(.nav-cta){display:none}
+      .hero{padding:52px 0 58px}h1{font-size:clamp(3rem,15vw,4.5rem)}section{padding:72px 0}
+      .evidence-panel{grid-template-columns:1fr}.evidence-col+div{border-left:0;border-top:1px solid var(--line)}
+      .preview{padding:26px 20px}.preview-top{display:block}.sample-tag{display:inline-block;margin-top:12px}
+      .pc-head,.pc-body,.controls,.build-card,.evidence-col{padding-left:22px;padding-right:22px}
+      .proof{display:grid;gap:10px}.boundary{padding:24px}.closing{padding:70px 0}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
-<nav class="nav" aria-label="Section navigation">
-  <div class="nav-in">
-    <div class="brand">ELD AI<span>:</span> Read Together</div>
+<nav class="nav" aria-label="Primary navigation">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">Read<span>Together</span></a>
     <div class="nav-links">
-      <a href="#problem">Problem</a>
-      <a href="#product">Product</a>
-      <a href="#frames">Frame engine</a>
-      <a href="#lesson">Lesson output</a>
-      <a href="#family">Family view</a>
-      <a href="#build">Architecture</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#pilot">Research plan</a>
-      <a href="#contact">Contact</a>
+      <a href="#story">Why it exists</a>
+      <a href="#demo">Try it</a>
+      <a href="#build">How it works</a>
+      <a class="nav-cta" href="#contact">About Matthew</a>
     </div>
   </div>
 </nav>
 
 <main id="main">
-
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
       <div>
-        <span class="pill"><span class="dot"></span> Designed prototype · No participants · No pilot · No outcome data</span>
-        <h1>Plan one rigorous lesson for the language levels actually in the room.</h1>
-        <p class="lede">
-          <b>ELD AI: Read&nbsp;Together</b> is a working lesson-planning prototype shaped by eight years in
-          K–5 classrooms. It turns a teacher's grade, subject, topic, Key Language Use, and WIDA levels into
-          an editable scaffold preview while keeping student information out of the model payload. This is
-          a product and instructional-design demonstration—not a research study or a claim of classroom impact.
-        </p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="#frames">Open the frame engine</a>
-          <a class="btn btn-ghost" href="#build">Inspect the architecture</a>
+        <span class="eyebrow">Teacher-built EdTech prototype</span>
+        <h1>One lesson. Six levels of language support.</h1>
+        <p class="hero-copy"><b>ReadTogether</b> turns a teacher's instructional inputs into an editable WIDA-informed scaffold preview—without sending learner records to a model. It is a working product prototype shaped by eight years in K–5 classrooms.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#demo">Try the scaffold demo</a>
+          <a class="btn btn-secondary" href="https://github.com/mtracey6/readtogether" target="_blank" rel="noopener">View source</a>
         </div>
-        <div class="byline">
-          <span><b>Matthew Tracey</b> · M.Ed., Educational Technology &amp; Instructional Design</span>
-          <span>M.Ed., Mathematics Education (K–6)</span>
-          <span>Eight years in K–5 classrooms</span>
+        <div class="proof" aria-label="Project evidence summary">
+          <span><i></i>Working interaction</span>
+          <span><i></i>Inspectable source</span>
+          <span><i></i>No participant or outcome claims</span>
         </div>
       </div>
-
-      <!-- Signature element: a concise product brief, not simulated learner evidence -->
-      <div class="instrument" role="figure" aria-labelledby="instr-cap">
-        <div class="instr-bar"><span class="live" aria-hidden="true"></span> Working prototype · teacher planning surface</div>
-        <div class="instr-body">
-          <p class="passage"><b>Input</b><br>Grade 3 · Science · Water cycle · Explain · WIDA levels 1–4</p>
-        </div>
-        <div class="key">
-          <span class="k-t"><i aria-hidden="true"></i>Same content objective</span>
-          <span class="k-m"><i aria-hidden="true"></i>Different language supports</span>
-        </div>
-        <div class="scoreboard">
-          <div class="score legacy">
-            <span class="lbl">Teacher receives</span>
-            <span class="val" style="font-size:1.45rem">A structured draft</span>
-            <span class="sub">Objectives · vocabulary · frames · formative check</span>
-          </div>
-          <div class="score ours">
-            <span class="lbl">Teacher retains</span>
-            <span class="val" style="font-size:1.45rem">Professional judgment</span>
-            <span class="sub">Review · edit · align · decide whether to use</span>
-          </div>
-        </div>
-        <p class="flagline" id="instr-cap">
-          <span aria-hidden="true">→</span>
-          <span>The public demo runs locally with designed sample content. It does not collect learner data,
-          call a production model, or present generated output as validated curriculum.</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PROBLEM ============ -->
-<section id="problem">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">01</span> &nbsp;The gap</span>
-      <h2>The classroom problem: differentiation is necessary, repetitive, and time-constrained.</h2>
-      <p>
-        A mixed-proficiency classroom may share one content objective while requiring different amounts
-        of language support. ReadTogether began as a teacher-designed exploration of how to make that
-        planning work more structured without replacing the educator's knowledge of students, curriculum,
-        IEPs, language-support plans, or local requirements.
-      </p>
-    </div>
-    <div class="grid-3">
-      <div class="stat"><span class="n" style="font-size:1.3rem">Rigor</span><span class="t">Keep the grade-level content goal stable while changing the amount of language support.</span></div>
-      <div class="stat"><span class="n" style="font-size:1.3rem">Clarity</span><span class="t">Make objectives, vocabulary, sentence frames, and formative checks easy to inspect and edit.</span></div>
-      <div class="stat"><span class="n" style="font-size:1.3rem">Judgment</span><span class="t">Treat AI output as a draft for teacher review, never as a curriculum or assessment authority.</span></div>
-    </div>
-    <p class="footnote">
-      <b>Design reference.</b>
-      <a href="https://wida.wisc.edu/teach/standards/eld" target="_blank" rel="noopener">WIDA ELD Standards Framework</a>
-      informs the prototype's Key Language Uses and proficiency-level scaffolds. The project is independent
-      and has not been reviewed or endorsed by WIDA.
-    </p>
-  </div>
-</section>
-
-<!-- ============ PRODUCT ============ -->
-<section id="product">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">02</span> &nbsp;The product</span>
-      <h2>A working teacher workflow, with future concepts kept clearly separate.</h2>
-      <p>
-        The implemented portfolio surface focuses on teacher planning. A bilingual family communication
-        concept is included to show product direction, but there is no learner profile, assessment engine,
-        classroom integration, or participant evidence behind it.
-      </p>
-    </div>
-    <div class="grid-2">
-      <div class="card">
-        <span class="eyebrow" style="margin-bottom:10px">Surface A · Teacher</span>
-        <h3>Differentiated planning in about a minute</h3>
-        <p>
-          Grade, subject, topic, the WIDA levels actually sitting in the room, and one of the four Key
-          Language Uses. Out comes a plan with paired content and language objectives, tiered vocabulary,
-          sentence frames written separately for each level present, and a formative check.
-        </p>
-        <ul>
-          <li>Scaffolds by level — never a simplified text for everyone</li>
-          <li>Tier 1 / 2 / 3 vocabulary split, not one undifferentiated word list</li>
-          <li>Teacher review required before classroom use; the prototype places the disclaimer with the plan</li>
-          <li>Designed to support saving, editing, and school-level sharing</li>
-        </ul>
-      </div>
-      <div class="card">
-        <span class="eyebrow" style="margin-bottom:10px">Future concept · Family communication</span>
-        <h3>Explain the learning focus in plain language</h3>
-        <p>
-          The family-view mockup explores how a teacher might share a learning focus, a plain-language
-          explanation, and practical at-home suggestions in English and Spanish. It deliberately avoids
-          simulated scores or student records.
-        </p>
-        <ul>
-          <li>Authored bilingual interface copy, not runtime machine translation</li>
-          <li>Low-text, mobile-friendly information hierarchy</li>
-          <li>No assumption that a caregiver reads English or owns special materials</li>
-          <li>Clearly labeled as a future concept, not a working school communication system</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FRAME ENGINE (signature interactive) ============ -->
-<section id="frames">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">03</span> &nbsp;Try it · Static sentence-frame prototype</span>
-      <h2>The same content. Six different amounts of language support.</h2>
-      <p>
-        This explores work teachers may need to repeat across proficiency levels before 8&nbsp;a.m.
-        Change the instructional inputs to inspect the proposed allow-listed payload, then preview a
-        clearly labeled designed sample. This public portfolio build makes no model call and sends no
-        data. The content does not get easier down the ladder; the language scaffold gets heavier.
-      </p>
-    </div>
-
-    <div class="engine">
-      <form class="live" id="genForm" novalidate>
-        <div class="live-grid">
-          <label class="fld"><span>Grade</span>
-            <select id="fGrade">
-              <option>K</option><option>1</option><option selected>2</option><option>3</option>
-              <option>4</option><option>5</option><option>6</option><option>7</option>
-              <option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
-            </select>
-          </label>
-          <label class="fld"><span>Subject</span>
-            <select id="fSubject">
-              <option>ELD/ESL</option><option selected>Science</option><option>ELA</option>
-              <option>Math</option><option>Social Studies</option>
-            </select>
-          </label>
-          <label class="fld wide"><span>Topic</span>
-            <input id="fTopic" type="text" maxlength="80" value="how volcanoes erupt"
-                   placeholder="anything you'd actually teach" autocomplete="off">
-          </label>
-          <label class="fld"><span>Key Language Use</span>
-            <select id="fKlu">
-              <option>Narrate</option><option>Inform</option><option selected>Explain</option><option>Argue</option>
-            </select>
-          </label>
-          <label class="fld"><span>Minutes</span>
-            <select id="fDur">
-              <option>30</option><option>45</option><option selected>50</option><option>60</option><option>90</option>
-            </select>
-          </label>
-          <fieldset class="fld levels-fs">
-            <legend>WIDA levels in the room</legend>
-            <div class="lvbox" id="fLevels"></div>
-          </fieldset>
-        </div>
-        <div class="live-actions">
-          <button class="btn btn-primary" type="submit" id="genBtn">Preview scaffold output</button>
-          <span class="live-note" id="liveNote">Static prototype · input stays in this browser.</span>
-        </div>
-      </form>
-
-      <details class="payload-view">
-        <summary>See exactly what crosses the boundary</summary>
-        <pre id="payloadOut">Proposed POST /api/generate/scaffold
-{
-  "gradeLevel": "2",
-  "subject": "Science",
-  "topic": "how volcanoes erupt",
-  "keyLanguageUse": "Explain",
-  "widaLevels": [1, 2, 3, 4],
-  "duration": 50
-}</pre>
-        <p class="payload-note">The proposed request body is assembled field by field from an allow-list
-        in the API prototype. Student names, roster identifiers, teacher notes, and audio are not accepted
-        fields. The only free-text input is the topic; the API prototype length-caps it and screens common
-        email, phone, and ID patterns. These controls still require security testing before any pilot.</p>
-      </details>
-
-      <div class="result-bar" id="resultBar"></div>
-      <div class="objectives" id="objectives" hidden></div>
-      <div class="engine-meta" id="engineMeta"></div>
-      <div class="ladder" id="ladder" aria-live="polite"></div>
-      <div class="vocab" id="vocab"></div>
-
-      <div class="samples">
-        <span class="ctrl-lbl">Or explore another designed example <em>(no API call)</em></span>
-        <div class="tabs" role="tablist" aria-label="Example lesson topic" id="topicTabs"></div>
-        <div class="tabs" role="tablist" aria-label="Key Language Use" id="kluTabs"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ LESSON OUTPUT ============ -->
-<section id="lesson">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">04</span> &nbsp;What lands in the teacher's hands</span>
-      <h2>A plan, not a wall of text.</h2>
-      <p>
-        Generated output is structured before it is written, so it can be saved, edited, filtered by level,
-        and reused. Below is a designed output shape for a mixed-level third grade science block.
-      </p>
-    </div>
-
-    <div class="plan">
-      <div class="plan-head">
-        <div>
-          <span class="eyebrow" style="margin-bottom:8px">Generated plan</span>
-          <h3>The Water Cycle — Grade 3 Science</h3>
-          <p class="plan-sub">50 minutes · Key Language Use: <b>Explain</b> · WIDA levels present: 1, 2, 3, 4</p>
-        </div>
-        <span class="pill"><span class="dot"></span> Draft</span>
-      </div>
-
-      <div class="disclaimer">
-        <b>Review before classroom use.</b> This plan is AI-generated. Check it against your district's
-        curriculum, your students' IEP and language support plans, and your own read of the room. The
-        teacher is the professional in the loop; the model is not.
-      </div>
-
-      <div class="plan-body">
-        <div class="plan-block">
-          <h4>Objectives</h4>
-          <p><b>Content:</b> Students explain how water moves through evaporation, condensation, precipitation, and collection.</p>
-          <p><b>Language:</b> Students <i>explain</i> cause-and-effect relationships in the water cycle using level-appropriate frames and Tier&nbsp;3 vocabulary, with visual and peer support.</p>
-        </div>
-
-        <div class="plan-block">
-          <h4>Lesson arc</h4>
-          <ol class="arc">
-            <li><span class="t">0–8 min</span><span class="d"><b>Anchor.</b> Show the labeled cycle diagram. Everyone gets the same diagram. Levels 1–2 receive it with picture-word cards; levels 3–4 receive it unlabeled and label it themselves.</span></li>
-            <li><span class="t">8–20 min</span><span class="d"><b>Vocabulary.</b> Introduce four Tier 3 terms with gesture, image, and cognate bridge (<i>evaporación / evaporation</i>). Students build a personal glossary entry.</span></li>
-            <li><span class="t">20–38 min</span><span class="d"><b>Explain in pairs.</b> Mixed-level partners. Each student uses their own frame from the ladder above. The level 1 partner speaks first with the word bank — going first protects them from being talked over.</span></li>
-            <li><span class="t">38–48 min</span><span class="d"><b>Write.</b> Same task, differentiated output: label a diagram, write a sentence, write a causal chain, or write a paragraph with transitions.</span></li>
-            <li><span class="t">48–50 min</span><span class="d"><b>Exit check.</b> One sentence: why do clouds form? Collected, sorted by level, used to regroup tomorrow.</span></li>
-          </ol>
-        </div>
-
-        <div class="plan-block">
-          <h4>Formative assessment</h4>
-          <p>
-            Score language production against the frame the student was given, not against a single
-            grade-level target. A level 2 student producing a correct simple sentence with the right Tier 3
-            term has met the objective. Record the level, not just right or wrong — that is what drives the
-            next plan.
-          </p>
-        </div>
-
-        <div class="plan-block">
-          <h4>Materials</h4>
-          <p>Water cycle diagram (labeled + unlabeled), Tier 3 picture-word cards, sentence frame strips by level, personal glossary page, exit slip.</p>
+      <div class="product-card" aria-label="ReadTogether lesson preview example">
+        <div class="pc-head"><span class="pc-title">Lesson scaffold preview</span><span class="status">Designed sample</span></div>
+        <div class="pc-body">
+          <div class="input-strip"><span class="chip">Grade 3</span><span class="chip">Science</span><span class="chip">Water cycle</span><span class="chip">Explain</span></div>
+          <div class="output-label">Same content goal · changing language support</div>
+          <div class="mini-frame"><span class="level">1</span><div><b>Entering</b><p>The sun makes the water ______. <i>Word bank: hot, go up.</i></p></div></div>
+          <div class="mini-frame"><span class="level">3</span><div><b>Developing</b><p>Water evaporates because the sun heats it, and when the vapor cools, ______.</p></div></div>
+          <div class="mini-frame"><span class="level">5</span><div><b>Bridging</b><p>Condensation occurs as a result of decreasing temperature, which causes ______.</p></div></div>
+          <div class="review"><b>Teacher review required.</b> Check every draft against curriculum, learner supports, and your own professional judgment.</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- ============ FAMILY VIEW ============ -->
-<section id="family">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">05</span> &nbsp;Explore it · Family communication concept</span>
-      <h2>Make the learning focus understandable without inventing a learner record.</h2>
-      <p>
-        This authored English/Spanish mockup demonstrates a possible communication pattern. It contains
-        no name, score, pace, grade-level judgment, or simulated progress. Toggle the language to inspect
-        the same plain-language structure in both versions.
-      </p>
-    </div>
-
-    <div class="family" lang="en" id="familyCard">
-      <div class="family-bar">
-        <span class="eyebrow" style="margin:0">Family update · interface concept</span>
-        <div class="lang-toggle" role="group" aria-label="Interface language">
-          <button type="button" class="lang on" data-lang="en" aria-pressed="true">English</button>
-          <button type="button" class="lang" data-lang="es" aria-pressed="false">Español</button>
-        </div>
+  <section class="story" id="story">
+    <div class="wrap story-grid">
+      <div class="story-note">
+        <div class="section-kicker">Why it exists</div>
+        <h2>Built from a classroom constraint—not a trend brief.</h2>
+        <div class="teacher-card"><strong>8 years</strong><span>of K–5 planning, differentiation, assessment, intervention, and family communication behind the product judgment.</span></div>
       </div>
-      <div class="family-body">
-        <p class="scorer-tag" data-i18n="fSample">Designed interface copy · no learner data</p>
-        <h3 data-i18n="fTitle">Our learning focus: explaining cause and effect</h3>
-        <div class="fstats">
-          <div><span class="fn" style="font-size:1rem">Focus</span><span class="ft" data-i18n="fStat1">explain why something happens</span></div>
-          <div><span class="fn" style="font-size:1rem">Words</span><span class="ft" data-i18n="fStat2">because · so · as a result</span></div>
-          <div><span class="fn" style="font-size:1rem">Try</span><span class="ft" data-i18n="fStat3">tell the idea in any language first</span></div>
-        </div>
-        <p class="fmeans"><b data-i18n="fMeansLbl">What this means:</b>
-          <span data-i18n="fMeans">The class is practicing how to connect a cause with its effect. The goal
-          is to explain the relationship clearly; using the home language to rehearse the idea is welcome.</span>
-        </p>
-        <h4 data-i18n="fHelpTitle">How to help at home</h4>
-        <ol class="ftips">
-          <li data-i18n="fTip1">Read together in any language. Reading in Spanish builds the same skills English reading needs.</li>
-          <li data-i18n="fTip2">Ask: “Why did that happen?” and “What happened next?” during a story or daily routine.</li>
-          <li data-i18n="fTip3">Use words such as because, so, and as a result when you explain an idea together.</li>
-        </ol>
-        <button class="btn btn-ghost fbtn" type="button" data-i18n="fBtn" disabled>Teacher messaging concept</button>
+      <div class="decisions">
+        <article class="decision"><span class="decision-n">01</span><div><h3>Keep the content rigorous.</h3><p>Learners can work toward the same grade-level idea while receiving different amounts of language support. The prototype changes the scaffold—not the intellectual goal.</p></div></article>
+        <article class="decision"><span class="decision-n">02</span><div><h3>Give teachers structure, not a wall of text.</h3><p>The output separates content and language objectives, vocabulary, sentence frames, formative checks, and a review prompt so each part can be inspected and edited.</p></div></article>
+        <article class="decision"><span class="decision-n">03</span><div><h3>Make the safety boundary visible.</h3><p>The proposed model request is assembled from a narrow allow-list of instructional parameters. Names, rosters, audio, IEP information, service status, and open-ended learner notes are outside it.</p></div></article>
+        <article class="decision"><span class="decision-n">04</span><div><h3>Say exactly what the evidence supports.</h3><p>This project demonstrates product framing, instructional design, interaction design, and full-stack prototyping. It does not demonstrate usability, adoption, or learning impact because no participant research has been conducted.</p></div></article>
       </div>
     </div>
-    <p class="footnote">
-      Spanish copy is authored, not machine-translated at runtime. Tips avoid assuming a home library,
-      a quiet room, or a caregiver who reads English — the three assumptions most family engagement
-      content makes by default.
-    </p>
-  </div>
-</section>
+  </section>
 
-<!-- ============ ARCHITECTURE ============ -->
-<section id="build">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">06</span> &nbsp;How it's built</span>
-      <h2>The privacy boundary is an architectural object, not a policy paragraph.</h2>
-      <p>
-        In the proposed architecture, student records and the model sit on opposite sides of an explicit
-        boundary. A model payload is constructed field by field—an allow-list, not a redaction pass.
-        The API prototype implements this boundary; object-level authorization and vendor behavior remain
-        pre-pilot verification gates.
-      </p>
-    </div>
-
-    <div class="arch" role="img" aria-label="Architecture diagram: a React client on Vercel talks to a Hono API on Railway, which owns a SQLite database on a persistent volume. Only non-identifying lesson parameters cross a PII boundary to the Anthropic Claude API.">
-      <div class="arch-col">
-        <span class="arch-tag">Client · Vercel</span>
-        <div class="arch-box">
-          <b>React 19 + Vite 7</b>
-          <span>Tailwind CSS 4 · React Router 7</span>
-          <span>i18next EN/ES · responsive interface</span>
-          <span>Accessibility layer: keyboard, contrast, text size</span>
-        </div>
-      </div>
-      <div class="arch-arrow" aria-hidden="true">→</div>
-      <div class="arch-col">
-        <span class="arch-tag">API · Railway</span>
-        <div class="arch-box">
-          <b>Hono on Bun</b>
-          <span>BetterAuth · email + password, role-based</span>
-          <span>Prisma 6 ORM</span>
-          <span>Prompt assembly + allow-list filter</span>
-        </div>
-        <div class="arch-box sub">
-          <b>SQLite</b>
-          <span>Persistent volume at <code>/data</code></span>
-          <span>Students, classrooms, sessions, lesson plans</span>
-        </div>
-      </div>
-      <div class="arch-boundary">
-        <span class="arch-boundary-lbl">PII boundary</span>
-      </div>
-      <div class="arch-col">
-        <span class="arch-tag">Model · Anthropic</span>
-        <div class="arch-box model">
-          <b>Claude API</b>
-          <span class="allow">Receives only:</span>
-          <code class="payload">{ gradeLevel, subject, topic, widaLevels[], keyLanguageUse, duration }</code>
-          <span class="deny">Never receives: names, student IDs, emails, audio, roster data, IEP or service status, free-text teacher notes.</span>
+  <section class="demo" id="demo">
+    <div class="wrap">
+      <div class="section-kicker">Working interaction</div>
+      <h2>Try the planning idea in under a minute.</h2>
+      <p class="section-lede">Change the inputs and preview a deterministic sample of the scaffold structure. Nothing is submitted, stored, or sent to an AI service in this public demo.</p>
+      <div class="demo-shell">
+        <form class="controls" id="scaffoldForm">
+          <h3>Instructional inputs</h3>
+          <label class="field"><span>Grade</span><select id="grade"><option>K</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+          <label class="field"><span>Subject</span><select id="subject"><option>ELA</option><option selected>Science</option><option>Math</option><option>Social Studies</option><option>ELD / ESL</option></select></label>
+          <label class="field"><span>Topic</span><input id="topic" value="the water cycle" maxlength="70" autocomplete="off"></label>
+          <label class="field"><span>Key Language Use</span><select id="klu"><option>Narrate</option><option>Inform</option><option selected>Explain</option><option>Argue</option></select></label>
+          <fieldset class="levels"><legend>WIDA levels in the room</legend><div class="level-checks" id="levelChecks"></div></fieldset>
+          <button class="btn btn-primary" type="submit">Update preview</button>
+          <p class="local-note">Designed preview · runs only in this browser</p>
+        </form>
+        <div class="preview" aria-live="polite">
+          <div class="preview-top"><h3 id="previewTitle">The water cycle · Grade 3 Science</h3><span class="sample-tag">Not validated curriculum</span></div>
+          <div class="objective"><b id="objectiveLabel">Language objective</b><span id="objectiveText">Students explain the water cycle using cause-and-effect language and level-appropriate scaffolds.</span></div>
+          <div class="frame-list" id="frameList"></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="grid-3" style="margin-top:26px">
-      <div class="card"><h3>Runtime</h3><p>Bun end to end. TypeScript strict. Single API surface, so the allow-list filter has exactly one place to live and one place to be tested.</p></div>
-      <div class="card"><h3>Data</h3><p>The prototype uses SQLite. A real pilot would require verified encrypted storage, retention and deletion controls, backups, and a documented migration path before multi-school use.</p></div>
-      <div class="card"><h3>Model boundary</h3><p>The lesson-generation request accepts only instructional parameters. Learner names, identifiers, rosters, audio, service status, IEP information, and open-ended notes are outside the proposed payload.</p></div>
+  <section class="build" id="build">
+    <div class="wrap">
+      <div class="section-kicker">Product + technical judgment</div>
+      <h2>The interesting work is around the model call.</h2>
+      <p class="section-lede">The broader codebase pairs a React client with a Bun/Hono API and a Prisma/SQLite data layer. The portfolio build keeps the model offline and exposes the boundary instead.</p>
+      <div class="build-grid">
+        <article class="build-card"><h3>Structured before generated</h3><p>A typed output shape makes lesson parts editable, reusable, and testable. The teacher receives a draft with visible components—not an opaque paragraph.</p><div class="tech"><span>React</span><span>TypeScript</span><span>Vite</span><span>WIDA-informed schema</span></div></article>
+        <article class="build-card"><h3>One narrow API surface</h3><p>The proposed backend constructs model input field by field so data minimization is part of the architecture rather than a promise made after collection.</p><div class="tech"><span>Bun</span><span>Hono</span><span>Prisma</span><span>SQLite</span><span>Anthropic API</span></div></article>
+      </div>
+      <div class="boundary" aria-label="Model data boundary">
+        <div><h3 class="allow">Instructional parameters allowed</h3><p>Grade · subject · topic · WIDA levels · Key Language Use · duration</p></div>
+        <div class="boundary-arrow" aria-hidden="true">→</div>
+        <div><h3 class="deny">Learner information excluded</h3><p>Names · IDs · rosters · audio · IEP information · service status · open-ended notes</p></div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ PRIVACY ============ -->
-<section id="privacy">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">07</span> &nbsp;Compliance posture</span>
-      <h2>Designed around the questions a reviewer should ask.</h2>
-      <p>
-        A school technology review should establish what data leaves the school, who can access records,
-        how consent works, and what gets deleted. The statements below are proposed requirements for a
-        pilot architecture—not certifications or claims about an operating service.
-      </p>
-    </div>
-    <div class="grid-2">
-      <div class="card compliance">
-        <h3>FERPA</h3>
-        <p>Proposed requirement: education records remain in a school-controlled environment; teacher
-        and parent access is role- and relationship-scoped; object-level authorization is tested for
-        every record endpoint; disclosure is limited by written agreement and service purpose.</p>
+  <section class="evidence" id="evidence">
+    <div class="wrap">
+      <div class="section-kicker">Evidence boundary</div>
+      <h2>A designed prototype, presented as one.</h2>
+      <p class="section-lede">No student, educator, family, school, or district has evaluated ReadTogether. That limits what I can claim—and clarifies what should happen next.</p>
+      <div class="evidence-panel">
+        <div class="evidence-col"><h3>What exists today</h3><ul class="checklist"><li>Public, interactive lesson-scaffold demonstration</li><li>Designed lesson-output structure and teacher review pattern</li><li>Full-stack prototype architecture and source code</li><li>Explicit model-data boundary and risk assumptions</li></ul></div>
+        <div class="evidence-col"><h3>What has not happened</h3><ul class="checklist not-yet"><li>Participant interviews or usability sessions</li><li>Classroom implementation or district review</li><li>Adoption, time-saved, or learning-impact measurement</li><li>Security, accessibility, or instructional-quality validation</li></ul></div>
       </div>
-      <div class="card compliance">
-        <h3>COPPA</h3>
-        <p>Proposed requirement: any future child-facing access would be provisioned through an approved
-        school or parent consent flow, not independent child sign-up. The current public demonstration
-        is a teacher-planning surface and does not collect child information.</p>
-      </div>
-      <div class="card compliance">
-        <h3>AI use disclosure</h3>
-        <p>The prototype displays a review-before-use disclaimer beside designed lesson output. Generated
-        material remains an editable suggestion; educators must check it against curriculum, standards,
-        accommodations, language-support plans, and the learners in front of them.</p>
-      </div>
-      <div class="card compliance">
-        <h3>What's deliberately absent</h3>
-        <p>No learner accounts, roster import, assessment score, progress dashboard, advertising, data sale,
-        or third-party analytics are presented as working features in this public portfolio build.</p>
+      <div class="questions">
+        <article class="question"><b>Is it useful?</b><p>Observe ELD educators creating and revising a lesson with the workflow.</p></article>
+        <article class="question"><b>Is it instructionally sound?</b><p>Review objectives, vocabulary, and frames with qualified educators.</p></article>
+        <article class="question"><b>Is the boundary real?</b><p>Test authorization and confirm learner information cannot enter model requests.</p></article>
       </div>
     </div>
-    <p class="footnote">
-      <b>Design references.</b>
-      <a href="https://wida.wisc.edu/teach/standards/eld" target="_blank" rel="noopener">WIDA ELD Standards Framework</a> ·
-      <a href="https://airc.nist.gov/airmf-resources/airmf/" target="_blank" rel="noopener">NIST AI Risk Management Framework</a> ·
-      <a href="https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/" target="_blank" rel="noopener">OWASP API object-level authorization guidance</a>.
-      These references inform the design; they do not certify the prototype.
-    </p>
-  </div>
-</section>
+  </section>
 
-<!-- ============ STATUS + PILOT ============ -->
-<section id="pilot">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">08</span> &nbsp;Where this actually is</span>
-      <h2>This is a designed prototype, not a validated product.</h2>
-      <p>
-        As of today: zero research participants, zero classrooms, zero students, and zero outcome data.
-        No child, educator, family, school, or district has evaluated this design. What follows is a
-        proposed path to evaluation—not a completed case study.
-      </p>
+  <section class="closing" id="contact">
+    <div class="wrap closing-grid">
+      <div><div class="section-kicker" style="color:#c5d3ff">About the builder</div><h2>Classroom first. Then the product. Then the code.</h2><p>I'm Matthew Tracey—an instructional designer and EdTech product builder with two M.Ed. degrees and eight years in K–5 classrooms. I translate instructional problems into clear product decisions and inspectable prototypes.</p></div>
+      <div class="actions"><a class="btn" href="mailto:mjtracey6@gmail.com?subject=ReadTogether%20portfolio">Email Matthew</a></div>
     </div>
-
-    <div class="honest">
-      <b>Why say that out loud.</b> A portfolio should separate evidence from intent. This project
-      demonstrates product framing, instructional design, risk management, and implementation choices;
-      it does not demonstrate usability, adoption, learning impact, or recognition accuracy. The proposed
-      questions below show how I would turn assumptions into research.
-    </div>
-
-    <ol class="addie">
-      <li class="done"><span class="a">A</span><span class="n">Analyze</span><span class="s">Complete</span></li>
-      <li class="done"><span class="a">D</span><span class="n">Design</span><span class="s">Complete</span></li>
-      <li class="active"><span class="a">D</span><span class="n">Develop</span><span class="s">In progress</span></li>
-      <li><span class="a">I</span><span class="n">Implement</span><span class="s">Not started</span></li>
-      <li><span class="a">E</span><span class="n">Evaluate</span><span class="s">Not started</span></li>
-    </ol>
-
-    <h3 class="sub-h">Questions to answer before classroom use <span class="tag-target">Nothing measured</span></h3>
-    <div class="grid-3 targets">
-      <div class="stat"><span class="n" style="font-size:1.2rem">Useful?</span><span class="t">Do teachers understand the workflow, and does it help them create or revise a lesson?</span></div>
-      <div class="stat"><span class="n" style="font-size:1.2rem">Sound?</span><span class="t">Are objectives, vocabulary, and sentence frames instructionally appropriate for the selected context?</span></div>
-      <div class="stat"><span class="n" style="font-size:1.2rem">Editable?</span><span class="t">Can educators quickly see what to change, and does the interface encourage professional review?</span></div>
-      <div class="stat"><span class="n" style="font-size:1.2rem">Private?</span><span class="t">Can testing confirm that learner identifiers and records never enter a model request?</span></div>
-      <div class="stat"><span class="n" style="font-size:1.2rem">Accessible?</span><span class="t">Can educators and families navigate the relevant surfaces with keyboard and assistive technology?</span></div>
-      <div class="stat"><span class="n" style="font-size:1.2rem">Worth it?</span><span class="t">After observing real use, should the concept continue, change direction, or stop?</span></div>
-    </div>
-
-    <h3 class="sub-h">Known risks and what happens if they hit</h3>
-    <div class="grid-2">
-      <div class="card risk">
-        <h3>Generated scaffolds are instructionally weak</h3>
-        <p><b>If:</b> qualified educators find that objectives, vocabulary, or frames do not fit the selected grade, content, and language context.<br>
-        <b>Then:</b> revise the prompt and output schema—or remove generation—before asking teachers to depend on it.</p>
-      </div>
-      <div class="card risk">
-        <h3>Instructional input leaks learner information</h3>
-        <p><b>If:</b> testing finds that a model request can include names, identifiers, rosters, service status, or open-ended learner notes.<br>
-        <b>Then:</b> block release and repair the allow-list boundary before any school evaluation.</p>
-      </div>
-      <div class="card risk">
-        <h3>A standards framework is treated as a universal recipe</h3>
-        <p><b>If:</b> teachers cannot adapt the output to local curriculum, state requirements, or individual supports.<br>
-        <b>Then:</b> make those constraints explicit inputs and keep every output editable by default.</p>
-      </div>
-      <div class="card risk">
-        <h3>Teachers over-trust AI plans</h3>
-        <p><b>If:</b> plans get used unmodified.<br>
-        <b>Then:</b> that is a design failure, not a user failure. Mitigations: mandatory review
-        disclaimer, editable-by-default output, and interviews that specifically probe what teachers
-        changed and why.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTACT ============ -->
-<section id="contact">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow"><span class="num">09</span> &nbsp;Who built it</span>
-      <h2>Classroom first, then the code.</h2>
-    </div>
-    <div class="grid-2">
-      <div>
-        <p style="font-size:1.06rem;color:var(--ink-soft);max-width:56ch">
-          I am an instructional and learning experience designer transitioning from eight years in
-          K–5 classrooms, with graduate degrees in Educational Technology &amp; Instructional Design and
-          Mathematics Education. ReadTogether grew from a recurring design problem: educators need
-          practical ways to plan one rigorous lesson for learners who need different amounts of language
-          support. The useful part of this project is not simply the
-          model call; it is the product boundary around it, the instructional decisions inside it, and
-          the discipline to distinguish a prototype from evidence.
-        </p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="mailto:mjtracey6@gmail.com?subject=ELD%20AI%3A%20Read%20Together">Email me</a>
-          <a class="btn btn-ghost" href="https://github.com/mtracey6/readtogether" id="repoLink" target="_blank" rel="noopener">Source on GitHub</a>
-        </div>
-      </div>
-      <div class="card">
-        <h3>What this project demonstrates</h3>
-        <ul>
-          <li>EdTech product scoping from a real classroom constraint</li>
-          <li>LLM integration design with a hard privacy boundary</li>
-          <li>Standards alignment: WIDA ELD 2020, Science of Reading, UDL</li>
-          <li>Multilingual UX and accessibility for emergent bilinguals</li>
-          <li>FERPA / COPPA analysis and risk-mitigation planning</li>
-          <li>Research questions and evidence boundaries defined before participant work</li>
-          <li>Full-stack build: Bun, Hono, Prisma, React 19, Tailwind 4</li>
-          <li>Translating between teachers and engineers, in both directions</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 </main>
 
-<footer>
-  <div class="wrap foot">
-    <div>
-      <b>ELD AI: Read Together</b> · Portfolio case study · 2026<br>
-      Matthew Tracey · <a href="mailto:mjtracey6@gmail.com">mjtracey6@gmail.com</a>
-    </div>
-    <div class="foot-legal">
-      Designed prototype. No participant research or pilot has been run, no classroom data has been
-      collected, and no student, educator, family, school, or district has evaluated this product. The
-      public demo uses clearly labeled designed lesson output and does not store input. The family view
-      is an interface concept, not a participant record or school communication system.
-      WIDA is a trademark of the Board of Regents of the University of Wisconsin System. This project is
-      independent and not affiliated with, endorsed by, or reviewed by WIDA.
-    </div>
-  </div>
-</footer>
+<footer><div class="wrap foot"><span>© 2026 Matthew Tracey · ReadTogether</span><span><a href="https://matttracey.netlify.app/">Portfolio</a> · <a href="https://github.com/mtracey6/readtogether">Source</a> · <a href="https://wida.wisc.edu/teach/standards/eld" target="_blank" rel="noopener">WIDA framework reference</a></span></div></footer>
 
 <script>
 (function(){
-"use strict";
-var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  "use strict";
+  var names={1:"Entering",2:"Emerging",3:"Developing",4:"Expanding",5:"Bridging",6:"Reaching"};
+  var defaults=[1,2,3,4];
+  var checks=document.getElementById("levelChecks");
+  checks.innerHTML=[1,2,3,4,5,6].map(function(n){return '<label class="level-check"><input type="checkbox" value="'+n+'"'+(defaults.indexOf(n)>-1?' checked':'')+' aria-label="WIDA level '+n+'"><span>'+n+'</span></label>';}).join("");
 
-/* ============================================================
-   WIDA ELD Standards Framework, 2020 Edition
-   Levels 1-6 x 4 Key Language Uses x 3 topics.
-   Pre-generated sample output. Level 6 withdraws the scaffold
-   on purpose: at Reaching, a frame is a reference, not a support.
-   ============================================================ */
-var LEVELS = [
-  {n:1,name:"Entering",spec:"Single-word fill-in with word bank"},
-  {n:2,name:"Emerging",spec:"Simple sentence"},
-  {n:3,name:"Developing",spec:"Complex sentence with conjunctions"},
-  {n:4,name:"Expanding",spec:"Paragraph with transitions"},
-  {n:5,name:"Bridging",spec:"Academic language stems"},
-  {n:6,name:"Reaching",spec:"Scaffold withdrawn"}
-];
-
-var TOPICS = [
-  {
-    id:"water", label:"The water cycle", meta:"Grade 3 · Science · 50 minutes",
-    vocab:{
-      t1:["water","sun","cloud","rain","up / down"],
-      t2:["cycle","stage","process","occurs","changes into"],
-      t3:["evaporation","condensation","precipitation","collection","water vapor"]
-    },
-    klu:{
-      narrate:[
-        {frame:"First, the water ______.", support:"Word bank: goes up, gets cold, falls. Picture cards in sequence. Student may point before speaking."},
-        {frame:"First the sun heats the water. Then the water goes up.", support:"Two-sentence sequence strip with First / Then printed. Diagram stays visible."},
-        {frame:"First the sun heats the water, and then it rises into the air because it has changed into vapor.", support:"Conjunction bank: and, then, because, so. Partner retell before writing."},
-        {frame:"The journey of a water droplet begins when ______. Next, ______. After that, ______. Finally, ______.", support:"Transition bank posted. Student produces four connected sentences, not one."},
-        {frame:"The droplet's journey commences with evaporation, during which ______. Subsequently, ______. Ultimately, the cycle repeats as ______.", support:"Stems only. Student supplies all content and controls the register."},
-        {frame:"Narrate the full cycle from the droplet's point of view, choosing where the story starts and ending where it began.", support:"No frame. Student selects transitions and adjusts the telling for a chosen audience — a peer, or the class book."}
-      ],
-      inform:[
-        {frame:"This is ______.", support:"Labeled diagram plus four picture-word cards. Matching counts as a correct response."},
-        {frame:"Evaporation is when water goes up.", support:"Sentence strip with the Tier 3 term pre-printed so the vocabulary load sits in one place."},
-        {frame:"Evaporation happens when the sun heats the water, so the water changes into vapor.", support:"Cause conjunctions supplied: when, so, because."},
-        {frame:"The water cycle has four main stages. First, ______. In addition, ______. The final stage is ______.", support:"Student writes a short informational paragraph with a labeled diagram."},
-        {frame:"The water cycle consists of four interdependent stages. During condensation, ______, which results in ______.", support:"Academic stems. Expect precise use of all four Tier 3 terms."},
-        {frame:"Write an informational explanation of the cycle, then write a glossary entry for each Tier 3 term aimed at a Level 2 classmate.", support:"No frame. The audience shift is the challenge — same content, controlled register."}
-      ],
-      explain:[
-        {frame:"The sun makes the water ______.", support:"Word bank: hot, go up. Gesture accepted as a first response, then repeated in words."},
-        {frame:"The water goes up because the sun is hot.", support:"Because is pre-printed. One cause, one effect."},
-        {frame:"Water evaporates because the sun heats it, and when the vapor cools, it condenses into clouds.", support:"Two-link causal chain. Conjunction bank: because, when, so, which."},
-        {frame:"One reason clouds form is ______. This happens because ______. As a result, ______.", support:"Student links three causal moves with transitions."},
-        {frame:"Condensation occurs as a result of decreasing temperature at higher altitudes, which causes water vapor to ______.", support:"Nominalized academic stems. Expect cause-effect vocabulary without prompting."},
-        {frame:"Explain why clouds form, then address the common idea that clouds are made of steam and correct it with evidence.", support:"No frame. Anticipating and refuting a misconception is the target move."}
-      ],
-      argue:[
-        {frame:"We should save water. Yes / No. Water is ______.", support:"Circle a choice, then one word with a bank: important, needed, ours. Choice counts as a claim."},
-        {frame:"I think we should save water because it is important.", support:"Claim + one reason. Reason bank supplied with images."},
-        {frame:"I believe our town should limit water use because reservoirs refill slowly, and dry years reduce how much water is collected.", support:"Claim plus two coordinated reasons. Evidence cards available."},
-        {frame:"In my opinion, ______. One reason is ______. Another reason is ______. Therefore, ______.", support:"Four-move argument with transitions supplied."},
-        {frame:"The evidence suggests that ______. Although some argue that ______, the data indicate ______. Consequently, I contend that ______.", support:"Concession stem included. Expect the counterclaim to be named fairly."},
-        {frame:"Make a claim about local water use, support it with two sources, name the strongest objection to your position, and answer it.", support:"No frame. Student may revise the claim mid-discussion — revision is scored as strength."}
-      ]
-    }
-  },
-  {
-    id:"fractions", label:"Comparing fractions", meta:"Grade 4 · Mathematics · 45 minutes",
-    vocab:{
-      t1:["piece","part","whole","share","bigger / smaller"],
-      t2:["compare","represent","method","justify","equivalent"],
-      t3:["numerator","denominator","common denominator","benchmark fraction","partition"]
-    },
-    klu:{
-      narrate:[
-        {frame:"I ______ the fractions.", support:"Word bank: drew, shaded, compared. Student may point to their own drawing while speaking."},
-        {frame:"First I drew two bars. Then I shaded them.", support:"Sequence strip. The manipulative stays on the desk during retelling."},
-        {frame:"First I drew two bars and shaded them, and then I saw that three fourths covered more space.", support:"Conjunctions supplied. Student narrates the strategy, not just the answer."},
-        {frame:"To compare the fractions, I began by ______. Next, ______. Finally, I concluded that ______.", support:"Transition bank. Strategy narration in three connected moves."},
-        {frame:"I initiated the comparison by generating equivalent fractions with a common denominator, after which ______.", support:"Academic stems with Tier 3 terms embedded for the student to carry forward."},
-        {frame:"Narrate your strategy, then narrate a classmate's different strategy and say which was more efficient.", support:"No frame. Holding two methods at once is the target."}
-      ],
-      inform:[
-        {frame:"Three fourths is ______ than two thirds.", support:"Word bank: bigger, smaller. Pre-partitioned fraction bars of equal length provided."},
-        {frame:"Three fourths is bigger than two thirds.", support:"Sentence strip with fraction names pre-printed to reduce reading load."},
-        {frame:"Three fourths is greater than two thirds because both wholes are the same size, and three fourths covers more of it.", support:"Because supplied. Expect the equal-whole condition to be named."},
-        {frame:"Two fractions can be compared in several ways. One method is ______. Another method is ______. In each case, ______.", support:"Student reports more than one valid method."},
-        {frame:"Fractions with unlike denominators may be compared by generating equivalent forms, by benchmarking to one half, or by ______.", support:"Expect precise Tier 3 usage and correct mathematical register."},
-        {frame:"Write a how-to for comparing fractions aimed at a Level 2 classmate, with two worked examples and a glossary.", support:"No frame. Simplifying without losing precision is the target."}
-      ],
-      explain:[
-        {frame:"The wholes must be the same ______.", support:"Word bank: size. Two paper strips, one visibly longer, used as a counterexample."},
-        {frame:"The wholes must be the same size.", support:"One-sentence rule with the manipulative in hand."},
-        {frame:"You must compare the same-size whole, or the comparison is not fair, because a big fourth can look larger than a small half.", support:"Conjunctions supplied: or, because. Counterexample provided."},
-        {frame:"The reason we find a common denominator is ______. This works because ______. Consequently, ______.", support:"Three-move causal explanation with transitions."},
-        {frame:"Generating a common denominator partitions both fractions into units of identical magnitude, thereby enabling ______.", support:"Nominalized stems. Expect the word unit used mathematically."},
-        {frame:"Explain why benchmarking to one half works, then give a case where it fails to decide the comparison.", support:"No frame. Naming the limits of a strategy is the target."}
-      ],
-      argue:[
-        {frame:"Ana says two thirds is bigger than three fourths. Ana is ______.", support:"Word bank: right, wrong. Fraction bars available to check before answering."},
-        {frame:"Ana is wrong because three fourths is bigger.", support:"Claim plus one reason. Model that we disagree with the idea, not the person."},
-        {frame:"Ana is incorrect because three fourths is closer to one whole, and two thirds leaves a larger piece missing.", support:"Two coordinated reasons. Benchmark language available on the wall."},
-        {frame:"I disagree with Ana's claim. My evidence is ______. Additionally, ______. Therefore, ______.", support:"Evidence-first structure with transitions supplied."},
-        {frame:"Ana's reasoning assumes that ______. However, this claim does not account for ______. The evidence indicates ______.", support:"Expect the student to name the assumption before refuting it."},
-        {frame:"Critique the reasoning behind Ana's claim, propose a revised statement she could defend, and invite a counterexample.", support:"No frame. Repairing an argument rather than defeating it is the target."}
-      ]
-    }
-  },
-  {
-    id:"migration", label:"Push and pull factors", meta:"Grade 5 · Social studies · 60 minutes",
-    vocab:{
-      t1:["move","home","job","family","city"],
-      t2:["factor","cause","effect","category","source"],
-      t3:["migration","push factor","pull factor","urbanization","displacement"]
-    },
-    klu:{
-      narrate:[
-        {frame:"The family ______.", support:"Word bank: moved, left, arrived. Photograph provided as the anchor for the telling."},
-        {frame:"The family moved to a new city.", support:"One-sentence telling with a two-image sequence: before, after."},
-        {frame:"The family left the farm because there was no rain, and they moved to the city to look for work.", support:"Cause conjunctions supplied. Timeline strip available."},
-        {frame:"In 1935, the family faced ______. First, ______. Then, ______. In the end, ______.", support:"Four-move narrative with transitions and a dated timeline."},
-        {frame:"Confronted with successive crop failures, the family ultimately relocated, a decision shaped by ______.", support:"Complex opening structures modeled. Expect subordinate clauses."},
-        {frame:"Narrate the move twice: once from the perspective of the family that left, once from the community they left behind.", support:"No frame. Perspective control across two tellings is the target."}
-      ],
-      inform:[
-        {frame:"Jobs are a ______ factor.", support:"Word sort: push cards and pull cards, sorted onto a labeled T-chart before speaking."},
-        {frame:"Jobs are a pull factor.", support:"Sentence strip with both Tier 3 terms displayed and defined in images."},
-        {frame:"Jobs are a pull factor because they attract people, while drought is a push factor because it forces people to leave.", support:"Contrast conjunction supplied: while, whereas."},
-        {frame:"Historians group the causes of migration into two categories. Push factors include ______. In contrast, pull factors ______.", support:"Compare-contrast paragraph with transitions supplied."},
-        {frame:"Migration is commonly analyzed through the push-pull framework, in which ______, whereas ______.", support:"Expect framework language and correct use of whereas."},
-        {frame:"Synthesize two primary sources into an informational account, citing each and noting where they disagree.", support:"No frame. Source attribution and handling disagreement are the target."}
-      ],
-      explain:[
-        {frame:"People move to find ______.", support:"Word bank: work, family, safety. Images accompany each option."},
-        {frame:"People move because they need work.", support:"One cause, one effect, with because pre-printed."},
-        {frame:"People move because they need work, and cities have more jobs than farms do.", support:"Two-link causal chain with a comparison built in."},
-        {frame:"One major cause of migration is ______. This leads to ______. As a result, communities ______.", support:"Three-move chain reaching a consequence beyond the individual."},
-        {frame:"Economic instability functions as a primary push factor insofar as it ______, which in turn produces ______.", support:"Nominalized academic register. Expect multi-step causal reasoning."},
-        {frame:"Explain why single-cause explanations of migration are inadequate, using one historical case.", support:"No frame. Rejecting a simple causal story with evidence is the target."}
-      ],
-      argue:[
-        {frame:"Moving was a good idea. Yes / No.", support:"Circle a choice and point to one image that supports it. The choice is the claim."},
-        {frame:"I think moving was a good idea because they found work.", support:"Claim plus one reason, with a reason bank."},
-        {frame:"I think the family made the right choice because they found steady work, but they also lost their community.", support:"Coordinating conjunction but supplied so a trade-off can be named."},
-        {frame:"Some people claim ______. However, I would argue ______. First, ______. Second, ______. In conclusion, ______.", support:"Counterclaim-first structure with transitions supplied."},
-        {frame:"While proponents contend that ______, the historical record suggests ______. I maintain that ______, primarily because ______.", support:"Concession and qualification stems. Expect hedging used accurately."},
-        {frame:"Sustain a position in discussion for five minutes, concede one valid counterpoint, and revise your claim aloud in response.", support:"No frame. Oral argument under pressure, with revision treated as strength."}
-      ]
-    }
+  function clean(value){return String(value||"").trim().replace(/[<>]/g,"");}
+  function frames(topic,klu){
+    var t=topic||"the topic";
+    if(klu==="Narrate") return [
+      t+": first ______, then ______.","First, ______ happened. Next, ______ happened.",
+      "After ______ happened, ______ changed because ______.","At first, ______. Later, ______. This sequence shows ______.",
+      "The sequence begins with ______ and culminates in ______, revealing ______.","Narrate the sequence of "+t+" and explain why the order matters."
+    ];
+    if(klu==="Inform") return [
+      t+" is ______.",t+" has ______ and ______.",t+" can be described as ______ because ______.",
+      "One important feature of "+t+" is ______. Another is ______.","A precise description of "+t+" includes ______, ______, and ______.",
+      "Inform a new audience about "+t+" using precise evidence and discipline-specific language."
+    ];
+    if(klu==="Argue") return [
+      "I think ______ about "+t+".","I claim ______ because ______.","My claim about "+t+" is ______, and my evidence is ______.",
+      "Although some may think ______, the evidence shows ______.","The strongest evidence for my position on "+t+" is ______ because ______.",
+      "Develop and defend a position on "+t+", addressing a credible counterclaim."
+    ];
+    return [
+      t+" happens because ______.","The ______ causes ______ in "+t+".","When ______ happens, ______ changes because ______.",
+      "First, ______. As a result, ______. This explains why ______.","The relationship between ______ and ______ explains "+t+" because ______.",
+      "Explain "+t+" using a precise causal chain and address a likely misconception."
+    ];
   }
-];
-
-var KLUS = [
-  {id:"narrate",label:"Narrate",blurb:"Sequence events and tell what happened."},
-  {id:"inform",label:"Inform",blurb:"Define, describe, and report facts."},
-  {id:"explain",label:"Explain",blurb:"Give reasons and show cause and effect."},
-  {id:"argue",label:"Argue",blurb:"Make a claim and support it with evidence."}
-];
-
-var state = {topic:"water", klu:"explain"};
-
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function withBlanks(s){return esc(s).replace(/_{3,}/g,'<span class="blank" aria-label="blank"></span>');}
-function currentTopic(){for(var i=0;i<TOPICS.length;i++){if(TOPICS[i].id===state.topic)return TOPICS[i];}return TOPICS[0];}
-
-function buildTabs(){
-  var t=document.getElementById("topicTabs"), k=document.getElementById("kluTabs");
-  if(!t||!k) return;
-  t.innerHTML = TOPICS.map(function(x){
-    return '<button type="button" role="tab" class="tab'+(x.id===state.topic?" on":"")+'" data-topic="'+x.id+'" aria-selected="'+(x.id===state.topic)+'">'+esc(x.label)+'</button>';
-  }).join("");
-  k.innerHTML = KLUS.map(function(x){
-    return '<button type="button" role="tab" class="tab'+(x.id===state.klu?" on":"")+'" data-klu="'+x.id+'" aria-selected="'+(x.id===state.klu)+'">'+esc(x.label)+'</button>';
-  }).join("");
-}
-
-function sampleModel(){
-  var topic=currentTopic();
-  var klu=KLUS.filter(function(x){return x.id===state.klu;})[0];
-  return {
-    bar:{kind:"sample",text:"Pre-built example \u00b7 no API call made"},
-    metaLeft:{lbl:"Topic",val:topic.label,sub:topic.meta},
-    metaRight:{lbl:"Key Language Use",val:klu.label,sub:klu.blurb},
-    levels:topic.klu[state.klu].map(function(r,i){
-      return {level:LEVELS[i].n,name:LEVELS[i].name,frame:r.frame,support:r.support};
-    }),
-    vocabulary:{tier1:topic.vocab.t1,tier2:topic.vocab.t2,tier3:topic.vocab.t3}
-  };
-}
-function render(){ renderModel(sampleModel()); }
-
-function specFor(n){
-  for(var i=0;i<LEVELS.length;i++){if(LEVELS[i].n===n) return LEVELS[i];}
-  return {n:n,name:"",spec:""};
-}
-
-function renderModel(m){
-  var bar=document.getElementById("resultBar");
-  if(m.bar){
-    bar.className="result-bar "+m.bar.kind;
-    bar.innerHTML='<span class="rb-dot"></span>'+esc(m.bar.text);
+  function objective(topic,klu){
+    var verbs={Narrate:"narrate a sequence about",Inform:"inform an audience about",Explain:"explain",Argue:"develop and support a claim about"};
+    return "Students "+verbs[klu]+" "+topic+" using level-appropriate language scaffolds and subject-specific vocabulary.";
   }
-
-  var obj=document.getElementById("objectives");
-  if(m.contentObjective||m.languageObjective){
-    obj.hidden=false;
-    obj.innerHTML=
-      (m.title?'<h4 class="obj-title">'+esc(m.title)+'</h4>':'')+
-      '<div class="obj-row"><span>Content objective</span><p>'+esc(m.contentObjective||"")+'</p></div>'+
-      '<div class="obj-row"><span>Language objective</span><p>'+esc(m.languageObjective||"")+'</p></div>'+
-      (m.formativeCheck?'<div class="obj-row"><span>Formative check</span><p>'+esc(m.formativeCheck)+'</p></div>':'')+
-      (m.watchFor?'<div class="watchfor"><b>Watch for:</b> '+esc(m.watchFor)+'</div>':'');
-  } else {
-    obj.hidden=true; obj.innerHTML="";
+  function render(){
+    var grade=clean(document.getElementById("grade").value),subject=clean(document.getElementById("subject").value),topic=clean(document.getElementById("topic").value)||"the selected topic",klu=clean(document.getElementById("klu").value);
+    var levels=Array.from(document.querySelectorAll("#levelChecks input:checked")).map(function(i){return Number(i.value);});
+    document.getElementById("previewTitle").textContent=topic.charAt(0).toUpperCase()+topic.slice(1)+" · Grade "+grade+" "+subject;
+    document.getElementById("objectiveText").textContent=objective(topic,klu);
+    var examples=frames(topic,klu),list=document.getElementById("frameList");
+    list.innerHTML=levels.length?levels.map(function(n){return '<div class="frame-row"><span class="level">'+n+'</span><div><b>'+names[n]+'</b><p>'+examples[n-1]+'</p></div></div>';}).join(""):'<div class="empty">Select at least one WIDA level to preview a scaffold.</div>';
   }
-
-  var meta=document.getElementById("engineMeta");
-  meta.innerHTML=
-    '<div><span class="m-lbl">'+esc(m.metaLeft.lbl)+'</span><b>'+esc(m.metaLeft.val)+'</b><span class="m-sub">'+esc(m.metaLeft.sub)+'</span></div>'+
-    '<div><span class="m-lbl">'+esc(m.metaRight.lbl)+'</span><b>'+esc(m.metaRight.val)+'</b><span class="m-sub">'+esc(m.metaRight.sub)+'</span></div>';
-
-  document.getElementById("ladder").innerHTML=m.levels.map(function(r){
-    var L=specFor(Number(r.level));
-    return ''+
-      '<div class="rung lv'+L.n+'">'+
-        '<div class="rung-lv">'+
-          '<span class="lv-n">'+L.n+'</span>'+
-          '<span class="lv-name">'+esc(r.name||L.name)+'</span>'+
-          '<span class="lv-spec">'+esc(L.spec)+'</span>'+
-        '</div>'+
-        '<div class="rung-body">'+
-          '<p class="rung-frame">'+withBlanks(String(r.frame||""))+'</p>'+
-          '<p class="rung-support"><span>Support</span>'+esc(String(r.support||""))+'</p>'+
-        '</div>'+
-      '</div>';
-  }).join("");
-
-  var v=m.vocabulary||{};
-  document.getElementById("vocab").innerHTML=
-    '<h4>Vocabulary for this lesson</h4>'+
-    '<div class="tiers">'+
-      tier("Tier 1","Everyday words. Taught only if a newcomer needs them.",v.tier1||[])+
-      tier("Tier 2","Academic words that travel across subjects. The highest-leverage teaching.",v.tier2||[])+
-      tier("Tier 3","Domain-specific terms. Non-negotiable \u2014 these are the content.",v.tier3||[])+
-    '</div>';
-}
-
-function tier(name,note,words){
-  return '<div class="tier"><span class="tier-n">'+name+'</span><span class="tier-note">'+esc(note)+'</span><ul>'+
-    (words||[]).map(function(w){return '<li>'+esc(String(w))+'</li>';}).join("")+'</ul></div>';
-}
-
-document.addEventListener("click",function(e){
-  var t=e.target.closest ? e.target.closest("[data-topic],[data-klu]") : null;
-  if(!t) return;
-  if(t.dataset.topic){state.topic=t.dataset.topic;}
-  if(t.dataset.klu){state.klu=t.dataset.klu;}
-  buildTabs(); render();
-});
-
-buildTabs(); render();
-window.ELD={renderModel:renderModel,sampleModel:sampleModel,esc:esc};
-
-/* ---------- family view language toggle ---------- */
-var ES={
-  fTitle:"Nuestro enfoque de aprendizaje: explicar causa y efecto",
-  fStat1:"explicar por qué sucede algo", fStat2:"porque · entonces · como resultado", fStat3:"primero cuente la idea en cualquier idioma",
-  fMeansLbl:"Qué significa:",
-  fMeans:"La clase practica cómo conectar una causa con su efecto. La meta es explicar la relación con claridad; usar el idioma del hogar para ensayar la idea es bienvenido.",
-  fHelpTitle:"Cómo ayudar en casa",
-  fTip1:"Lean juntos en cualquier idioma. Leer en español desarrolla las mismas destrezas que se necesitan para leer en inglés.",
-  fTip2:"Pregunte: «¿Por qué pasó eso?» y «¿Qué pasó después?» durante un cuento o una rutina diaria.",
-  fTip3:"Usen palabras como porque, entonces y como resultado cuando expliquen una idea juntos.",
-  fSample:"Texto de interfaz diseñado · sin datos de estudiantes",
-  fBtn:"Concepto de mensajería con el maestro"
-};
-var EN={};
-document.querySelectorAll("[data-i18n]").forEach(function(el){EN[el.dataset.i18n]=el.innerHTML;});
-document.querySelectorAll(".lang").forEach(function(btn){
-  btn.addEventListener("click",function(){
-    var lang=btn.dataset.lang, dict=(lang==="es")?ES:EN;
-    document.querySelectorAll("[data-i18n]").forEach(function(el){
-      if(dict[el.dataset.i18n]) el.innerHTML=dict[el.dataset.i18n];
-    });
-    document.getElementById("familyCard").setAttribute("lang",lang);
-    document.querySelectorAll(".lang").forEach(function(b){
-      var on=(b===btn); b.classList.toggle("on",on); b.setAttribute("aria-pressed",String(on));
-    });
-  });
-});
-
-})();
-</script>
-
-<script>
-/* =============================================================================
-   CONFIGURE ME — one line.
-   Point this at the backend you deploy on Hostinger. Leave it empty ("") and
-   the page still works: every demo falls back to cached output and says so.
-   ============================================================================= */
-window.ELD_API_BASE = "";
-</script>
-
-<script>
-(function(){
-"use strict";
-var API = (window.ELD_API_BASE || "").replace(/\/+$/,"");
-var esc = window.ELD.esc;
-
-/* ===========================================================================
-   1. LIVE GENERATION
-   =========================================================================== */
-
-/* Designed sample output for the static portfolio prototype. It is never
-   presented as participant data, model validation, or a fresh model call. */
-var CACHED = {
-  title:"Why Volcanoes Erupt — Grade 2 Science",
-  contentObjective:"Students explain that pressure from gas and melted rock inside the Earth pushes magma upward until it escapes through an opening in the crust.",
-  languageObjective:"Students explain a cause-and-effect sequence about volcanic eruption using level-appropriate frames, Tier 3 vocabulary, and a labeled cross-section diagram.",
-  vocabulary:{
-    tier1:["hot","rock","inside","push","mountain"],
-    tier2:["pressure","cause","escape","builds up","as a result"],
-    tier3:["magma","lava","eruption","crust","vent"]
-  },
-  levels:[
-    {level:1,name:"Entering",frame:"The hot rock goes ______.",support:"Word bank: up, out. Cross-section diagram with an arrow the student traces with a finger before speaking. Pointing counts as a response."},
-    {level:2,name:"Emerging",frame:"The magma goes up because there is pressure.",support:"Sentence strip with magma and pressure pre-printed. A shaken bottle of soda as the physical anchor for pressure."},
-    {level:3,name:"Developing",frame:"Magma rises because gas builds up pressure inside the volcano, so it escapes through the vent.",support:"Conjunction bank posted: because, so, when, until. Partner rehearsal with the diagram before writing."},
-    {level:4,name:"Expanding",frame:"An eruption happens when ______. First, ______. Then, ______. As a result, ______.",support:"Transition words on a desk card. Student labels the diagram, then writes four connected sentences."}
-  ],
-  formativeCheck:"Exit slip, one sentence: why does magma come out of the volcano? Sort responses by WIDA level rather than right or wrong, and use the sort to set tomorrow's groups.",
-  watchFor:"Magma and lava name the same material on opposite sides of the vent. Level 1–2 students usually hear them as two unrelated words. Teach them as a pair on the diagram, not as separate vocabulary entries."
-};
-
-var LVLS=[1,2,3,4,5,6], DEFAULTS=[1,2,3,4];
-var lvBox=document.getElementById("fLevels");
-if(lvBox){
-  lvBox.innerHTML=LVLS.map(function(n){
-    return '<label class="lvchk"><input type="checkbox" value="'+n+'"'+(DEFAULTS.indexOf(n)>-1?" checked":"")+
-           ' aria-label="WIDA level '+n+'"><span>'+n+'</span></label>';
-  }).join("");
-}
-
-function v(id){var el=document.getElementById(id);return el?el.value:"";}
-
-function buildPayload(){
-  var levels=Array.prototype.slice.call(document.querySelectorAll("#fLevels input:checked"))
-    .map(function(i){return Number(i.value);});
-  return {
-    gradeLevel:v("fGrade"),
-    subject:v("fSubject"),
-    topic:(v("fTopic")||"").trim(),
-    keyLanguageUse:v("fKlu"),
-    widaLevels:levels,
-    duration:Number(v("fDur"))
-  };
-}
-
-function showPayload(){
-  var out=document.getElementById("payloadOut");
-  if(out) out.textContent="Proposed POST /api/generate/scaffold\n"+JSON.stringify(buildPayload(),null,2);
-}
-
-var form=document.getElementById("genForm");
-if(form){
-  form.addEventListener("input",showPayload);
-  form.addEventListener("change",showPayload);
-  showPayload();
-}
-
-function bar(kind,text){
-  var el=document.getElementById("resultBar");
-  el.className="result-bar "+kind;
-  el.innerHTML='<span class="rb-dot"></span>'+esc(text);
-}
-
-function note(text,isErr){
-  var el=document.getElementById("liveNote");
-  if(!el) return;
-  el.textContent=text;
-  el.className="live-note"+(isErr?" err":"");
-}
-
-function showCached(reason){
-  window.ELD.renderModel({
-    bar:{kind:"sample",text:reason},
-    title:CACHED.title,
-    contentObjective:CACHED.contentObjective,
-    languageObjective:CACHED.languageObjective,
-    formativeCheck:CACHED.formativeCheck,
-    watchFor:CACHED.watchFor,
-    metaLeft:{lbl:"Topic",val:"How volcanoes erupt",sub:"Grade 2 · Science · 50 minutes"},
-    metaRight:{lbl:"Key Language Use",val:"Explain",sub:"Give reasons and show cause and effect."},
-    levels:CACHED.levels,
-    vocabulary:CACHED.vocabulary
-  });
-}
-
-if(form){
-  form.addEventListener("submit",function(e){
-    e.preventDefault();
-    var p=buildPayload();
-    if(p.widaLevels.length===0){ note("Pick at least one WIDA level.",true); return; }
-    if(p.topic.length<3){ note("Give it a topic first.",true); return; }
-
-    var btn=document.getElementById("genBtn");
-    btn.disabled=true; btn.textContent="Preparing preview…";
-    note("Static prototype · input stays in this browser.");
-    bar("working","Preparing designed sample…");
-
-    if(!API){
-      setTimeout(function(){
-        showCached("Designed sample output · no API call · no participant data");
-        btn.disabled=false; btn.textContent="Preview scaffold output";
-      },400);
-      return;
-    }
-
-    var ctl=new AbortController();
-    var timer=setTimeout(function(){ctl.abort();},20000);
-
-    fetch(API+"/api/generate/scaffold",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(p),
-      signal:ctl.signal
-    })
-    .then(function(r){ return r.json().then(function(j){ return {status:r.status,body:j}; }); })
-    .then(function(res){
-      clearTimeout(timer);
-      if(!res.body || !res.body.ok){
-        var msg=(res.body && res.body.error) || "Generation failed.";
-        if(res.body && res.body.fallback){ showCached(msg); }
-        else { bar("error",msg); note(msg,true); }
-        return;
-      }
-      var d=res.body.data, meta=res.body.meta||{};
-      window.ELD.renderModel({
-        bar:{kind:"live",text:"Live output · Claude · "+(meta.ms?Math.round(meta.ms/100)/10+"s":"")+(meta.model?" · "+meta.model:"")},
-        title:d.titleSuggestion,
-        contentObjective:d.contentObjective,
-        languageObjective:d.languageObjective,
-        formativeCheck:d.formativeCheck,
-        watchFor:d.watchFor,
-        metaLeft:{lbl:"Topic",val:p.topic,sub:"Grade "+p.gradeLevel+" · "+p.subject+" · "+p.duration+" minutes"},
-        metaRight:{lbl:"Key Language Use",val:p.keyLanguageUse,sub:"WIDA levels "+p.widaLevels.join(", ")+" in the room"},
-        levels:d.levels,
-        vocabulary:d.vocabulary||{}
-      });
-      if(typeof meta.remainingThisHour==="number"){
-        note(meta.remainingThisHour+" more generations available this hour.");
-      }
-    })
-    .catch(function(){
-      clearTimeout(timer);
-      showCached("Optional API unavailable — showing designed sample output");
-    })
-    .then(function(){
-      btn.disabled=false; btn.textContent="Preview scaffold output";
-    });
-  });
-}
+  document.getElementById("scaffoldForm").addEventListener("submit",function(e){e.preventDefault();render();});
+  document.getElementById("scaffoldForm").addEventListener("change",render);
+  render();
 })();
 </script>
 </body>
