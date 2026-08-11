@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ReadTogether — Teacher-built EdTech prototype</title>
-  <meta name="description" content="ReadTogether is Matthew Tracey's working WIDA-informed lesson-planning prototype. Explore the scaffold demo, product decisions, technical boundary, and honest evidence status.">
-  <meta property="og:title" content="ReadTogether — Teacher-built EdTech prototype">
-  <meta property="og:description" content="One rigorous lesson, adapted for the language levels actually in the room. Working prototype; no participant research or outcome claims.">
+  <title>ReadTogether — Grade 3–4 multilingual reading workflow prototype</title>
+  <meta name="description" content="ReadTogether is Matthew Tracey's pre-pilot Grade 3–4 prototype for lesson planning, a teaching library, student reading support, and teacher-confirmed formative reading checks.">
+  <meta property="og:title" content="ReadTogether — Grade 3–4 teacher workflow prototype">
+  <meta property="og:description" content="Plan a lesson, assign a demonstration text, and review formative reading evidence—with teacher judgment and evidence limits kept visible.">
   <meta name="theme-color" content="#10243e">
   <style>
     :root{
@@ -117,6 +117,18 @@
     .frame-row p{margin:0;color:var(--navy);font-weight:700}
     .empty{padding:24px;border:1px dashed #cbd2dc;border-radius:14px;color:#6b7585;text-align:center}
 
+    .walkthrough{background:#fff}
+    .walkthrough h2{max-width:17ch}
+    .screen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .screen-card{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 16px 44px rgba(16,36,62,.08)}
+    .screen-shot{aspect-ratio:1.12/1;overflow:hidden;background:#edf1f5;border-bottom:1px solid var(--line)}
+    .screen-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+    .screen-copy{padding:22px}
+    .screen-copy span{display:block;font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:850;color:var(--orange);margin-bottom:8px}
+    .screen-copy h3{font-size:1.25rem;color:var(--navy);margin-bottom:8px}
+    .screen-copy p{font-size:14px;color:var(--muted);margin:0}
+    .walkthrough-note{margin-top:22px;padding:16px 18px;border-radius:14px;background:#fff6e9;border:1px solid #f2d4ac;color:#6d532f;font-size:14px}
+
     .build{background:var(--cream)}
     .build-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
     .build-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px}
@@ -157,7 +169,7 @@
       .hero{padding-top:64px}.hero-grid,.story-grid,.demo-shell,.build-grid,.closing-grid{grid-template-columns:1fr}
       .hero-grid{gap:42px}.product-card{max-width:650px}.story-note{position:static}.teacher-card{max-width:360px}
       .demo-shell{max-width:720px}.controls{border-right:0;border-bottom:1px solid var(--line)}
-      .boundary{grid-template-columns:1fr}.boundary-arrow{transform:rotate(90deg)}.questions{grid-template-columns:1fr}
+      .boundary{grid-template-columns:1fr}.boundary-arrow{transform:rotate(90deg)}.questions,.screen-grid{grid-template-columns:1fr}
       .closing .actions{justify-content:flex-start}
     }
     @media(max-width:680px){
@@ -178,7 +190,7 @@
     <a class="brand" href="#top">Read<span>Together</span></a>
     <div class="nav-links">
       <a href="#story">Why it exists</a>
-      <a href="#demo">Try it</a>
+      <a href="#walkthrough">Latest workflow</a>
       <a href="#build">How it works</a>
       <a class="nav-cta" href="#contact">About Matthew</a>
     </div>
@@ -189,28 +201,29 @@
   <header class="hero" id="top">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow">Teacher-built EdTech prototype</span>
-        <h1>One lesson. Six levels of language support.</h1>
-        <p class="hero-copy"><b>ReadTogether</b> turns a teacher's instructional inputs into an editable WIDA-informed scaffold preview—without sending learner records to a model. It is a working product prototype shaped by eight years in K–5 classrooms.</p>
+        <span class="eyebrow">Pre-pilot · Grade 3–4 · local prototype</span>
+        <h1>Plan. Assign. Review—with the limits visible.</h1>
+        <p class="hero-copy"><b>ReadTogether</b> explores one connected workflow for multilingual reading instruction: create an editable lesson, select or assign a demonstration text, support the student reading experience, and inspect teacher-confirmed formative evidence. The current product is a local, synthetic-data prototype shaped by eight years in K–5 classrooms.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="#demo">Try the scaffold demo</a>
+          <a class="btn btn-primary" href="#walkthrough">See the current product</a>
+          <a class="btn btn-secondary" href="#demo">Try the public scaffold</a>
           <a class="btn btn-secondary" href="https://github.com/mtracey6/readtogether" target="_blank" rel="noopener">View source</a>
         </div>
         <div class="proof" aria-label="Project evidence summary">
-          <span><i></i>Working interaction</span>
-          <span><i></i>Inspectable source</span>
-          <span><i></i>No participant or outcome claims</span>
+          <span><i></i>Verified local workflow</span>
+          <span><i></i>12 demonstration texts</span>
+          <span><i></i>No student data or outcome claims</span>
         </div>
       </div>
-      <div class="product-card" aria-label="ReadTogether lesson preview example">
-        <div class="pc-head"><span class="pc-title">Lesson scaffold preview</span><span class="status">Designed sample</span></div>
+      <div class="product-card" aria-label="ReadTogether current workflow summary">
+        <div class="pc-head"><span class="pc-title">Teacher Workspace</span><span class="status">Local demonstration</span></div>
         <div class="pc-body">
-          <div class="input-strip"><span class="chip">Grade 3</span><span class="chip">Science</span><span class="chip">Water cycle</span><span class="chip">Explain</span></div>
-          <div class="output-label">Same content goal · changing language support</div>
-          <div class="mini-frame"><span class="level">1</span><div><b>Entering</b><p>The sun makes the water ______. <i>Word bank: hot, go up.</i></p></div></div>
-          <div class="mini-frame"><span class="level">3</span><div><b>Developing</b><p>Water evaporates because the sun heats it, and when the vapor cools, ______.</p></div></div>
-          <div class="mini-frame"><span class="level">5</span><div><b>Bridging</b><p>Condensation occurs as a result of decreasing temperature, which causes ______.</p></div></div>
-          <div class="review"><b>Teacher review required.</b> Check every draft against curriculum, learner supports, and your own professional judgment.</div>
+          <div class="input-strip"><span class="chip">Grade 3–4</span><span class="chip">ELD</span><span class="chip">Teacher-controlled</span><span class="chip">Pre-pilot</span></div>
+          <div class="output-label">Three connected teacher jobs</div>
+          <div class="mini-frame"><span class="level">01</span><div><b>Create a lesson</b><p>Clarify the content topic, reading skill, language objective, mixed or unknown WIDA levels, lesson duration, and optional text.</p></div></div>
+          <div class="mini-frame"><span class="level">02</span><div><b>Choose and assign reading</b><p>Search 12 demonstration texts, add one to a lesson, or create a fictional in-memory assignment with reading supports.</p></div></div>
+          <div class="mini-frame"><span class="level">03</span><div><b>Review formative evidence</b><p>Inspect fixed reading-check proposals, return to the exact audio moment in a future approved and evaluated workflow, and keep the teacher as confirmer.</p></div></div>
+          <div class="review"><b>Current boundary.</b> The Teacher Workspace uses fictional fixtures and page memory. It has no real accounts, student records, persistence, audio, scoring model, or classroom results.</div>
         </div>
       </div>
     </div>
@@ -224,19 +237,42 @@
         <div class="teacher-card"><strong>8 years</strong><span>of K–5 planning, differentiation, assessment, intervention, and family communication behind the product judgment.</span></div>
       </div>
       <div class="decisions">
-        <article class="decision"><span class="decision-n">01</span><div><h3>Keep the content rigorous.</h3><p>Learners can work toward the same grade-level idea while receiving different amounts of language support. The prototype changes the scaffold—not the intellectual goal.</p></div></article>
-        <article class="decision"><span class="decision-n">02</span><div><h3>Give teachers structure, not a wall of text.</h3><p>The output separates content and language objectives, vocabulary, sentence frames, formative checks, and a review prompt so each part can be inspected and edited.</p></div></article>
-        <article class="decision"><span class="decision-n">03</span><div><h3>Make the safety boundary visible.</h3><p>The proposed model request is assembled from a narrow allow-list of instructional parameters. Names, rosters, audio, IEP information, service status, and open-ended learner notes are outside it.</p></div></article>
-        <article class="decision"><span class="decision-n">04</span><div><h3>Say exactly what the evidence supports.</h3><p>This project demonstrates product framing, instructional design, interaction design, and full-stack prototyping. It does not demonstrate usability, adoption, or learning impact because no participant research has been conducted.</p></div></article>
+        <article class="decision"><span class="decision-n">01</span><div><h3>Keep grade-level purpose visible.</h3><p>The lesson workflow separates the story or content topic from the objective skill and language goal. Mixed and unknown WIDA levels are treated as planning context—not as automatic labels for students or texts.</p></div></article>
+        <article class="decision"><span class="decision-n">02</span><div><h3>Support planning and assignment as different jobs.</h3><p>A text can become part of a lesson or be assigned independently. That distinction matters when a teacher wants a quick reading task for one learner without building a complete lesson.</p></div></article>
+        <article class="decision"><span class="decision-n">03</span><div><h3>Make the student response loop inspectable.</h3><p>The local reader demonstrates text-size, contrast, focus, word-help selection, and a comprehension response. While the page remains open, the fictional teacher can inspect that response and the selected help words.</p></div></article>
+        <article class="decision"><span class="decision-n">04</span><div><h3>Keep Reading Checks formative.</h3><p>Teacher-confirmed proposals may support informal instructional review, but the prototype is not presented as a replacement for DIBELS or another standardized benchmark. No audio, score, accuracy, validity, or time-savings claim is made.</p></div></article>
       </div>
+    </div>
+  </section>
+
+  <section class="walkthrough" id="walkthrough">
+    <div class="wrap">
+      <div class="section-kicker">Current local product</div>
+      <h2>Three connected workflows, tested with fictional data.</h2>
+      <p class="section-lede">These screenshots document the latest verified local Teacher Workspace. They show implemented interface behavior—not a deployed classroom product, completed educator study, or validated assessment.</p>
+      <div class="screen-grid">
+        <article class="screen-card">
+          <div class="screen-shot"><img src="images/readtogether-lesson-planner.png" alt="Local ReadTogether lesson planner with content topic, reading objective, language objective, WIDA context, duration, and optional passage inputs." loading="lazy"></div>
+          <div class="screen-copy"><span>01 · Create a lesson</span><h3>Clarify what is being taught.</h3><p>Teachers distinguish the text topic from the reading skill and language objective, plan for mixed or unknown WIDA levels, set total lesson time, and optionally attach a text.</p></div>
+        </article>
+        <article class="screen-card">
+          <div class="screen-shot"><img src="images/readtogether-teaching-library.png" alt="Local ReadTogether Grade 3–4 Teaching Library with demonstration texts, filters, preview, assignment, and lesson actions." loading="lazy"></div>
+          <div class="screen-copy"><span>02 · Teaching Library</span><h3>Find, preview, and use a text quickly.</h3><p>The local library contains 12 complete demonstration texts across multiple genres. Teachers can save, add to a lesson, or create a fictional in-memory assignment with selected questions and supports.</p></div>
+        </article>
+        <article class="screen-card">
+          <div class="screen-shot"><img src="images/readtogether-reading-checks.png" alt="Local ReadTogether formative Reading Checks interface with five teacher labels and teacher confirmation controls." loading="lazy"></div>
+          <div class="screen-copy"><span>03 · Reading Checks</span><h3>Review uncertainty instead of hiding it.</h3><p>The interface demonstrates five teacher labels and confirmation for fixed proposals. A responsible future audio workflow would require replay at the exact moment; this local screen has no audio or scoring model.</p></div>
+        </article>
+      </div>
+      <div class="walkthrough-note"><b>Evidence status:</b> product-owner rehearsal and local implementation verification only. No educator walkthrough findings, classroom use, student data, licensed book catalog, accessibility conformance, assessment validity, or measured outcomes yet.</div>
     </div>
   </section>
 
   <section class="demo" id="demo">
     <div class="wrap">
-      <div class="section-kicker">Working interaction</div>
-      <h2>Try the planning idea in under a minute.</h2>
-      <p class="section-lede">Change the inputs and preview a deterministic sample of the scaffold structure. Nothing is submitted, stored, or sent to an AI service in this public demo.</p>
+      <div class="section-kicker">Public portfolio interaction</div>
+      <h2>Try the original scaffold idea in under a minute.</h2>
+      <p class="section-lede">This small public interaction represents the lesson-planning origin of the project. Change the inputs and preview a deterministic sample. Nothing is submitted, stored, or sent to an AI service.</p>
       <div class="demo-shell">
         <form class="controls" id="scaffoldForm">
           <h3>Instructional inputs</h3>
@@ -261,15 +297,15 @@
     <div class="wrap">
       <div class="section-kicker">Product + technical judgment</div>
       <h2>The interesting work is around the model call.</h2>
-      <p class="section-lede">The broader codebase pairs a React client with a Bun/Hono API and a Prisma/SQLite data layer. The portfolio build keeps the model offline and exposes the boundary instead.</p>
+      <p class="section-lede">The current local Teacher Workspace and the preserved full-stack prototype are separate evidence surfaces. The local workspace is intentionally synthetic and in-memory; the recovered codebase shows broader architecture that still requires runtime, privacy, and provider verification.</p>
       <div class="build-grid">
-        <article class="build-card"><h3>Structured before generated</h3><p>A typed output shape makes lesson parts editable, reusable, and testable. The teacher receives a draft with visible components—not an opaque paragraph.</p><div class="tech"><span>React</span><span>TypeScript</span><span>Vite</span><span>WIDA-informed schema</span></div></article>
-        <article class="build-card"><h3>One narrow API surface</h3><p>The proposed backend constructs model input field by field so data minimization is part of the architecture rather than a promise made after collection.</p><div class="tech"><span>Bun</span><span>Hono</span><span>Prisma</span><span>SQLite</span><span>Anthropic API</span></div></article>
+        <article class="build-card"><h3>Verified local Teacher Workspace</h3><p>The latest Grade 3–4 interface runs on fixed fixtures and page memory. Inspected workspace code makes no backend, model, speech, payment, or analytics calls.</p><div class="tech"><span>React</span><span>TypeScript</span><span>Vite</span><span>In-memory state</span></div></article>
+        <article class="build-card"><h3>Recovered full-stack prototype</h3><p>The preserved source includes lesson, authentication, database, speech, model-provider, and payment code. The presence of code is not evidence that each integration is live, safe, or approved.</p><div class="tech"><span>Bun</span><span>Hono</span><span>Prisma</span><span>SQLite</span><span>Anthropic code</span></div></article>
       </div>
-      <div class="boundary" aria-label="Model data boundary">
-        <div><h3 class="allow">Instructional parameters allowed</h3><p>Grade · subject · topic · WIDA levels · Key Language Use · duration</p></div>
+      <div class="boundary" aria-label="Inspected lesson payload boundary">
+        <div><h3 class="allow">Inspected lesson payload fields</h3><p>Grade · subject · topic · WIDA levels · Key Language Use · duration</p></div>
         <div class="boundary-arrow" aria-hidden="true">→</div>
-        <div><h3 class="deny">Learner information excluded</h3><p>Names · IDs · rosters · audio · IEP information · service status · open-ended notes</p></div>
+        <div><h3 class="deny">Excluded from that inspected payload</h3><p>Names · IDs · rosters · audio · IEP information · service status · assessment transcripts</p></div>
       </div>
     </div>
   </section>
@@ -277,16 +313,16 @@
   <section class="evidence" id="evidence">
     <div class="wrap">
       <div class="section-kicker">Evidence boundary</div>
-      <h2>A designed prototype, presented as one.</h2>
-      <p class="section-lede">No student, educator, family, school, or district has evaluated ReadTogether. That limits what I can claim—and clarifies what should happen next.</p>
+      <h2>A pre-pilot prototype, presented as one.</h2>
+      <p class="section-lede">The product owner completed a private dry run, but no educator, student, family, school, or district has evaluated ReadTogether. That limits what I can claim—and clarifies what should happen next.</p>
       <div class="evidence-panel">
-        <div class="evidence-col"><h3>What exists today</h3><ul class="checklist"><li>Public, interactive lesson-scaffold demonstration</li><li>Designed lesson-output structure and teacher review pattern</li><li>Full-stack prototype architecture and source code</li><li>Explicit model-data boundary and risk assumptions</li></ul></div>
-        <div class="evidence-col"><h3>What has not happened</h3><ul class="checklist not-yet"><li>Participant interviews or usability sessions</li><li>Classroom implementation or district review</li><li>Adoption, time-saved, or learning-impact measurement</li><li>Security, accessibility, or instructional-quality validation</li></ul></div>
+        <div class="evidence-col"><h3>What exists today</h3><ul class="checklist"><li>Local three-part Teacher Workspace verified with fictional fixtures</li><li>12 complete Grade 3–4 demonstration texts across multiple genres</li><li>Fictional page-memory assignment and student-response loop</li><li>Formative teacher-confirmation interface with visible limits</li><li>Governance packet, claim ledger, red-team, and proposed pilot</li></ul></div>
+        <div class="evidence-col"><h3>What has not happened</h3><ul class="checklist not-yet"><li>Educator walkthrough findings or student research</li><li>Real accounts, assignment persistence, or student records</li><li>Audio/model accuracy, assessment-validity, or burden study</li><li>Licensed classroom book catalog or district review</li><li>Security, privacy, accessibility, or instructional-quality approval</li></ul></div>
       </div>
       <div class="questions">
-        <article class="question"><b>Is it useful?</b><p>Observe ELD educators creating and revising a lesson with the workflow.</p></article>
-        <article class="question"><b>Is it instructionally sound?</b><p>Review objectives, vocabulary, and frames with qualified educators.</p></article>
-        <article class="question"><b>Is the boundary real?</b><p>Test authorization and confirm learner information cannot enter model requests.</p></article>
+        <article class="question"><b>Does the workflow fit teacher practice?</b><p>Run the approved no-student Grade 3–4 educator walkthrough before expanding features.</p></article>
+        <article class="question"><b>Are the texts and supports sound?</b><p>Review content, language demands, cultural representation, accessibility, and rights title by title.</p></article>
+        <article class="question"><b>Can reading evidence be trusted?</b><p>Only test audio after the rubric, replay workflow, privacy path, reference process, and stop rules are approved.</p></article>
       </div>
     </div>
   </section>

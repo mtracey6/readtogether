@@ -18,7 +18,7 @@ The production URL used by the page metadata is `https://readtogether.vercel.app
 
 ## Evidence status
 
-This is a designed prototype and project case study. There have been no research participants, users, pilots, classroom deployments, school partnerships, or measured outcomes. Every metric on the page is a proposed research gate, not a result.
+This is a pre-pilot local prototype and project case study. A private product-owner dry run has occurred, but there have been no educator or student research participants, pilots, classroom deployments, school partnerships, assessment-validity studies, or measured outcomes. Every future success measure is a proposed research gate, not a result.
 
 ## Optional demo API
 
@@ -37,4 +37,4 @@ Never commit secret values. Verify CORS, rate limits, daily spend controls, the 
 
 ## Portfolio connection
 
-The main portfolio is `https://matttracey.netlify.app/`. Its ReadTogether card should link here as the primary action. A link to the broader authenticated SaaS prototype should remain secondary until that application passes its authorization and deployment checks.
+The main portfolio is `https://matttracey.netlify.app/`. Its ReadTogether section should link here as the primary action and describe the verified local three-part workflow. A link to the broader authenticated SaaS prototype should remain secondary until that application passes its authorization, privacy, and deployment checks.
